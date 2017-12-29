@@ -44,7 +44,7 @@ end component;
 BEGIN
 
 --Generate clock
-StimClock <= not StimClock after 10ns;
+--StimClock <= not StimClock after 10ns;
 
 --Device to test 
 ConvertBcd_1: component Decoder
@@ -70,47 +70,47 @@ assert StimSolution /= "0000001" report "Number 0: FAILED" severity Error;	--The
 
 StimInput<="0001"; --Sending a 1
 wait for 20 ns; 
-assert StimSolution = "1001111" report "Number 1: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "1001111" report "Number 1: passed" severity Note;	--The Seven-Seg is showing a 1. All good
 assert StimSolution /= "1001111" report "Number 1: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 StimInput<="0010"; --Sending a 2
 wait for 20 ns; 
-assert StimSolution = "0010010" report "Number 2: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "0010010" report "Number 2: passed" severity Note;	--The Seven-Seg is showing a 2. All good
 assert StimSolution /= "0010010" report "Number 2: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 StimInput<="0011"; --Sending a 3
 wait for 20 ns; 
-assert StimSolution = "0000110" report "Number 3: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "0000110" report "Number 3: passed" severity Note;	--The Seven-Seg is showing a 3. All good
 assert StimSolution /= "0000110" report "Number 3: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 StimInput<="0100"; --Sending a 4
 wait for 20 ns; 
-assert StimSolution = "1001100" report "Number 4: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "1001100" report "Number 4: passed" severity Note;	--The Seven-Seg is showing a 4. All good
 assert StimSolution /= "1001100" report "Number 4: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 StimInput<="0101"; --Sending a 5
 wait for 20 ns; 
-assert StimSolution = "0100100" report "Number 5: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "0100100" report "Number 5: passed" severity Note;	--The Seven-Seg is showing a 5. All good
 assert StimSolution /= "0100100" report "Number 5: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 StimInput<="0110"; --Sending a 6
 wait for 20 ns; 
-assert StimSolution = "1100000" report "Number 6: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "1100000" report "Number 6: passed" severity Note;	--The Seven-Seg is showing a 6. All good
 assert StimSolution /= "1100000" report "Number 6: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 StimInput<="0111"; --Sending a 7
 wait for 20 ns; 
-assert StimSolution = "0001111" report "Number 7: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "0001111" report "Number 7: passed" severity Note;	--The Seven-Seg is showing a 7. All good
 assert StimSolution /= "0001111" report "Number 7: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 StimInput<="1000"; --Sending a 8
 wait for 20 ns; 
-assert StimSolution = "0000000" report "Number 8: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "0000000" report "Number 8: passed" severity Note;	--The Seven-Seg is showing a 8. All good
 assert StimSolution /= "0000000" report "Number 8: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 StimInput<="1001"; --Sending a 9
 wait for 20 ns; 
-assert StimSolution = "0001100" report "Number 9: passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution = "0001100" report "Number 9: passed" severity Note;	--The Seven-Seg is showing a 9. All good
 assert StimSolution /= "1110011" report "Number 9: FAILED" severity Error;	--The Seven-Seg is showing something else.
 
 --Finished
