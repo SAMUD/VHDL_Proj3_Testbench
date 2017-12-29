@@ -5,7 +5,7 @@
 
 
 -- Changelog:
--- Version 0.1| 12912.17
+-- Version 0.1| 29.12.17
 --  *initial release
 ------------------------------------------------------
 
@@ -20,35 +20,10 @@ use ieee.numeric_std.all;
 ------------------------------------------------------
 
 ENTITY Testbench IS
+--Need to have one port here.
+--Otherwise Quartus will not compile with Error: "Top partition does not contain any logic"
 PORT(
-	reset				:	IN		std_logic;						--Mapped to SW0
-	clk				:	IN		std_logic;
-	
-	--User buttons
-	BtnMin			:	IN		std_logic;						--Mapped to Btn3
-	BtnSec			:	IN		std_logic;						--Mapped to Btn2
-	BtnStart			:	IN		std_logic;						--Mapped to Btn0
-	BtnClear			:	IN		std_logic;						--Mapped to Btn1
-	
-	--Debug buttons
-	BuzzerOverride	:	IN		std_logic;						--Manual activation for the Buzzer, Mapped to SW1
-	--SW2				:	IN		std_logic;
-	--SW3				:	IN		std_logic;
-	
-	-- decoded signals to send to the 7seg
-	Output1			:	OUT	std_logic_vector (6 downto 0);	
-	Output2			:	OUT	std_logic_vector (6 downto 0);	
-	Output3			:	OUT	std_logic_vector (6 downto 0);	
-	Output4			:	OUT	std_logic_vector (6 downto 0);
-	
-	--Debug outputs
-	CountValueMainOut:OUT 	integer range 0 to 6000 := 0;					--Showing the actual count value in binary on LEDs Red 17-
-	DebugLED			:	OUT 	std_logic_vector(2 downto 0) := "000";		--Showing state of state machine on LEDs Green 
-	DebugLED_Control:	OUT 	std_logic_vector(5 downto 0):= "000000";	--Showing the control status from state machine to Counter
-		
-	--Buzzer Output
-	BuzzerOut		:	OUT	std_logic
-	
+	reset				:	IN		std_logic						
 	);
 END Testbench;
 
@@ -74,7 +49,7 @@ end component;
 BEGIN
 
 --Generate clock
-StimClock <= not StimClock after 50ns;
+StimClock <= not StimClock after 10ns;
 
 --Device to test 
 ConvertBcd_1: component Decoder
@@ -84,15 +59,65 @@ ConvertBcd_1: component Decoder
 		);
 		
 --Stimulate-process
-stimulate: PROCESS
+stimulate: PROCESS (StimClock)
 BEGIN
+
 --The DUT in this case is programmed asynchronous. It doesn't use a clock. No need to test for clocks here
+wait until StimClock;
 
 StimInput<="0000"; --Sending a 0
-wait for 20 ns;
-assert StimSolution = "1111110" report "Number 0 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
-assert StimSolution /= "1111110" report "Number 0 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+--wait for 20 ns; --Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "0000001" report "Number 0 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "0000001" report "Number 0 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
 
+StimInput<="0001"; --Sending a 1
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "1001111" report "Number 1 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "1001111" report "Number 1 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+StimInput<="0010"; --Sending a 2
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "0010010" report "Number 2 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "0010010" report "Number 2 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+StimInput<="0011"; --Sending a 3
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "0000110" report "Number 3 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "0000110" report "Number 3 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+StimInput<="0100"; --Sending a 4
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "1001100" report "Number 4 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "1001100" report "Number 4 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+StimInput<="0101"; --Sending a 5
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "0100100" report "Number 5 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "0100100" report "Number 5 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+StimInput<="0110"; --Sending a 6
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "1100000" report "Number 6 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "1100000" report "Number 6 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+StimInput<="0111"; --Sending a 7
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "0001111" report "Number 7 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "0001111" report "Number 7 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+StimInput<="1000"; --Sending a 8
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "0000000" report "Number 8 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "0000000" report "Number 8 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+StimInput<="1001"; --Sending a 9
+--wait for 20 ns; Does not work. But simulating is working without this. So doing it without.
+assert StimSolution = "0001100" report "Number 9 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "1110011" report "Number 9 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
+
+
+--Finished
+assert StimClock OR NOT StimClock report "DONE!" severity Failure;
 	
 end process;
 	

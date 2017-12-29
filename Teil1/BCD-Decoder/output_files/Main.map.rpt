@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Main
-Fri Dec 29 16:48:03 2017
+Fri Dec 29 17:49:53 2017
 Quartus Prime Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
 
 
@@ -36,7 +36,7 @@ refer to the applicable agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Failed - Fri Dec 29 16:48:03 2017           ;
+; Analysis & Synthesis Status        ; Failed - Fri Dec 29 17:49:53 2017           ;
 ; Quartus Prime Version              ; 17.1.0 Build 590 10/25/2017 SJ Lite Edition ;
 ; Revision Name                      ; Main                                        ;
 ; Top-level Entity Name              ; Testbench                                   ;
@@ -163,29 +163,41 @@ refer to the applicable agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.1.0 Build 590 10/25/2017 SJ Lite Edition
-    Info: Processing started: Fri Dec 29 16:47:49 2017
+    Info: Processing started: Fri Dec 29 17:49:43 2017
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Eieruhr -c Main
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Warning (12019): Can't analyze file -- file FallingEdge.vhd is missing
 Warning (12019): Can't analyze file -- file Counter.vhd is missing
 Info (12021): Found 2 design units, including 1 entities, in source file testbench.vhd
-    Info (12022): Found design unit 1: Testbench-simulate File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 58
+    Info (12022): Found design unit 1: Testbench-simulate File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 33
     Info (12023): Found entity 1: Testbench File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 22
 Info (12127): Elaborating entity "Testbench" for the top level hierarchy
-Warning (10541): VHDL Signal Declaration warning at Testbench.vhd(39): used implicit default value for signal "Output1" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 39
-Warning (10541): VHDL Signal Declaration warning at Testbench.vhd(40): used implicit default value for signal "Output2" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 40
-Warning (10541): VHDL Signal Declaration warning at Testbench.vhd(41): used implicit default value for signal "Output3" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 41
-Warning (10541): VHDL Signal Declaration warning at Testbench.vhd(42): used implicit default value for signal "Output4" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 42
-Warning (10540): VHDL Signal Declaration warning at Testbench.vhd(45): used explicit default value for signal "CountValueMainOut" because signal was never assigned a value File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 45
-Warning (10540): VHDL Signal Declaration warning at Testbench.vhd(46): used explicit default value for signal "DebugLED" because signal was never assigned a value File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 46
-Warning (10540): VHDL Signal Declaration warning at Testbench.vhd(47): used explicit default value for signal "DebugLED_Control" because signal was never assigned a value File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 47
-Warning (10541): VHDL Signal Declaration warning at Testbench.vhd(50): used implicit default value for signal "BuzzerOut" because signal was never assigned a value or an explicit default value. Use of implicit default value may introduce unintended design optimizations. File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 50
-Error (10533): VHDL Wait Statement error at Testbench.vhd(92): Wait Statement must contain condition clause with UNTIL keyword File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 92
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(70): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 70
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(71): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 71
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(75): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 75
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(76): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 76
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(80): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 80
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(81): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 81
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(85): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 85
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(86): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 86
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(90): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 90
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(91): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 91
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(95): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 95
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(96): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 96
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(100): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 100
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(101): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 101
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(105): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 105
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(106): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 106
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(110): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 110
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(111): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 111
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(115): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 115
+Warning (10492): VHDL Process Statement warning at Testbench.vhd(116): signal "StimSolution" is read inside the Process Statement but isn't in the Process Statement's sensitivity list File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 116
+Error (10441): VHDL Process Statement error at Testbench.vhd(62): Process Statement cannot contain both a sensitivity list and a Wait Statement File: C:/Users/sdaur/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD-Decoder/Testbench.vhd Line: 62
 Error (12153): Can't elaborate top-level user hierarchy
-Error: Quartus Prime Analysis & Synthesis was unsuccessful. 2 errors, 11 warnings
-    Error: Peak virtual memory: 705 megabytes
-    Error: Processing ended: Fri Dec 29 16:48:03 2017
-    Error: Elapsed time: 00:00:14
-    Error: Total CPU time (on all processors): 00:00:22
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 2 errors, 23 warnings
+    Error: Peak virtual memory: 706 megabytes
+    Error: Processing ended: Fri Dec 29 17:49:53 2017
+    Error: Elapsed time: 00:00:10
+    Error: Total CPU time (on all processors): 00:00:24
 
 
