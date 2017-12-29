@@ -114,7 +114,8 @@ assert StimSolution = "0001100" report "Number 9 has     passed" severity Note;	
 assert StimSolution /= "1110011" report "Number 9 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
 
 --Finished
-assert TRUE report "DONE!" severity Failure;
+assert TRUE report "DONE!" severity NOTE;
+wait;
 	
 end process;
 	
