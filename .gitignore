@@ -1,0 +1,11 @@
+
+*.db_info
+*.ammdb
+*.cdb
+*.bak*
+*.hdb
+*.dfp
+*.rcfdb
+modelsim/
+incremental_db/
+db/
