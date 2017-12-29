@@ -60,7 +60,7 @@ ARCHITECTURE simulate OF Testbench IS
 --internal Signals /stimulate signals
 	signal StimInput: std_logic_vector (3 downto 0) := "0000";
 	signal StimSolution:	std_logic_vector (6 downto 0) := "0000000";
-	signal StimClock: std_logic :=0;
+	signal StimClock: std_logic :='0';
 	
 --Component to Test
 component Decoder
@@ -68,6 +68,7 @@ port (
 	Input			:		IN		std_logic_vector (3 downto 0);
 	Output		:		OUT	std_logic_vector (6 downto 0)
 	);
+end component;
 
 ---------------------------------------------
 BEGIN
@@ -79,7 +80,7 @@ StimClock <= not StimClock after 50ns;
 ConvertBcd_1: component Decoder
 		port map(
 				Input => StimInput,											
-				Output => StimOutput,
+				Output => StimSolution
 		);
 		
 --Stimulate-process
@@ -87,8 +88,12 @@ stimulate: PROCESS
 BEGIN
 --The DUT in this case is programmed asynchronous. It doesn't use a clock. No need to test for clocks here
 
-StimInput:=
+StimInput<="0000"; --Sending a 0
+wait for 20 ns;
+assert StimSolution = "1111110" report "Number 0 has     passed" severity Note;	--The Seven-Seg is showing a 0. All good
+assert StimSolution /= "1111110" report "Number 0 has NOT passed" severity Error;	--The Seven-Seg is showing something else.
 
-
+	
+end process;
 	
 END simulate;
