@@ -57,31 +57,38 @@ END Testbench;
 ------------------------------------------------------
 ARCHITECTURE simulate OF Testbench IS
 
---internal Signals
-	SIGNAL BtnStartFalling	:	std_logic := '0'; 		--Buttons after Falling Edge detection
-	SIGNAL BtnClearFalling	:	std_logic := '0';
-	SIGNAL BtnMinFalling		:	std_logic := '0';
-	SIGNAL BtnSecFalling		:	std_logic := '0';
+--internal Signals /stimulate signals
+	signal StimInput: std_logic_vector (3 downto 0) := "0000";
+	signal StimSolution:	std_logic_vector (6 downto 0) := "0000000";
+	signal StimClock: std_logic :=0;
 	
-	SIGNAL CountBlockControl:	std_logic_vector(5 downto 0) :="000000";
-	SIGNAL CountBlockTelemet:	std_logic :='0';
-	
-	SIGNAL clk_Deci			:	std_logic;
-	
-	SIGNAL CountValue : integer range 0 to 6000 :=0
-	
+--Component to Test
+component Decoder
+port (
+	Input			:		IN		std_logic_vector (3 downto 0);
+	Output		:		OUT	std_logic_vector (6 downto 0)
+	);
 
+---------------------------------------------
 BEGIN
 
-----------------------------------------------
---Convert Int to 7Seg	 
-ConvertIntBcd_1: component ConvertIntBcd
+--Generate clock
+StimClock <= not StimClock after 50ns;
+
+--Device to test 
+ConvertBcd_1: component Decoder
 		port map(
-				InputInt => CountValue,											
-				SevenSeg1 => Output1,
-				SevenSeg2 => Output2,
-				SevenSeg3 => Output3,
-				SevenSeg4 => Output4
+				Input => StimInput,											
+				Output => StimOutput,
 		);
+		
+--Stimulate-process
+stimulate: PROCESS
+BEGIN
+--The DUT in this case is programmed asynchronous. It doesn't use a clock. No need to test for clocks here
+
+StimInput:=
+
+
 	
 END simulate;
