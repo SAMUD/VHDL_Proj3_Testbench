@@ -72,7 +72,7 @@ end loop;
 StimInput <= DataInput(0); --Sending a 0
 wait on StimClock;
 wait on StimClock;
-IF (StimSolution = DataExpected_Array(0)) THEN
+IF StimSolution = DataExpected(0) THEN
 	--its true. So its done
 	assert FALSE  report "Number 0: passed" severity Note;
 ELSE
