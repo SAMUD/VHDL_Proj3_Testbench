@@ -29,10 +29,10 @@ ARCHITECTURE simulate OF Testbench_Decoder IS
 
 --internal Signals /stimulate signals
 	type DataInput_Array is array (9 downto 0) of std_logic_vector(3 downto 0);
-	signal DataInput : DataInput_Array := ("0000", "0001", "0010","0011", "0100", "0101","0110", "0111", "1000","1001");
+	signal DataInput : DataInput_Array := ("1001","1000","0111","0110","0101","0100","0011","0010","0001","0000");
 	  
 	type DataExpected_Array is array (9 downto 0) of std_logic_vector(6 downto 0);
-	signal DataExpected : DataExpected_Array := ("0000001", "1001111", "0010010","0000110", "1001100", "0100100","1100000", "0001111", "0000000","0001100");
+	signal DataExpected : DataExpected_Array := ("0011000","0000000","1111000","0000011","0010010","0011001","0110000","0100100","1111001","1000000");
 	
 	signal StimInput: 		std_logic_vector (3 downto 0) := "0000";
 	signal StimSolution:		std_logic_vector (6 downto 0) := "0000000";
@@ -77,7 +77,43 @@ IF StimSolution = DataExpected(0) THEN
 	assert FALSE  report "Number 0: passed" severity Note;
 ELSE
 	--not true. Report error
-	assert FALSE report "Number 0: FAILED with:" severity Error;
+	assert FALSE report "Number 0: FAILED" severity Error;
+	--starting to test each bit for it's own
+	IF StimSolution(0) = DataExpected(0)(0) THEN
+		assert FALSE  report "  Position 0: passed" severity Note;
+	ELSE
+		assert FALSE report "  Position 0: FAILED" severity Error;
+	END IF;
+	IF StimSolution(1) = DataExpected(0)(1) THEN
+		assert FALSE  report "  Position 1: passed" severity Note;
+	ELSE
+		assert FALSE report "  Position 1: FAILED" severity Error;
+	END IF;
+	IF StimSolution(2) = DataExpected(0)(2) THEN
+		assert FALSE  report "  Position 2: passed" severity Note;
+	ELSE
+		assert FALSE report "  Position 2: FAILED" severity Error;
+	END IF;
+	IF StimSolution(3) = DataExpected(0)(3) THEN
+		assert FALSE  report "  Position 3: passed" severity Note;
+	ELSE
+		assert FALSE report "  Position 3: FAILED" severity Error;
+	END IF;
+	IF StimSolution(4) = DataExpected(0)(4) THEN
+		assert FALSE  report "  Position 4: passed" severity Note;
+	ELSE
+		assert FALSE report "  Position 4: FAILED" severity Error;
+	END IF;
+	IF StimSolution(5) = DataExpected(0)(5) THEN
+		assert FALSE  report "  Position 5: passed" severity Note;
+	ELSE
+		assert FALSE report "  Position 5: FAILED" severity Error;
+	END IF;
+	IF StimSolution(6) = DataExpected(0)(6) THEN
+		assert FALSE  report "  Position 6: passed" severity Note;
+	ELSE
+		assert FALSE report "  Position 6: FAILED" severity Error;
+	END IF;
 END IF;
 wait on StimClock;
 
