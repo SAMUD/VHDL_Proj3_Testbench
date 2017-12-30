@@ -77,7 +77,7 @@ IF StimSolution = DataExpected(0) THEN
 	assert FALSE  report "Number 0: passed" severity Note;
 ELSE
 	--not true. Report error
-	assert FALSE report "Number 0: FAILED" severity Error;
+	assert FALSE report "Number 0: FAILED with:" severity Error;
 END IF;
 wait on StimClock;
 
