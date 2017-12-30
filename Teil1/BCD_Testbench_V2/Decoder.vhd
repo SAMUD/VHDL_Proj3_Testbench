@@ -49,7 +49,7 @@ BEGIN
 
 	
 	-- Output for 7seg-Display
-	Output(0) <= (NOT Input(3) AND NOT Input(2) AND NOT Input(1) AND 		Input(0)) 	OR
+	Output(0) <= ( Input(3) AND NOT Input(2) AND NOT Input(1) AND 		Input(0)) 	OR
 					 (NOT Input(3) AND     Input(2) 						 AND NOT Input(0)) 	OR
 					 (		Input(3) AND 	  Input(2));
 			
