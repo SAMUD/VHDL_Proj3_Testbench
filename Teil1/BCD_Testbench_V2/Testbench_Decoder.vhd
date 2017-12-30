@@ -28,6 +28,12 @@ END Testbench_Decoder;
 ARCHITECTURE simulate OF Testbench_Decoder IS
 
 --internal Signals /stimulate signals
+	type DataInput_Array is array (9 downto 0,3 downto 0) of std_logic;
+	signal DataInput : DataInput_Array := ("0000", "0001", "0010","0011", "0100", "0101","0110", "0111", "1000","1001");
+	  
+	type DataExpected_Array is array (9 downto 0,6 downto 0) of std_logic;
+	signal DataExpected : DataInput_Array := ("0000001", "1001111", "0010010","0000110", "1001100", "0100100","1100000", "0001111", "0000000","0001100");
+	
 	signal StimInput: 		std_logic_vector (3 downto 0) := "0000";
 	signal StimSolution:		std_logic_vector (6 downto 0) := "0000000";
 	signal StimClock: 		std_logic :='0';
@@ -63,7 +69,7 @@ while (StimClock/='0') loop
 	wait on StimClock;
 end loop;
 
-StimInput<="0000"; --Sending a 0
+StimInput <= DataInput(0); --Sending a 0
 wait on StimClock;
 assert StimSolution = "0000001" report "Number 0: passed" severity Note;	--The Seven-Seg is showing a 0. All good
 assert StimSolution /= "0000001" report "Number 0: FAILED" severity Error;	--The Seven-Seg is showing something else.
