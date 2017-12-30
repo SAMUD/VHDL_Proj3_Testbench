@@ -5,8 +5,11 @@
 
 
 -- Changelog:
+-- Version 0.2| 30.12.17
+--  *continued working
+--	 *seems to be finished
 -- Version 0.1| 29.12.17
---  *initial release
+--  *started work
 ------------------------------------------------------
 
 -- Library Declaration --
@@ -28,17 +31,18 @@ END Testbench_Decoder;
 ARCHITECTURE simulate OF Testbench_Decoder IS
 
 --internal Signals /stimulate signals
+	
+	--Signals which contain the Numbers to test and the expected outputs
 	type DataInput_Array is array (9 downto 0) of std_logic_vector(3 downto 0);
 	signal DataInput : DataInput_Array := ("1001","1000","0111","0110","0101","0100","0011","0010","0001","0000");
 	  
 	type DataExpected_Array is array (9 downto 0) of std_logic_vector(6 downto 0);
 	signal DataExpected : DataExpected_Array := ("0011000","0000000","1111000","0000011","0010010","0011001","0110000","0100100","1111001","1000000");
 	
+	--intermediate signals to transport signals inside this Entity
 	signal StimInput: 		std_logic_vector (3 downto 0) := "0000";
 	signal StimSolution:		std_logic_vector (6 downto 0) := "0000000";
 	signal StimClock: 		std_logic :='0';
-	
-	
 
 --Component to Test
 component Decoder
@@ -68,12 +72,14 @@ stimulate: PROCESS
 	
 BEGIN
 
---The DUT in this case is programmed asynchronous. It doesn't use a clock. No need to test for clocks here
+--The DUT in this case is programmed asynchronous. It doesn't use a clock. No need to test for clocks here in theory.
+--But the clock is used to slow things down, to have someting beautiful in the Wave-Graph during simulation
 wait on StimClock;
 while (StimClock/='0') loop
 	wait on StimClock;
 end loop;
 
+--Starting main foor loop
 for Increment in 0 to 9 loop
 	
 	--Sending the number
@@ -127,8 +133,6 @@ for Increment in 0 to 9 loop
 			assert FALSE report "  Position 6: FAILED" severity Error;
 		END IF;
 	END IF;
-	
-	wait on StimClock;
 	
 end loop;
 
