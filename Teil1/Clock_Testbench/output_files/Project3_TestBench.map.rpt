@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Project3_TestBench
-Sun Dec 31 10:22:55 2017
+Sun Dec 31 10:52:51 2017
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -44,7 +44,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Sun Dec 31 10:22:55 2017       ;
+; Analysis & Synthesis Status        ; Successful - Sun Dec 31 10:52:51 2017       ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
 ; Revision Name                      ; Project3_TestBench                          ;
 ; Top-level Entity Name              ; Clock                                       ;
@@ -163,13 +163,13 @@ agreement for further details.
 +----------------------------+-------------+
 
 
-+-------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                              ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                       ; Library ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------+---------+
-; Clock.vhd                        ; yes             ; User VHDL File  ; C:/Users/xavie/Desktop/VHDL/Project3Test/Clock.vhd ;         ;
-+----------------------------------+-----------------+-----------------+----------------------------------------------------+---------+
++-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+; Analysis & Synthesis Source Files Read                                                                                                                                ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
+; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                         ; Library ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
+; Clock.vhd                        ; yes             ; User VHDL File  ; C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd ;         ;
++----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
 
 
 +-----------------------------------------------------+
@@ -268,31 +268,31 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Dec 31 10:22:23 2017
+    Info: Processing started: Sun Dec 31 10:52:22 2017
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Project3_TestBench -c Project3_TestBench
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
 Info (12021): Found 2 design units, including 1 entities, in source file clock.vhd
-    Info (12022): Found design unit 1: Clock-Clock_Arch File: C:/Users/xavie/Desktop/VHDL/Project3Test/Clock.vhd Line: 31
-    Info (12023): Found entity 1: Clock File: C:/Users/xavie/Desktop/VHDL/Project3Test/Clock.vhd Line: 18
+    Info (12022): Found design unit 1: Clock-Clock_Arch File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd Line: 31
+    Info (12023): Found entity 1: Clock File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd Line: 18
 Info (12021): Found 2 design units, including 1 entities, in source file project3_testbench.vhd
-    Info (12022): Found design unit 1: Project3_TestBench-TestBench_Clock File: C:/Users/xavie/Desktop/VHDL/Project3Test/Project3_TestBench.vhd Line: 27
-    Info (12023): Found entity 1: Project3_TestBench File: C:/Users/xavie/Desktop/VHDL/Project3Test/Project3_TestBench.vhd Line: 18
+    Info (12022): Found design unit 1: Project3_TestBench-TestBench_Clock File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Project3_TestBench.vhd Line: 27
+    Info (12023): Found entity 1: Project3_TestBench File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Project3_TestBench.vhd Line: 18
 Info (12127): Elaborating entity "Clock" for the top level hierarchy
 Warning (13024): Output pins are stuck at VCC or GND
-    Warning (13410): Pin "ClockFlag" is stuck at GND File: C:/Users/xavie/Desktop/VHDL/Project3Test/Clock.vhd Line: 23
+    Warning (13410): Pin "ClockFlag" is stuck at GND File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd Line: 23
 Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
     Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
 Warning (21074): Design contains 2 input pin(s) that do not drive logic
-    Warning (15610): No output dependent on input pin "Reset" File: C:/Users/xavie/Desktop/VHDL/Project3Test/Clock.vhd Line: 20
-    Warning (15610): No output dependent on input pin "Clock" File: C:/Users/xavie/Desktop/VHDL/Project3Test/Clock.vhd Line: 21
+    Warning (15610): No output dependent on input pin "Reset" File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd Line: 20
+    Warning (15610): No output dependent on input pin "Clock" File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd Line: 21
 Info (21057): Implemented 3 device resources after synthesis - the final resource count might be different
     Info (21058): Implemented 2 input pins
     Info (21059): Implemented 1 output pins
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 6 warnings
-    Info: Peak virtual memory: 707 megabytes
-    Info: Processing ended: Sun Dec 31 10:22:55 2017
-    Info: Elapsed time: 00:00:32
-    Info: Total CPU time (on all processors): 00:01:18
+    Info: Peak virtual memory: 694 megabytes
+    Info: Processing ended: Sun Dec 31 10:52:51 2017
+    Info: Elapsed time: 00:00:29
+    Info: Total CPU time (on all processors): 00:01:06
 
 

@@ -19,7 +19,7 @@ ENTITY Clock IS
 PORT(
 		Reset							 :	IN std_logic;
 		Clock				 			 : IN std_logic;
-		
+				
 		ClockFlag					 : OUT std_logic);
 		
 END Clock;
@@ -31,6 +31,7 @@ END Clock;
 ARCHITECTURE Clock_Arch of Clock IS
 
 SIGNAL s_clock_comptage : INTEGER :=0; --Variable üm die Clock zu Zahlen
+
 BEGIN
 
 ---------------------------
@@ -43,9 +44,9 @@ clk_proc : PROCESS (Clock,Reset)
 		
 		IF (Clock'EVENT AND Clock='1' AND Clock'LAST_VALUE='0' AND Reset = '1') THEN
 			
-			IF (s_clock_comptage > 12) THEN  --1sec = 49999999       Simu1 : 9;  
+			IF (s_clock_comptage > 49999999) THEN  --1sec = 49999999       Simu1 : 9;  
 					s_clock_comptage <= 0;   --Die Zählvariable wird auf Null gesetzt
-					ClockFlag <= '0'; 
+					ClockFlag <= '1'; 
 					
 			ELSE
 					s_clock_comptage <= s_clock_comptage + 1;  --Inkrementierung der s_clock_comptage Variable

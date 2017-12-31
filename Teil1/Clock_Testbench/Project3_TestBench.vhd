@@ -31,15 +31,15 @@ ARCHITECTURE TestBench_Clock of Project3_TestBench IS
 	SIGNAL StimClock : std_logic :='0';
 	SIGNAL StimReset : std_logic :='0';
 	SIGNAL StimClockFlag : std_logic := '0';
-	--SIGNAL Stim_s_clock_comptage : INTEGER := 0;
-
+	
+	SIGNAL CountLoop : INTEGER := 0;
 
 --Component to Test
 COMPONENT Clock
 		PORT(		
 				Reset		 :	IN std_logic;
 				Clock		 : IN std_logic;
-		
+
 				ClockFlag : OUT std_logic);
 
 END COMPONENT;
@@ -55,30 +55,39 @@ BEGIN
 							Clock	=> StimClock,
 		
 							ClockFlag => StimClockFlag);
+	
 
--- signal reset asynchrone
+
 PROCESS 
 
 BEGIN		
-
+		-- Test signal reset asynchrone
+		
 		StimReset <= '1' ;
-		wait for 1000 ps ;
+		wait for 100 ms ;
 		StimReset <= '0' ;
-		wait for 100 ps ;
+		wait for 1 s ;
+		
+		
+		assert StimClockFlag = '0' report "Reset: passed" severity Note;	--The Flag is showing a 0. All good
+		assert StimClockFlag /= '0' report "Reset: FAILED" severity Error;	--The Flag is showing something else.
+		
+		
+		-- Test Flag  
 		StimReset <= '1' ;
-		WAIT FOR 1000 ps ;
-		StimReset <= '0' ;
+		
+		while (ClockFlag /= '1') loop
 		WAIT FOR 100 ps ;
-		StimReset <= '1' ;
-		WAIT FOR 100 ps ;
+			If (CountLoop > 4294967294) THEN
+				
+				assert StimClockFlag = '0' report "Flag: FAILED, Time expired" severity Error;	--The Flag is showing something else.
+			END IF;
+			
+			CountLoop := CountLoop + 1;
+			
+		END LOOP;
 		
 		assert StimClockFlag = '1' report "Flag: passed" severity Note;	--The Flag is showing a 1. All good
-		assert StimClockFlag /= '1' report "Flag: FAILED" severity Error;	--The Flag is showing something else.
-
-		
-		--Finished
-		assert TRUE report "DONE!" severity NOTE;
-		wait;
 		
 END PROCESS;
 
@@ -88,9 +97,9 @@ PROCESS
 BEGIN
 
 		StimClock <= '0';
-		WAIT FOR 10 ps;   --Real 10000ps
+		WAIT FOR 10000 ps;  
 		StimClock <= '1';
-		WAIT FOR 10 ps;   --Real 10000ps
+		WAIT FOR 10000 ps;   
 		
 		
 END PROCESS;
