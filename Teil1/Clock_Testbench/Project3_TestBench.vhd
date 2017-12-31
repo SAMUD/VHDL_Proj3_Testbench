@@ -82,60 +82,41 @@ BEGIN
 		
 		--1)
 		
+		--Reset Countloop
+		CountLoop <= 0;
+		
 		--now wait until we get a flag=1
-		while (StimclockFlag='0' ) loop --TODO: add a condition to get out of the loop and fail the test if we waited to long (ex counter like in clock divider)
+		while (StimclockFlag='0' OR CountLoop < 4294967294 ) loop
 			wait on StimClock;
+			CountLoop := CountLoop + 1;
 		end loop;
-		assert FALSE report "Flag is working" severity Note;	--TODO: we need to check after how much time we exited the loop above to see if we divided correctly.
+		
+		IF (CountLoop > 4294967294) THEN --TODO: sho in text message after how much time we had the flag
+			assert FALSE report "Flag has FAILED" severity Note;	
+		ELSE
+			assert FALSE report "Flag is working" severity Note;
+		END IF;
 		
 		--2)
 		
+		--Reset Countloop
+		CountLoop <= 0;
+		
 		StimReset <= '1'; --doing reset
-		while (StimClock/='0') loop
+		while (StimClockFlag='0' OR CountLoop < (4294967294*2) ) loop
 			wait on StimClock;
 		end loop;
 		
-		while (StimclockFlag='0' ) loop --TODO: add a condition to get out of the loop and fail the test if we waited to long (ex counter like in clock divider)
-			wait on StimClock;
-		end loop;
+		IF (StimClockFlag='0') THEN --TODO: sho in text message after how much time we had the flag
+			assert FALSE report "Reset is ok" severity Note;	
+		ELSE
+			assert FALSE report "Reset has FAILED" severity Note;
+		END IF;
 		
 		
 		
-		
-		-- Test signal reset asynchrone
-		
-		
-		
-		
-		--
-		StimReset <= '1' ;
-		wait for 100 ms ;
-		StimReset <= '0' ;
-		
-		
-		
-		wait for 1 s ;
-		
-		
-		assert StimClockFlag = '0' report "Reset: passed" severity Note;	--The Flag is showing a 0. All good
-		assert StimClockFlag /= '0' report "Reset: FAILED" severity Error;	--The Flag is showing something else.
-		
-		
-		-- Test Flag  
-		StimReset <= '1' ;
-		
-		while (ClockFlag /= '1') loop
-		WAIT FOR 100 ps ;
-			If (CountLoop > 4294967294) THEN
-				
-				assert StimClockFlag = '0' report "Flag: FAILED, Time expired" severity Error;	--The Flag is showing something else.
-			END IF;
-			
-			CountLoop := CountLoop + 1;
-			
-		END LOOP;
-		
-		assert StimClockFlag = '1' report "Flag: passed" severity Note;	--The Flag is showing a 1. All good
+		assert FALSE report "All tests passed" severity Note;	
+		wait;
 		
 END PROCESS;
 
