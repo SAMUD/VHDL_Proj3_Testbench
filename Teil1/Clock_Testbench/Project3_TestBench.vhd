@@ -49,7 +49,7 @@ END COMPONENT;
 BEGIN
 
 --Generate clock
-StimClock <= not StimClock after 10 ns;
+StimClock <= not StimClock after 1 ns;
 
 --call Component
 ClockSec: component Clock
