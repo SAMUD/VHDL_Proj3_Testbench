@@ -1,12 +1,12 @@
-Analysis & Synthesis Status : Successful - Sun Dec 31 10:52:51 2017
+Analysis & Synthesis Status : Successful - Sun Dec 31 13:48:01 2017
 Quartus Prime Version : 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 Revision Name : Project3_TestBench
 Top-level Entity Name : Clock
 Family : Cyclone IV E
-Total logic elements : 0
-    Total combinational functions : 0
-    Dedicated logic registers : 0
-Total registers : 0
+Total logic elements : 41
+    Total combinational functions : 41
+    Dedicated logic registers : 33
+Total registers : 33
 Total pins : 3
 Total virtual pins : 0
 Total memory bits : 0

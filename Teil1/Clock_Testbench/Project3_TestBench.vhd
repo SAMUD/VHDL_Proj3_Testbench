@@ -66,7 +66,7 @@ BEGIN
 		StimReset <= '1' ;
 		wait for 100 ms ;
 		StimReset <= '0' ;
-		wait for 1 s ;
+		wait for 1000 ms ;
 		
 		
 		assert StimClockFlag = '0' report "Reset: passed" severity Note;	--The Flag is showing a 0. All good
@@ -76,14 +76,14 @@ BEGIN
 		-- Test Flag  
 		StimReset <= '1' ;
 		
-		while (ClockFlag /= '1') loop
+		while (StimClockFlag /= '1') loop
 		WAIT FOR 100 ps ;
 			If (CountLoop > 4294967294) THEN
 				
 				assert StimClockFlag = '0' report "Flag: FAILED, Time expired" severity Error;	--The Flag is showing something else.
 			END IF;
 			
-			CountLoop := CountLoop + 1;
+			CountLoop <= CountLoop + 1;
 			
 		END LOOP;
 		
