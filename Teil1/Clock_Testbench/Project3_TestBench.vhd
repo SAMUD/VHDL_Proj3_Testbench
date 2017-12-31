@@ -120,18 +120,18 @@ BEGIN
 		
 END PROCESS;
 
--- Signal Quartz à 50MHz
-PROCESS
-
-BEGIN
-
-		StimClock <= '0';
-		WAIT FOR 10000 ps;  
-		StimClock <= '1';
-		WAIT FOR 10000 ps;   
-		
-		
-END PROCESS;
+---- Signal Quartz à 50MHz
+--PROCESS
+--
+--BEGIN
+--
+--		StimClock <= '0';
+--		WAIT FOR 10000 ps;  
+--		StimClock <= '1';
+--		WAIT FOR 10000 ps;   
+--		
+--		
+--END PROCESS;
 
 END TestBench_Clock;
 
