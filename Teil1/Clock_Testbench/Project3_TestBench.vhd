@@ -13,8 +13,6 @@ USE ieee.numeric_std.all;
 
 ------------------------------
 -- 			ENTITY          --
-------------------------------
-
 ENTITY Project3_TestBench IS
 
 END Project3_TestBench;
@@ -36,6 +34,8 @@ ARCHITECTURE TestBench_Clock of Project3_TestBench IS
 
 --Component to Test
 COMPONENT Clock
+------------------------------
+
 		PORT(		
 				Reset		 :	IN std_logic;
 				Clock		 : IN std_logic;
@@ -48,8 +48,11 @@ END COMPONENT;
 
 BEGIN
 
+--Generate clock
+StimClock <= not StimClock after 10 ns;
 
-	ClockSec: component Clock
+--call Component
+ClockSec: component Clock
 			PORT MAP(
 							Reset => StimReset,
 							Clock	=> StimClock,
