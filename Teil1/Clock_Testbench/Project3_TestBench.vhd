@@ -60,15 +60,60 @@ ClockSec: component Clock
 							ClockFlag => StimClockFlag);
 	
 
-
 PROCESS 
 
 BEGIN		
+		
+		
+		--Waiting for a rising edge on clock
+		wait on StimClock;
+		while (StimClock/='0') loop
+			wait on StimClock;
+		end loop;
+		
+		
+		--1) testing if the clock divider works. To do this we will count the number of ms until the flag gets TRUE. If the number of ns is the same as expected this test is Sucessfull
+		--2) testing if the flags keeps 0 if we set the reset to TRUE
+		
+		StimReset <= '1'; --doing reset
+		wait on Stimclock; --waiting for the next rising edge
+		wait on StimClock; 
+		StimReset <= '0';
+		
+		--1)
+		
+		--now wait until we get a flag=1
+		while (StimclockFlag='0' ) loop --TODO: add a condition to get out of the loop and fail the test if we waited to long (ex counter like in clock divider)
+			wait on StimClock;
+		end loop;
+		assert FALSE report "Flag is working" severity Note;	--TODO: we need to check after how much time we exited the loop above to see if we divided correctly.
+		
+		--2)
+		
+		StimReset <= '1'; --doing reset
+		while (StimClock/='0') loop
+			wait on StimClock;
+		end loop;
+		
+		while (StimclockFlag='0' ) loop --TODO: add a condition to get out of the loop and fail the test if we waited to long (ex counter like in clock divider)
+			wait on StimClock;
+		end loop;
+		
+		
+		
+		
 		-- Test signal reset asynchrone
 		
+		
+		
+		
+		--
 		StimReset <= '1' ;
 		wait for 100 ms ;
 		StimReset <= '0' ;
+		
+		
+		
 		wait for 1 s ;
 		
 		
