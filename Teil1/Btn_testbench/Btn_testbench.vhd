@@ -1,17 +1,3 @@
-------------------------------------------------------
---  Testbench by Samuel Daurat [178190]      --
-
--- This module is a testbench and will be used to test the BCD Decoder
-
-
--- Changelog:
--- Version 0.2| 30.12.17
---  *continued working
---	 *seems to be finished
--- Version 0.1| 29.12.17
---  *started work
-------------------------------------------------------
-
 -- Library Declaration --
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
@@ -22,22 +8,13 @@ use ieee.numeric_std.all;
 --	   ENTITY	                           			 --
 ------------------------------------------------------
 
-ENTITY Testbench_Decoder IS
-END Testbench_Decoder;
+ENTITY Btn_Testbench IS
+END Btn_Testbench;
 
 ------------------------------------------------------
 --        ARCHITECTURE	                  			 --
 ------------------------------------------------------
-ARCHITECTURE simulate OF Testbench_Decoder IS
-
---internal Signals /stimulate signals
-	
-	--Signals which contain the Numbers to test and the expected outputs
-	type DataInput_Array is array (9 downto 0) of std_logic_vector(3 downto 0);
-	signal DataInput : DataInput_Array := ("1001","1000","0111","0110","0101","0100","0011","0010","0001","0000");
-	  
-	type DataExpected_Array is array (9 downto 0) of std_logic_vector(6 downto 0);
-	signal DataExpected : DataExpected_Array := ("0011000","0000000","1111000","0000011","0010010","0011001","0110000","0100100","1111001","1000000");
+ARCHITECTURE simulate OF Btn_Testbench IS
 	
 	--intermediate signals to transport signals inside this Entity
 	signal StimInput: 		std_logic_vector (3 downto 0) := "0000";
@@ -45,10 +22,17 @@ ARCHITECTURE simulate OF Testbench_Decoder IS
 	signal StimClock: 		std_logic :='0';
 
 --Component to Test
-component Decoder
+component Btn
 port (
-	Input			:		IN		std_logic_vector (3 downto 0);
-	Output		:		OUT	std_logic_vector (6 downto 0)
+	clk :IN std_logic;								
+	btn_start :IN std_logic; 						
+	btn_s :IN std_logic;								
+	btn_m :IN std_logic;								
+	end_buzzer :IN std_logic;	
+	
+	start_stop :OUT std_logic;						
+	inc_s :OUT std_logic;							
+	inc_m :OUT std_logic;	
 	);
 end component;
 
@@ -59,7 +43,7 @@ BEGIN
 StimClock <= not StimClock after 10 ns;
 
 --Device to test 
-ConvertBcd_1: component Decoder
+Btn_1: component Btn
 		port map(
 				Input => StimInput,											
 				Output => StimSolution

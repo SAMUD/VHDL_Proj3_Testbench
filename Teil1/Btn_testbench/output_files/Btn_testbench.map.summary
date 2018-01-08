@@ -1,7 +1,7 @@
-Analysis & Synthesis Status : Failed - Sun Dec 31 10:47:15 2017
+Analysis & Synthesis Status : Failed - Mon Jan 08 11:17:24 2018
 Quartus Prime Version : 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-Revision Name : Decoder
-Top-level Entity Name : Decoder
+Revision Name : Btn_testbench
+Top-level Entity Name : Btn_testbench
 Family : Cyclone IV E
 Total logic elements : N/A until Partition Merge
     Total combinational functions : N/A until Partition Merge

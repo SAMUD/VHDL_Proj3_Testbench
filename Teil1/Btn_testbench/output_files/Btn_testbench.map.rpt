@@ -1,5 +1,5 @@
-Analysis & Synthesis report for Decoder
-Sun Dec 31 10:47:15 2017
+Analysis & Synthesis report for Btn_testbench
+Mon Jan 08 11:17:24 2018
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -37,10 +37,10 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Failed - Sun Dec 31 10:47:15 2017           ;
+; Analysis & Synthesis Status        ; Failed - Mon Jan 08 11:17:24 2018           ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
-; Revision Name                      ; Decoder                                     ;
-; Top-level Entity Name              ; Decoder                                     ;
+; Revision Name                      ; Btn_testbench                               ;
+; Top-level Entity Name              ; Btn_testbench                               ;
 ; Family                             ; Cyclone IV E                                ;
 ; Total logic elements               ; N/A until Partition Merge                   ;
 ;     Total combinational functions  ; N/A until Partition Merge                   ;
@@ -59,7 +59,8 @@ agreement for further details.
 +----------------------------------------------------------------------------+--------------------+--------------------+
 ; Option                                                                     ; Setting            ; Default Value      ;
 +----------------------------------------------------------------------------+--------------------+--------------------+
-; Top-level entity name                                                      ; Decoder            ; Decoder            ;
+; Device                                                                     ; EP4CE115F29C7      ;                    ;
+; Top-level entity name                                                      ; Btn_testbench      ; Btn_testbench      ;
 ; Family name                                                                ; Cyclone IV E       ; Cyclone V          ;
 ; Use smart compilation                                                      ; Off                ; Off                ;
 ; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
@@ -161,22 +162,19 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Dec 31 10:46:51 2017
-Info: Command: quartus_map --read_settings_files=on --write_settings_files=off BCD_Testbench_V2 -c Decoder
+    Info: Processing started: Mon Jan 08 11:17:11 2018
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Btn_testbench -c Btn_testbench
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
-Info (12021): Found 2 design units, including 1 entities, in source file decoder.vhd
-    Info (12022): Found design unit 1: Decoder-behave File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/Decoder.vhd Line: 46
-    Info (12023): Found entity 1: Decoder File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/Decoder.vhd Line: 31
-Info (12021): Found 2 design units, including 1 entities, in source file testbench_decoder.vhd
-    Info (12022): Found design unit 1: Testbench_Decoder-simulate File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/Testbench_Decoder.vhd Line: 31
-    Info (12023): Found entity 1: Testbench_Decoder File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/Testbench_Decoder.vhd Line: 25
-Error (10500): VHDL syntax error at my_types.vhd(4) near text "type";  expecting an identifier File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/my_types.vhd Line: 4
-Info (12021): Found 0 design units, including 0 entities, in source file my_types.vhd
+Info (12021): Found 0 design units, including 0 entities, in source file btn_testbench.vhd
+Info (12021): Found 2 design units, including 1 entities, in source file btn.vhd
+    Info (12022): Found design unit 1: Btn-behave_Btn File: C:/projet_commun/VHDL_Proj3_Testbench-master/VHDL_Proj3_Testbench/Teil1/Btn_testbench/Btn.vhd Line: 26
+    Info (12023): Found entity 1: Btn File: C:/projet_commun/VHDL_Proj3_Testbench-master/VHDL_Proj3_Testbench/Teil1/Btn_testbench/Btn.vhd Line: 9
+Error (12007): Top-level design entity "Btn_testbench" is undefined
 Error: Quartus Prime Analysis & Synthesis was unsuccessful. 1 error, 1 warning
-    Error: Peak virtual memory: 682 megabytes
-    Error: Processing ended: Sun Dec 31 10:47:15 2017
-    Error: Elapsed time: 00:00:24
-    Error: Total CPU time (on all processors): 00:00:57
+    Error: Peak virtual memory: 662 megabytes
+    Error: Processing ended: Mon Jan 08 11:17:24 2018
+    Error: Elapsed time: 00:00:13
+    Error: Total CPU time (on all processors): 00:00:26
 
 
