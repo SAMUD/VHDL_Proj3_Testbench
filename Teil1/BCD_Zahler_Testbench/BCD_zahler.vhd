@@ -180,6 +180,21 @@ END PROCESS counter_proc;
 -- Output Process --
 output_proc : PROCESS (mode,CM)
 	BEGIN				--jeden zahl wird auf 4 bit kodiert--
+	
+		CASE mode IS
+			when st_0 => b <= "0000";	--0--
+			when st_1 => b <= "0001";	--1--
+			when st_2 => b <= "0010";	--2--
+			when st_3 => b <= "0011";	--3--
+			when st_4 => b <= "0100";	--4--
+			when st_5 => b <= "0101";	--5--
+			when st_6 => b <= "0110";	--6--
+			when st_7 => b <= "0111";	--7--
+			when st_8 => b <= "1000";	--8--
+			when st_9 => b <= "1001";	--9--
+			when others => b <= "0000";	--default--
+		END CASE;
+			
 		IF mode=st_0 THEN 
 			b0<='0';
 			b1<='0';
