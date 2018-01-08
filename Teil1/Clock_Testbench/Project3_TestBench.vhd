@@ -77,14 +77,17 @@ PROCESS
 
 BEGIN		
 		
-		assert FALSE report "Waiting Rising Edge Clock" severity Note;
-		--Waiting for a rising edge on clock
-		wait on StimClock;
-		while (StimClock/='0') loop
-			wait on StimClock;
-		end loop;
-		
-		assert FALSE report "Rising Edge Clock Found" severity Note;
+--		assert FALSE report "Waiting Rising Edge Clock" severity Note;
+--		--Waiting for a rising edge on clock
+--		wait on StimClock;
+--		while (StimClock/='0') loop
+--			wait on StimClock;
+--		end loop;
+--		
+--		assert FALSE report "Rising Edge Clock Found" severity Note;
+
+
+
 		
 		--1) testing if the clock divider works. To do this we will count the number of ms until the flag gets TRUE. If the number of ns is the same as expected this test is Sucessfull
 		--2) testing if the flags keeps 0 if we set the reset to TRUE

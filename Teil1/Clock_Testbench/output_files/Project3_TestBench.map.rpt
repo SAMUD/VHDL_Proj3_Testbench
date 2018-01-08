@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Project3_TestBench
-Mon Jan 08 13:29:39 2018
+Mon Jan 08 14:10:03 2018
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -43,7 +43,7 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Jan 08 13:29:39 2018       ;
+; Analysis & Synthesis Status        ; Successful - Mon Jan 08 14:10:03 2018       ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
 ; Revision Name                      ; Project3_TestBench                          ;
 ; Top-level Entity Name              ; Clock                                       ;
@@ -256,7 +256,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +----------------+--------------+
 ; Partition Name ; Elapsed Time ;
 +----------------+--------------+
-; Top            ; 00:00:01     ;
+; Top            ; 00:00:00     ;
 +----------------+--------------+
 
 
@@ -266,7 +266,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Mon Jan 08 13:28:58 2018
+    Info: Processing started: Mon Jan 08 14:09:30 2018
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Project3_TestBench -c Project3_TestBench
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
@@ -285,9 +285,9 @@ Info (21057): Implemented 47 device resources after synthesis - the final resour
     Info (21059): Implemented 1 output pins
     Info (21061): Implemented 44 logic cells
 Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 710 megabytes
-    Info: Processing ended: Mon Jan 08 13:29:39 2018
-    Info: Elapsed time: 00:00:41
-    Info: Total CPU time (on all processors): 00:01:38
+    Info: Peak virtual memory: 707 megabytes
+    Info: Processing ended: Mon Jan 08 14:10:03 2018
+    Info: Elapsed time: 00:00:33
+    Info: Total CPU time (on all processors): 00:01:22
 
 
