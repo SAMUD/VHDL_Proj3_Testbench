@@ -15,3 +15,5 @@ Teil1/Clock_Testbench/Clock.vhd
 *.done
 *.rpt
 *.summary
+Teil1/btn_testbench/btn_testbench.qsf
+Teil1/Btn_testbench/Btn_testbench.qws
