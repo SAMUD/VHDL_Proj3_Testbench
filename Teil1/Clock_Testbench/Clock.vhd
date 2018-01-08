@@ -42,7 +42,7 @@ clk_proc : PROCESS (Clock,Reset)
 		
 	BEGIN
 		
-		IF (Clock'EVENT AND Clock='1' AND Clock'LAST_VALUE='0' AND Reset = '1') THEN
+		IF (Clock'EVENT AND Clock='1' AND Clock'LAST_VALUE='0' AND Reset = '0') THEN
 			
 			IF (s_clock_comptage > 20) THEN  --1sec = 49999999       Simu1 : 20;  
 					s_clock_comptage <= 0;   --Die Zählvariable wird auf Null gesetzt
@@ -55,7 +55,7 @@ clk_proc : PROCESS (Clock,Reset)
 		END IF;
 	
 	
-		IF (Reset = '0') THEN 			
+		IF (Reset = '1') THEN 			
 				s_clock_comptage <= 0;	--Die Zählvariable wird auf Null gesetzt
 				ClockFlag <= '0';
 		END IF;
