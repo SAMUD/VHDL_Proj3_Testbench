@@ -6,7 +6,7 @@ USE IEEE.std_logic_1164.ALL;
 --------------------------------------------
 -- ENTITY --
 --------------------------------------------
-ENTITY Btn IS
+ENTITY btn IS
 PORT(
 	clk :IN std_logic;								-- interne 50 MHz clk
 	btn_start :IN std_logic; 						-- Taste der die zahlung begindt
@@ -17,13 +17,13 @@ PORT(
 	inc_s :OUT std_logic;							-- wenn auf 1 : Sekunde + 1
 	inc_m :OUT std_logic								-- wenn auf 1 : Minuten + 1
 	);
-END Btn;
+END btn;
 
 --------------------------------------------
 -- ARCHITECTURE --
 --------------------------------------------
 
-ARCHITECTURE behave_Btn OF Btn IS
+ARCHITECTURE behave_btn OF btn IS
 
 SIGNAL btn_s_mem : std_logic := '1'; 					-- Speichert der letzte zustand der Taste btn_s
 SIGNAL btn_m_mem : std_logic := '1';					-- Speichert der letzte zustand der Taste btn_m
@@ -35,7 +35,7 @@ SIGNAL start_stop_change_s : std_logic := '0';			-- variable der das zustand von
 BEGIN
 	
 -- Registered Process --
-Btn_proc : PROCESS (clk)
+btn_proc : PROCESS (clk)
 VARIABLE start_stop_change : std_logic := '0';			-- variable der das zustand von start_stop ändert
 
 	BEGIN
@@ -47,13 +47,13 @@ VARIABLE start_stop_change : std_logic := '0';			-- variable der das zustand von
 				start_stop_change := NOT (start_stop_change);		
 			END IF;
 			
-			IF (btn_s_mem = '0' AND start_stop_change = '0' AND btn_s = '0') THEN	
+			IF (btn_s_mem = '1' AND start_stop_change = '0' AND btn_s = '0') THEN	
 				inc_s <= '1';	-- inc_s wird auf 1 gesetzt wen die Taste btn_s gedrückt ist und die counting methode auf 1 ist
 		ELSE
 				inc_s <= '0';
 			END IF;
 			
-			IF (btn_m_mem = '0' AND start_stop_change = '0' AND btn_m = '0') THEN	
+			IF (btn_m_mem = '1' AND start_stop_change = '0' AND btn_m = '0') THEN	
 				inc_m <= '1'; -- inc_m wird auf 1 gesetzt wen die Taste btn_m gedrückt ist und die counting methode auf 1 ist
 			ELSE
 				inc_m <= '0';
@@ -70,7 +70,7 @@ VARIABLE start_stop_change : std_logic := '0';			-- variable der das zustand von
 			start_stop<=start_stop_change;
 			
 		END IF;
-	END PROCESS Btn_proc;
+	END PROCESS btn_proc;
 	
-END behave_Btn;
+END behave_btn;
 
