@@ -16,10 +16,7 @@ PORT(
 	reset	:IN	std_logic;
 	clk	:IN	std_logic;
 	CM		:IN	std_logic;
-	b0		:OUT	std_logic;
-	b1		:OUT	std_logic;
-	b2		:OUT	std_logic;
-	b3		:OUT	std_logic
+	b		:OUT	std_logic_vector (3 downto 0)
 	);
 END BCD_zahler;
 
@@ -41,7 +38,7 @@ clk_proc : PROCESS (clk,reset,clk_counter)
 			mode <= st_0;
 		ELSIF (clk'EVENT AND clk='1' AND clk'LAST_VALUE='0') THEN
 			clk_counter <= clk_counter + 1; --Wir müssen bis auf 100 000 000 zählen (um 0.5HZ zu haben)
-			IF (clk_counter > 100000000) THEN --1 bis 100000000--
+			IF (clk_counter > 10) THEN --1 bis 100000000--
 				mode <= nxt_mode;	--mode changer--
 				clk_counter <= 1;
 			END IF;
@@ -178,7 +175,7 @@ counter_proc : PROCESS (mode,nxt_mode,CM)
 END PROCESS counter_proc;
 	   
 -- Output Process --
-output_proc : PROCESS (mode,CM)
+output_proc : PROCESS (mode)
 	BEGIN				--jeden zahl wird auf 4 bit kodiert--
 	
 		CASE mode IS
@@ -195,75 +192,7 @@ output_proc : PROCESS (mode,CM)
 			when others => b <= "0000";	--default--
 		END CASE;
 			
-		IF mode=st_0 THEN 
-			b0<='0';
-			b1<='0';
-			b2<='0';
-			b3<='0';	
-		END IF;
-
-		IF mode=st_1 THEN 
-			b0<='1';
-			b1<='0';
-			b2<='0';
-			b3<='0';
-		END IF;
-
-		IF mode=st_2 THEN 
-			b0<='0';
-			b1<='1';
-			b2<='0';
-			b3<='0';
-		END IF;
-
-		IF mode=st_3 THEN 
-			b0<='1';
-			b1<='1';
-			b2<='0';
-			b3<='0';	
-		END IF;
 		
-		IF mode=st_4 THEN 
-			b0<='0';
-			b1<='0';
-			b2<='1';
-			b3<='0';
-		END IF;
-		
-		IF mode=st_5 THEN 
-			b0<='1';
-			b1<='0';
-			b2<='1';
-			b3<='0';	
-		END IF;
-		
-		IF mode=st_6 THEN 
-			b0<='0';
-			b1<='1';
-			b2<='1';
-			b3<='0';	
-		END IF;
-		
-		IF mode=st_7 THEN 
-			b0<='1';
-			b1<='1';
-			b2<='1';
-			b3<='0';	
-		END IF;
-		
-		IF mode=st_8 THEN 
-			b0<='0';
-			b1<='0';
-			b2<='0';
-			b3<='1';	
-		END IF;
-		
-		IF mode=st_9 THEN 
-			b0<='1';
-			b1<='0';
-			b2<='0';
-			b3<='1';	
-		END IF;
 END PROCESS output_proc;
 
 
