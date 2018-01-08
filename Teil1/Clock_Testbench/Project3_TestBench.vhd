@@ -13,6 +13,8 @@ USE ieee.numeric_std.all;
 
 ------------------------------
 -- 			ENTITY          --
+------------------------------
+
 ENTITY Project3_TestBench IS
 
 END Project3_TestBench;
@@ -36,11 +38,7 @@ CONSTANT Divider : INTEGER := 40;
 
 --Component to Test
 COMPONENT Clock
-<<<<<<< HEAD
 ------------------
-=======
-------------------------------
->>>>>>> a4ecf52eeee50ef4263d09c61b24a7a3cfb3bee9
 
 		PORT(		
 				Reset		 :	IN std_logic;
@@ -54,10 +52,7 @@ END COMPONENT;
 
 BEGIN
 
---Generate clock
-StimClock <= not StimClock after 1 ns;
 
-<<<<<<< HEAD
 
 -- Clock Generator 50Mhz
 
@@ -68,10 +63,6 @@ StimClock <= not StimClock after 1 ns;
 
 
 	ClockSec: component Clock
-=======
---call Component
-ClockSec: component Clock
->>>>>>> a4ecf52eeee50ef4263d09c61b24a7a3cfb3bee9
 			PORT MAP(
 							Reset => StimReset,
 							Clock	=> StimClock,
@@ -79,13 +70,13 @@ ClockSec: component Clock
 							ClockFlag => StimClockFlag);
 	
 
+
 PROCESS 
 
 	VARIABLE CountLoop : INTEGER := 0;
 
 BEGIN		
 		
-<<<<<<< HEAD
 		assert FALSE report "Waiting Rising Edge Clock" severity Note;
 		--Waiting for a rising edge on clock
 		wait on StimClock;
@@ -104,35 +95,12 @@ BEGIN
 		wait on StimClock; 
 		StimReset <= '0';
 		assert FALSE report "Reset 0" severity Note;
-=======
 		
-		--Waiting for a rising edge on clock
-		wait on StimClock;
-		while (StimClock/='0') loop
-			wait on StimClock;
-		end loop;
 		
->>>>>>> a4ecf52eeee50ef4263d09c61b24a7a3cfb3bee9
-		
-		--1) testing if the clock divider works. To do this we will count the number of ms until the flag gets TRUE. If the number of ns is the same as expected this test is Sucessfull
-		--2) testing if the flags keeps 0 if we set the reset to TRUE
-		
-<<<<<<< HEAD
 		--1)
 		
 		--Reset Countloop
-		CountLoop := 0;
-			
-		
-		--now wait until we get a flag=1
---		while ((StimclockFlag='0')) loop    
---			wait on StimClock;
---			wait on StimClock;
---			CountLoop := CountLoop + 1;
---			assert FALSE report "While loop" & integer'image(CountLoop) severity Note;
---		end loop;
-		
-		
+		CountLoop := 0;		
 		
 		
 		L1 : loop 
@@ -178,65 +146,10 @@ BEGIN
 		
 		
 		
-=======
-		StimReset <= '1'; --doing reset
-		wait on Stimclock; --waiting for the next rising edge
-		wait on StimClock; 
-		StimReset <= '0';
-		
-		--1)
-		
-		--Reset Countloop
-		CountLoop <= 0;
-		
-		--now wait until we get a flag=1
-		while (StimclockFlag='0' OR CountLoop < 4294967294 ) loop
-			wait on StimClock;
-			CountLoop := CountLoop + 1;
-		end loop;
-		
-		IF (CountLoop > 4294967294) THEN --TODO: sho in text message after how much time we had the flag
-			assert FALSE report "Flag has FAILED" severity Note;	
-		ELSE
-			assert FALSE report "Flag is working" severity Note;
-		END IF;
-		
-		--2)
-		
-		--Reset Countloop
-		CountLoop <= 0;
-		
-		StimReset <= '1'; --doing reset
-		while (StimClockFlag='0' OR CountLoop < (4294967294*2) ) loop
-			wait on StimClock;
-		end loop;
-		
-		IF (StimClockFlag='0') THEN --TODO: sho in text message after how much time we had the flag
-			assert FALSE report "Reset is ok" severity Note;	
-		ELSE
-			assert FALSE report "Reset has FAILED" severity Note;
-		END IF;
-		
-		
-		
->>>>>>> a4ecf52eeee50ef4263d09c61b24a7a3cfb3bee9
 		assert FALSE report "All tests passed" severity Note;	
 		wait;
 		
 END PROCESS;
-
----- Signal Quartz à 50MHz
---PROCESS
---
---BEGIN
---
---		StimClock <= '0';
---		WAIT FOR 10000 ps;  
---		StimClock <= '1';
---		WAIT FOR 10000 ps;   
---		
---		
---END PROCESS;
 
 END TestBench_Clock;
 
