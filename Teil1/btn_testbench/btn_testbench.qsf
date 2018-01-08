@@ -19,14 +19,14 @@
 #
 # Quartus Prime
 # Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-# Date created = 10:52:16  January 08, 2018
+# Date created = 11:10:00  January 08, 2018
 #
 # -------------------------------------------------------------------------- #
 #
 # Notes:
 #
 # 1) The default values for assignments are stored in the file:
-#		btn_testbench_assignment_defaults.qdf
+#		Btn_testbench_assignment_defaults.qdf
 #    If this file doesn't exist, see file:
 #		assignment_defaults.qdf
 #
@@ -39,9 +39,9 @@
 
 set_global_assignment -name FAMILY "Cyclone IV E"
 set_global_assignment -name DEVICE EP4CE115F29C7
-set_global_assignment -name TOP_LEVEL_ENTITY btn_testbench
+set_global_assignment -name TOP_LEVEL_ENTITY Btn_testbench
 set_global_assignment -name ORIGINAL_QUARTUS_VERSION 17.0.0
-set_global_assignment -name PROJECT_CREATION_TIME_DATE "10:52:16  JANUARY 08, 2018"
+set_global_assignment -name PROJECT_CREATION_TIME_DATE "11:10:00  JANUARY 08, 2018"
 set_global_assignment -name LAST_QUARTUS_VERSION "17.0.0 Lite Edition"
 set_global_assignment -name PROJECT_OUTPUT_DIRECTORY output_files
 set_global_assignment -name MIN_CORE_JUNCTION_TEMP 0
@@ -51,4 +51,9 @@ set_global_assignment -name NOMINAL_CORE_SUPPLY_VOLTAGE 1.2V
 set_global_assignment -name EDA_SIMULATION_TOOL "ModelSim-Altera (VHDL)"
 set_global_assignment -name EDA_TIME_SCALE "1 ps" -section_id eda_simulation
 set_global_assignment -name EDA_OUTPUT_DATA_FORMAT VHDL -section_id eda_simulation
-set_global_assignment -name VHDL_FILE btn.vhd
+set_global_assignment -name VHDL_FILE Btn_testbench.vhd
+set_global_assignment -name VHDL_FILE Btn.vhd
+set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
