@@ -1,14 +1,6 @@
 ------------------------------------------------------
 --  Testbench by Samuel Daurat [178190]      --
--- This module is a testbench and will be used to test the BCD Decoder
-
-
--- Changelog:
--- Version 0.2| 30.12.17
---  *continued working
---	 *seems to be finished
--- Version 0.1| 29.12.17
---  *started work
+-- This module is a testbench and will be used to test the complete Timer module
 ------------------------------------------------------
 
 -- Library Declaration --
@@ -32,22 +24,57 @@ ARCHITECTURE simulate OF Testbench_Decoder IS
 --internal Signals /stimulate signals
 	
 	--Signals which contain the Numbers to test and the expected outputs
-	type DataInput_Array 	is array (9 downto 0) 	of std_logic_vector(3 downto 0);
-	signal DataInput : 		DataInput_Array := ("1001","1000","0111","0110","0101","0100","0011","0010","0001","0000");
+	--type DataInput_Array 	is array (9 downto 0) 	of std_logic_vector(3 downto 0);
+	--signal DataInput : 		DataInput_Array := ("1001","1000","0111","0110","0101","0100","0011","0010","0001","0000");
 	  
-	type DataExpected_Array is array (9 downto 0) 	of std_logic_vector(6 downto 0);
-	signal DataExpected : 	DataExpected_Array := ("0011000","0000000","1111000","0000011","0010010","0011001","0110000","0100100","1111001","1000000");
+	--type DataExpected_Array is array (9 downto 0) 	of std_logic_vector(6 downto 0);
+	--signal DataExpected : 	DataExpected_Array := ("0011000","0000000","1111000","0000011","0010010","0011001","0110000","0100100","1111001","1000000");
 	
 	--intermediate signals to transport signals inside this Entity
-	signal StimInput: 								std_logic_vector (3 downto 0) := "0000";
-	signal StimSolution:							std_logic_vector (6 downto 0) := "0000000";
-	signal StimClock: 								std_logic :='0';
+	signal StimClock: 			std_logic :='0';
+	signal StimReset:			std_logic :='0';
+	signal StimBtnMin:			std_logic :='0';
+	signal StimBtnSec:			std_logic :='0';
+	signal StimBtnStart:		std_logic :='0';
+	signal StimBtnClear:		std_logic :='0';
+	signal StimOutput1:			std_logic :='0';
+	signal StimOutput2:			std_logic :='0';
+	signal StimOutput3:			std_logic :='0';
+	signal StimOutput4:			std_logic :='0';
+	signal StimBuzzer:			std_logic :='0';
+	
+
 
 --Component to Test
-component Decoder
+component Main
 port (
-	Input			:		IN						std_logic_vector (3 downto 0);
-	Output			:		OUT						std_logic_vector (6 downto 0)
+	reset				:	IN		std_logic;						--Mapped to SW0
+	clk					:	IN		std_logic;
+	
+	--User buttons
+	BtnMin				:	IN		std_logic;						--Mapped to Btn3
+	BtnSec				:	IN		std_logic;						--Mapped to Btn2
+	BtnStart			:	IN		std_logic;						--Mapped to Btn0
+	BtnClear			:	IN		std_logic;						--Mapped to Btn1
+	
+	--Debug buttons
+	BuzzerOverride		:	IN		std_logic;						--Manual activation for the Buzzer, Mapped to SW1
+	--SW2				:	IN		std_logic;
+	--SW3				:	IN		std_logic;
+	
+	-- decoded signals to send to the 7seg
+	Output1				:	OUT	std_logic_vector (6 downto 0);	
+	Output2				:	OUT	std_logic_vector (6 downto 0);	
+	Output3				:	OUT	std_logic_vector (6 downto 0);	
+	Output4				:	OUT	std_logic_vector (6 downto 0);
+	
+	--Debug outputs
+	CountValueMainOut	:	OUT 	integer range 0 to 6000 := 0;					--Showing the actual count value in binary on LEDs Red 17-
+	DebugLED			:	OUT 	std_logic_vector(2 downto 0) := "000";		--Showing state of state machine on LEDs Green 
+	DebugLED_Control	:	OUT 	std_logic_vector(5 downto 0):= "000000";	--Showing the control status from state machine to Counter
+		
+	--Buzzer Output
+	BuzzerOut			:	OUT	std_logic
 	);
 end component;
 
@@ -58,86 +85,43 @@ BEGIN
 StimClock <= not StimClock after 10 ns;
 
 --Device to test (DUT)
-ConvertBcd_1: component Decoder
+ConvertBcd_1: component Main
 		port map(
-				Input => StimInput,											
-				Output => StimSolution
+				clk => StimClk,											
+				reset => StimReset,
+				BtnMin => StimBtnMin,
+				BtnSec => StimBtnClear,
+				BtnStart => StimBtnStart,
+				BtnClear => StimBtnClear,
+				Output1 => StimOutput1,
+				Output2 => StimOutput2,
+				Output3 => StimOutput3,
+				Output4 => StimOutput4,
+				BuzzerOut => StimBuzzerOut
+
+				--for now we won'tuse the debug outputs. But perhaps this can make thing easier during Testing with the Bench.
 		);
 		
 --Stimulate-process
 stimulate: PROCESS
 	
-	variable Increment:	integer range 0 to 9 :=0;
+	variable ErrorCounter:	integer range 0 to 100 :=0;	--Counting the number of errors during testing
 	
 BEGIN
 
---The DUT in this case is programmed asynchronous. It doesn't use a clock. No need to test for clocks here in theory.
---But the clock is used to slow things down, to have someting beautiful in the Wave-Graph during simulation
+--The DUT in this case is programmed synchronous.
+
 --finding a rising edge
 wait on StimClock;
 while (StimClock/='0') loop
 	wait on StimClock;
 end loop;
 
---Starting main foor loop
-for Increment in 0 to 9 loop
-	
-	--Sending the number
-	StimInput <= DataInput(Increment); 
-	
-	--wait for a rising edge
-	wait on StimClock;
-	wait on StimClock;
-	
-	--now test the outputs
-	IF StimSolution = DataExpected(Increment) THEN
-		--its true. So its done
-		assert FALSE  report " Number " & integer'image(Increment) & ": passed" severity Note;
-	ELSE
-		--not true. Report error
-		assert FALSE report "Number " & integer'image(Increment) & " : FAILED" severity Error;
-		--starting to test each bit for it's own
-		IF StimSolution(0) = DataExpected(Increment)(0) THEN
-			assert FALSE  report "   Position 0: passed" severity Note;
-		ELSE
-			assert FALSE report "  Position 0: FAILED" severity Error;
-		END IF;
-		IF StimSolution(1) = DataExpected(Increment)(1) THEN
-			assert FALSE  report "   Position 1: passed" severity Note;
-		ELSE
-			assert FALSE report "  Position 1: FAILED" severity Error;
-		END IF;
-		IF StimSolution(2) = DataExpected(Increment)(2) THEN
-			assert FALSE  report "   Position 2: passed" severity Note;
-		ELSE
-			assert FALSE report "  Position 2: FAILED" severity Error;
-		END IF;
-		IF StimSolution(3) = DataExpected(Increment)(3) THEN
-			assert FALSE  report "   Position 3: passed" severity Note;
-		ELSE
-			assert FALSE report "  Position 3: FAILED" severity Error;
-		END IF;
-		IF StimSolution(4) = DataExpected(Increment)(4) THEN
-			assert FALSE  report "   Position 4: passed" severity Note;
-		ELSE
-			assert FALSE report "  Position 4: FAILED" severity Error;
-		END IF;
-		IF StimSolution(5) = DataExpected(Increment)(5) THEN
-			assert FALSE  report "   Position 5: passed" severity Note;
-		ELSE
-			assert FALSE report "  Position 5: FAILED" severity Error;
-		END IF;
-		IF StimSolution(6) = DataExpected(Increment)(6) THEN
-			assert FALSE  report "   Position 6: passed" severity Note;
-		ELSE
-			assert FALSE report "  Position 6: FAILED" severity Error;
-		END IF;
-	END IF;
-	
-end loop;
+--Starting main testing unit
+
 
 --Finished
-assert FALSE report "DONE!" severity NOTE;
+assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
 wait;
 	
 end process;
