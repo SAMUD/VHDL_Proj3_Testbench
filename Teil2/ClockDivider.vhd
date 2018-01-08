@@ -35,7 +35,7 @@ use ieee.numeric_std.all;
 ENTITY ClockDivider IS
 
 GENERIC(
-	Divider_in		:	IN  integer :=60--2499999				--Divider for dividing the clock. Default Value generates a 1/10th clock cycle from 50Mhz	
+	Divider_in		:	IN  integer :=6--2499999				--Divider for dividing the clock. Default Value generates a 1/10th clock cycle from 50Mhz	
 );
 
 PORT(															
