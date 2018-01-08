@@ -1,5 +1,5 @@
-Analysis & Synthesis report for Project3_TestBench
-Mon Jan 08 14:10:03 2018
+Analysis & Synthesis report for Decoder
+Sun Dec 31 10:47:15 2017
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -10,13 +10,7 @@ Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
   2. Analysis & Synthesis Summary
   3. Analysis & Synthesis Settings
   4. Parallel Compilation
-  5. Analysis & Synthesis Source Files Read
-  6. Analysis & Synthesis Resource Usage Summary
-  7. Analysis & Synthesis Resource Utilization by Entity
-  8. General Register Statistics
-  9. Post-Synthesis Netlist Statistics for Top Partition
- 10. Elapsed Time Per Partition
- 11. Analysis & Synthesis Messages
+  5. Analysis & Synthesis Messages
 
 
 
@@ -43,20 +37,20 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                     ;
 +------------------------------------+---------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Mon Jan 08 14:10:03 2018       ;
+; Analysis & Synthesis Status        ; Failed - Sun Dec 31 10:47:15 2017           ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
-; Revision Name                      ; Project3_TestBench                          ;
-; Top-level Entity Name              ; Clock                                       ;
+; Revision Name                      ; Decoder                                     ;
+; Top-level Entity Name              ; Decoder                                     ;
 ; Family                             ; Cyclone IV E                                ;
-; Total logic elements               ; 43                                          ;
-;     Total combinational functions  ; 43                                          ;
-;     Dedicated logic registers      ; 33                                          ;
-; Total registers                    ; 33                                          ;
-; Total pins                         ; 3                                           ;
-; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 0                                           ;
-; Embedded Multiplier 9-bit elements ; 0                                           ;
-; Total PLLs                         ; 0                                           ;
+; Total logic elements               ; N/A until Partition Merge                   ;
+;     Total combinational functions  ; N/A until Partition Merge                   ;
+;     Dedicated logic registers      ; N/A until Partition Merge                   ;
+; Total registers                    ; N/A until Partition Merge                   ;
+; Total pins                         ; N/A until Partition Merge                   ;
+; Total virtual pins                 ; N/A until Partition Merge                   ;
+; Total memory bits                  ; N/A until Partition Merge                   ;
+; Embedded Multiplier 9-bit elements ; N/A until Partition Merge                   ;
+; Total PLLs                         ; N/A until Partition Merge                   ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -65,8 +59,7 @@ agreement for further details.
 +----------------------------------------------------------------------------+--------------------+--------------------+
 ; Option                                                                     ; Setting            ; Default Value      ;
 +----------------------------------------------------------------------------+--------------------+--------------------+
-; Device                                                                     ; EP4CE115F29C7      ;                    ;
-; Top-level entity name                                                      ; Clock              ; Project3_TestBench ;
+; Top-level entity name                                                      ; Decoder            ; Decoder            ;
 ; Family name                                                                ; Cyclone IV E       ; Cyclone V          ;
 ; Use smart compilation                                                      ; Off                ; Off                ;
 ; Enable parallel Assembler and TimeQuest Timing Analyzer during compilation ; On                 ; On                 ;
@@ -155,109 +148,11 @@ agreement for further details.
 ; Maximum allowed            ; 4           ;
 ;                            ;             ;
 ; Average used               ; 1.00        ;
-; Maximum used               ; 4           ;
+; Maximum used               ; 1           ;
 ;                            ;             ;
 ; Usage by Processor         ; % Time Used ;
 ;     Processor 1            ; 100.0%      ;
-;     Processors 2-4         ;   0.0%      ;
 +----------------------------+-------------+
-
-
-+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Source Files Read                                                                                                                                ;
-+----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
-; File Name with User-Entered Path ; Used in Netlist ; File Type       ; File Name with Absolute Path                                                         ; Library ;
-+----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
-; Clock.vhd                        ; yes             ; User VHDL File  ; C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd ;         ;
-+----------------------------------+-----------------+-----------------+--------------------------------------------------------------------------------------+---------+
-
-
-+------------------------------------------------------------+
-; Analysis & Synthesis Resource Usage Summary                ;
-+---------------------------------------------+--------------+
-; Resource                                    ; Usage        ;
-+---------------------------------------------+--------------+
-; Estimated Total logic elements              ; 43           ;
-;                                             ;              ;
-; Total combinational functions               ; 43           ;
-; Logic element usage by number of LUT inputs ;              ;
-;     -- 4 input functions                    ; 10           ;
-;     -- 3 input functions                    ; 1            ;
-;     -- <=2 input functions                  ; 32           ;
-;                                             ;              ;
-; Logic elements by mode                      ;              ;
-;     -- normal mode                          ; 12           ;
-;     -- arithmetic mode                      ; 31           ;
-;                                             ;              ;
-; Total registers                             ; 33           ;
-;     -- Dedicated logic registers            ; 33           ;
-;     -- I/O registers                        ; 0            ;
-;                                             ;              ;
-; I/O pins                                    ; 3            ;
-;                                             ;              ;
-; Embedded Multiplier 9-bit elements          ; 0            ;
-;                                             ;              ;
-; Maximum fan-out node                        ; LessThan0~10 ;
-; Maximum fan-out                             ; 33           ;
-; Total fan-out                               ; 241          ;
-; Average fan-out                             ; 2.94         ;
-+---------------------------------------------+--------------+
-
-
-+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-; Analysis & Synthesis Resource Utilization by Entity                                                                                                                                                      ;
-+----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-; Compilation Hierarchy Node ; Combinational ALUTs ; Dedicated Logic Registers ; Memory Bits ; DSP Elements ; DSP 9x9 ; DSP 18x18 ; Pins ; Virtual Pins ; Full Hierarchy Name ; Entity Name ; Library Name ;
-+----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-; |Clock                     ; 43 (43)             ; 33 (33)                   ; 0           ; 0            ; 0       ; 0         ; 3    ; 0            ; |Clock              ;             ;              ;
-+----------------------------+---------------------+---------------------------+-------------+--------------+---------+-----------+------+--------------+---------------------+-------------+--------------+
-Note: For table entries with two numbers listed, the numbers in parentheses indicate the number of resources of the given type used by the specific entity alone. The numbers listed outside of parentheses indicate the total resources of the given type used by the specific entity and all of its sub-entities in the hierarchy.
-
-
-+------------------------------------------------------+
-; General Register Statistics                          ;
-+----------------------------------------------+-------+
-; Statistic                                    ; Value ;
-+----------------------------------------------+-------+
-; Total registers                              ; 33    ;
-; Number of registers using Synchronous Clear  ; 32    ;
-; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 33    ;
-; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 0     ;
-; Number of registers using Preset             ; 0     ;
-+----------------------------------------------+-------+
-
-
-+-----------------------------------------------------+
-; Post-Synthesis Netlist Statistics for Top Partition ;
-+-----------------------+-----------------------------+
-; Type                  ; Count                       ;
-+-----------------------+-----------------------------+
-; boundary_port         ; 3                           ;
-; cycloneiii_ff         ; 33                          ;
-;     CLR               ; 1                           ;
-;     CLR SCLR          ; 32                          ;
-; cycloneiii_lcell_comb ; 43                          ;
-;     arith             ; 31                          ;
-;         2 data inputs ; 31                          ;
-;     normal            ; 12                          ;
-;         1 data inputs ; 1                           ;
-;         3 data inputs ; 1                           ;
-;         4 data inputs ; 10                          ;
-;                       ;                             ;
-; Max LUT depth         ; 4.10                        ;
-; Average LUT depth     ; 3.14                        ;
-+-----------------------+-----------------------------+
-
-
-+-------------------------------+
-; Elapsed Time Per Partition    ;
-+----------------+--------------+
-; Partition Name ; Elapsed Time ;
-+----------------+--------------+
-; Top            ; 00:00:00     ;
-+----------------+--------------+
 
 
 +-------------------------------+
@@ -266,28 +161,22 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus Prime Analysis & Synthesis
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Mon Jan 08 14:09:30 2018
-Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Project3_TestBench -c Project3_TestBench
+    Info: Processing started: Sun Dec 31 10:46:51 2017
+Info: Command: quartus_map --read_settings_files=on --write_settings_files=off BCD_Testbench_V2 -c Decoder
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (20030): Parallel compilation is enabled and will use 4 of the 4 processors detected
-Info (12021): Found 2 design units, including 1 entities, in source file clock.vhd
-    Info (12022): Found design unit 1: Clock-Clock_Arch File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd Line: 31
-    Info (12023): Found entity 1: Clock File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Clock.vhd Line: 18
-Info (12021): Found 2 design units, including 1 entities, in source file project3_testbench.vhd
-    Info (12022): Found design unit 1: Project3_TestBench-TestBench_Clock File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Project3_TestBench.vhd Line: 27
-    Info (12023): Found entity 1: Project3_TestBench File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/Clock_Testbench/Project3_TestBench.vhd Line: 18
-Info (12127): Elaborating entity "Clock" for the top level hierarchy
-Info (286030): Timing-Driven Synthesis is running
-Info (16010): Generating hard_block partition "hard_block:auto_generated_inst"
-    Info (16011): Adding 0 node(s), including 0 DDIO, 0 PLL, 0 transceiver and 0 LCELL
-Info (21057): Implemented 47 device resources after synthesis - the final resource count might be different
-    Info (21058): Implemented 2 input pins
-    Info (21059): Implemented 1 output pins
-    Info (21061): Implemented 44 logic cells
-Info: Quartus Prime Analysis & Synthesis was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 707 megabytes
-    Info: Processing ended: Mon Jan 08 14:10:03 2018
-    Info: Elapsed time: 00:00:33
-    Info: Total CPU time (on all processors): 00:01:22
+Info (12021): Found 2 design units, including 1 entities, in source file decoder.vhd
+    Info (12022): Found design unit 1: Decoder-behave File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/Decoder.vhd Line: 46
+    Info (12023): Found entity 1: Decoder File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/Decoder.vhd Line: 31
+Info (12021): Found 2 design units, including 1 entities, in source file testbench_decoder.vhd
+    Info (12022): Found design unit 1: Testbench_Decoder-simulate File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/Testbench_Decoder.vhd Line: 31
+    Info (12023): Found entity 1: Testbench_Decoder File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/Testbench_Decoder.vhd Line: 25
+Error (10500): VHDL syntax error at my_types.vhd(4) near text "type";  expecting an identifier File: C:/Users/xavie/Documents/GitHub/VHDL_Proj3_Testbench/Teil1/BCD_Testbench_V2/my_types.vhd Line: 4
+Info (12021): Found 0 design units, including 0 entities, in source file my_types.vhd
+Error: Quartus Prime Analysis & Synthesis was unsuccessful. 1 error, 1 warning
+    Error: Peak virtual memory: 682 megabytes
+    Error: Processing ended: Sun Dec 31 10:47:15 2017
+    Error: Elapsed time: 00:00:24
+    Error: Total CPU time (on all processors): 00:00:57
 
 
