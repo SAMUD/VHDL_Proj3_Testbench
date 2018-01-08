@@ -1,5 +1,5 @@
 Assembler report for Project3_TestBench
-Sun Dec 31 15:33:44 2017
+Mon Jan 08 13:30:24 2018
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -38,7 +38,7 @@ agreement for further details.
 +---------------------------------------------------------------+
 ; Assembler Summary                                             ;
 +-----------------------+---------------------------------------+
-; Assembler Status      ; Successful - Sun Dec 31 15:33:44 2017 ;
+; Assembler Status      ; Successful - Mon Jan 08 13:30:24 2018 ;
 ; Revision Name         ; Project3_TestBench                    ;
 ; Top-level Entity Name ; Clock                                 ;
 ; Family                ; Cyclone IV E                          ;
@@ -67,8 +67,8 @@ agreement for further details.
 +----------------+-------------------------------------------------------------------------------------------------------------------------+
 ; Option         ; Setting                                                                                                                 ;
 +----------------+-------------------------------------------------------------------------------------------------------------------------+
-; JTAG usercode  ; 0x0056807A                                                                                                              ;
-; Checksum       ; 0x0056807A                                                                                                              ;
+; JTAG usercode  ; 0x005683DD                                                                                                              ;
+; Checksum       ; 0x005683DD                                                                                                              ;
 +----------------+-------------------------------------------------------------------------------------------------------------------------+
 
 
@@ -78,15 +78,15 @@ agreement for further details.
 Info: *******************************************************************
 Info: Running Quartus Prime Assembler
     Info: Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
-    Info: Processing started: Sun Dec 31 15:33:31 2017
+    Info: Processing started: Mon Jan 08 13:30:17 2018
 Info: Command: quartus_asm --read_settings_files=off --write_settings_files=off Project3_TestBench -c Project3_TestBench
 Warning (18236): Number of processors has not been specified which may cause overloading on shared machines.  Set the global assignment NUM_PARALLEL_PROCESSORS in your QSF to an appropriate value for best performance.
 Info (115031): Writing out detailed assembly data for power analysis
 Info (115030): Assembler is generating device programming files
 Info: Quartus Prime Assembler was successful. 0 errors, 1 warning
-    Info: Peak virtual memory: 591 megabytes
-    Info: Processing ended: Sun Dec 31 15:33:44 2017
-    Info: Elapsed time: 00:00:13
-    Info: Total CPU time (on all processors): 00:00:13
+    Info: Peak virtual memory: 592 megabytes
+    Info: Processing ended: Mon Jan 08 13:30:24 2018
+    Info: Elapsed time: 00:00:07
+    Info: Total CPU time (on all processors): 00:00:07
 
 
