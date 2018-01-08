@@ -81,7 +81,8 @@ ARCHITECTURE behave OF Main IS
 --Divides the main clock
 	component ClockDivider
 	  GENERIC(
-			Divider_in		:	IN  integer :=2499999				--Divider for dividing the clock. Default Value generates a 1/10th clock cycle from 50Mhz	
+			Divider_in		:	IN  integer :=2500				--Divider for dividing the clock. Default Value generates a 1/10th clock cycle from 50Mhz	
+			--Note: Clock increased by a factor of ca. 1000. original value is 2499999
 		);
 
 		PORT(															
