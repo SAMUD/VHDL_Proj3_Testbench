@@ -17,3 +17,10 @@ Teil1/Clock_Testbench/Clock.vhd
 *.summary
 Teil1/btn_testbench/btn_testbench.qsf
 Teil1/Btn_testbench/Btn_testbench.qws
+Teil1/Clock_Testbench/Project3_TestBench.qws
+Teil2/Main.qws
+Teil2/output_files/Main.jdi
+Teil2/output_files/Main.sof
+Teil2/output_files/Main.jdi
+*.qws
+Teil1/Clock_Testbench/Project3_TestBench.qws

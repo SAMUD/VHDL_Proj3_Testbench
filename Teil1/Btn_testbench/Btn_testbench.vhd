@@ -1,3 +1,10 @@
+----------------------------------------------------------
+-- 					BUCHERT Jérémy									--
+--					Matrikelnummer : 179162-01  					--
+-- 					09/01/2018         							--
+-- 		         TestBench Btn	     						   --
+-----------------------------------------------------------
+
 -- Library Declaration --
 LIBRARY IEEE;
 USE IEEE.std_logic_1164.ALL;
@@ -16,6 +23,7 @@ END Btn_Testbench;
 ------------------------------------------------------
 ARCHITECTURE Btn_Test OF Btn_Testbench IS
 
+-- Simulaion Signale
 SIGNAL Sim_Clock : std_logic :='0';
 SIGNAL Sim_btn_start : std_logic :='0';
 SIGNAL Sim_btn_s : std_logic :='0';
@@ -65,13 +73,22 @@ Btn_Test: PROCESS
 	
 BEGIN
 	
+	--Initialisierung der Tatsen Signale
 	Sim_btn_start <= '1';
 	Sim_btn_s <= '1';
 	Sim_btn_m <= '1';
+	
 	wait on Sim_Clock; --waiting for the next rising edge
 	wait on Sim_Clock; 
-		
-	--Test start_stop at begin
+	
+	--1) Test start_stop at begin
+	--2) Test start_stop after btn_start
+	--3) Test btn_s when start_stop = 1
+	--4) Test btn_m when start_stop = 1
+	--5) Test btn_s when start_stop = 0	
+	--6) Test btn_m when start_stop = 0	
+	
+	--1) Test start_stop at begin
 	IF (Sim_start_stop='0') THEN
 		assert FALSE report "start_stop at begin is ok" severity NOTE;
 	ELSE
@@ -81,7 +98,7 @@ BEGIN
 	wait on Sim_Clock; --waiting for the next rising edge
 	wait on Sim_Clock; 
 	
-	--Test start_stop after btn_start
+	--2) Test start_stop after btn_start
 	Sim_btn_start <= '0';
 	
 	wait on Sim_Clock; --waiting for the next rising edge
@@ -95,7 +112,7 @@ BEGIN
 		assert FALSE report "start_stop after btn_start has failed" severity NOTE;
 	END IF;
 	
-	--Test btn_s when start_stop = 1
+	--3) Test btn_s when start_stop = 1
 	Sim_btn_s <= '0';
 	
 	wait on Sim_Clock; --waiting for the next rising edge
@@ -109,7 +126,7 @@ BEGIN
 		assert FALSE report "inc_s when start_stop = 1 has failed" severity NOTE;
 	END IF;
 	
-	--Test btn_m when start_stop = 1
+	--4) Test btn_m when start_stop = 1
 	Sim_btn_m <= '0';
 	
 	wait on Sim_Clock; --waiting for the next rising edge
@@ -123,7 +140,7 @@ BEGIN
 		assert FALSE report "inc_m when start_stop = 1 has failed" severity NOTE;
 	END IF;
 	
-	-- start_stop = 0
+	-- start_stop wird wieder auf 0 gesetzt für die restlichen Tests
 	Sim_btn_start <= '0';
 	
 	wait on Sim_Clock; --waiting for the next rising edge
@@ -131,7 +148,7 @@ BEGIN
 	
 	Sim_btn_start <= '1';
 	
-	--Test btn_s when start_stop = 0	
+	--5) Test btn_s when start_stop = 0	
 	Sim_btn_s <= '0';
 	
 	wait on Sim_Clock; --waiting for the next rising edge
@@ -145,7 +162,7 @@ BEGIN
 		assert FALSE report "inc_s when start_stop = 1 has failed" severity NOTE;
 	END IF;
 	
-	--Test btn_m when start_stop = 0	
+	--6) Test btn_m when start_stop = 0	
 	Sim_btn_m <= '0';
 	
 	wait on Sim_Clock; --waiting for the next rising edge
@@ -159,6 +176,8 @@ BEGIN
 		assert FALSE report "inc_m when start_stop = 1 has failed" severity NOTE;
 	END IF;
 	
+	
+	assert FALSE report "All tests passed" severity Note;	
 	wait;
 		
 	END PROCESS;
