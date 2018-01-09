@@ -118,7 +118,7 @@ BEGIN
 		
 		
 		IF (CountLoop > Divider) THEN --TODO: show in text message after how much time we had the flag
-			assert FALSE report "Flag has FAILED" severity Note;	
+			assert FALSE report "Flag has FAILED" severity Error;	
 		ELSE
 			assert FALSE report "Flag is working" severity Note;
 		END IF;
@@ -144,7 +144,7 @@ BEGIN
 		IF (StimClockFlag='0') THEN --TODO: sho in text message after how much time we had the flag
 			assert FALSE report "Reset is ok" severity Note;	
 		ELSE
-			assert FALSE report "Reset has FAILED" severity Note;
+			assert FALSE report "Reset has FAILED" severity Error;
 		END IF;
 		
 		
