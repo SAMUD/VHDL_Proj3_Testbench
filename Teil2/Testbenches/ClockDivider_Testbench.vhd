@@ -29,10 +29,6 @@ SIGNAL Sim_reset_i : std_logic :='0';
 SIGNAL Sim_clk_out : std_logic :='0';
 SIGNAL Sim_clk_out_alt : std_logic :='0';
 
-SIGNAL counter_test1 : INTEGER;
-SIGNAL counter_test2 : INTEGER;
-
-
 --Component to Test
 component ClockDivider
 port (
@@ -80,19 +76,22 @@ ClockDivider_Test: PROCESS
 		
 		--1) Test clk_out when reset = 0 
 		
+		--waiting for a new periode to begin
 		L1 : loop
 				exit L1 when (Sim_clk_out = '1');
 				wait on Sim_clk_in;
 				wait on Sim_clk_in;
 			end loop;
-			
+		
+		-- counting how many clk periodes clk_out = 1
 		L2 : loop
 				exit L2 when (Sim_clk_out = '0');
 				wait on Sim_clk_in;
 				wait on Sim_clk_in;
 				CountLoop_up := CountLoop_up + 1;
 			end loop;
-			
+		
+		-- counting how many clk periodes clk_out = 0	
 		L3 : loop
 				exit L3 when (Sim_clk_out = '1');
 				wait on Sim_clk_in;
@@ -111,29 +110,29 @@ ClockDivider_Test: PROCESS
 		CountLoop_up := 0;
 		CountLoop_down := 0;
 		
+		--waiting for a new periode to begin
 		L4 : loop
 				exit L4 when (Sim_clk_out_alt = '1');
 				wait on Sim_clk_in;
 				wait on Sim_clk_in;
 			end loop;
 		
+		-- counting how many clk periodes clk_out_alt = 1
 		L5 : loop
 				exit L5 when (Sim_clk_out_alt = '0');
 				wait on Sim_clk_in;
 				wait on Sim_clk_in;
 				CountLoop_up := CountLoop_up + 1;
 			end loop;
-			
+		
+		-- counting how many clk periodes clk_out_alt = 0	
 		L6 : loop
 				exit L6 when (Sim_clk_out_alt = '1');
 				wait on Sim_clk_in;
 				wait on Sim_clk_in;
 				CountLoop_down := CountLoop_down + 1;
 			end loop;		
-			
-		counter_test1 <= CountLoop_up;
-		counter_test2 <= CountLoop_down;
-			
+
 		IF (CountLoop_up = 1 AND CountLoop_down = 6) THEN
 			assert FALSE report "Test clk_out_alt when reset = 0 is ok" severity NOTE;
 		ELSE
