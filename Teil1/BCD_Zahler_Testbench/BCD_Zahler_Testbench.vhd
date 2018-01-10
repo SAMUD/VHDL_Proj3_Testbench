@@ -27,15 +27,28 @@ END BCD_zahler_Testbench;
 ARCHITECTURE TestBench of BCD_zahler_Testbench IS
 
 --Constant Signal
-CONSTANT LoopLimit : INTEGER := 120;
+CONSTANT LoopLimit : INTEGER := 15;
 
 --internal Signals /stimulate signals
 
 	SIGNAL StimReset : std_logic :='0';
 	SIGNAL StimClk : std_logic :='0';
 	SIGNAL StimCM : std_logic := '0';
-	SIGNAL Stimb : std_logic_vector (3 downto 0) := "0000";
+	SIGNAL Stimb : std_logic_vector (3 downto 0) := (others => '0');
+	
+	SIGNAL Valid_count_Odd : std_logic := '0';
+	SIGNAL Valid_count_Even : std_logic := '0';
+	SIGNAL Valid_count_All : std_logic := '0';
 
+	TYPE DataExpected_ArrayOdd IS ARRAY (6 downto 0) 	of std_logic_vector (3 downto 0);
+	SIGNAL DataExpected_Odd : DataExpected_ArrayOdd := ("0000","1001","0111","0101","0011","0001","0000");
+		
+	TYPE DataExpected_ArrayEven IS ARRAY (5 downto 0) 	of std_logic_vector (3 downto 0);
+	SIGNAL DataExpected_Even : DataExpected_ArrayEven := ("0000","1000","0110","0100","0010","0000");
+	
+	TYPE DataExpected_ArrayAll IS ARRAY (10 downto 0) 	of std_logic_vector (3 downto 0);
+	SIGNAL DataExpected_All : DataExpected_ArrayAll := ("0000","1001","1000","0111","0110","0101","0100","0011","0010","0001","0000");
+		
 --Component to Test
 COMPONENT BCD_zahler
 ------------------
@@ -54,7 +67,7 @@ BEGIN
 
 -- Clock Generator 50Mhz
 
-		StimClk <= not StimClk after 1 ps; 
+		StimClk <= not StimClk after 1 ps; --reality 10ns
 		
 		
 -- Call Component
@@ -72,12 +85,16 @@ BEGIN
 PROCESS 
 
 	VARIABLE LoopCounter : INTEGER := 0;
+	VARIABLE IncrementOdd : INTEGER range 0 to 6 := 0;
+	VARIABLE IncrementEven : INTEGER range 0 to 5 := 0;
+	VARIABLE IncrementAll : INTEGER range 0 to 10 := 0;
 
 BEGIN		
 
 		
 		--1) testing when CM = 1 if counter count 0 1 3 5 7 9 0 ...
 		--2) testing when CM = 0 if counter count 0 2 4 6 8 0 ...
+		--3) testing when CM =0 then CM =1 then CM =0 then ...
 		
 		StimReset <= '1'; --doing reset
 		assert FALSE report "Reset 1" severity Note;
@@ -95,18 +112,32 @@ BEGIN
 		StimCM <= '1';		
 		
 		
-		L1 : loop 
-			exit L1 when (Stimb ="1001"); 
-			exit L1 when (LoopCounter > Looplimit); 
+		L1 : FOR IncrementOdd IN 0 TO 6 loop
+			
+			L11 : loop
+				exit L11 when (Stimb = DataExpected_Odd(IncrementOdd)); 
+				exit L11 when (LoopCounter > Looplimit);
+				wait on StimClk;
+				wait on StimClk;
+				LoopCounter := LoopCounter + 1;
+			end loop;
+			
+			IF (LoopCounter > Looplimit) THEN
+				assert FALSE report "Expected: " & integer'image(to_integer(unsigned(DataExpected_Odd(IncrementOdd)))) & " but became: " & integer'image(to_integer(unsigned((Stimb))))severity Note;
+				Valid_count_Odd <='1';
+			ELSE
+				assert FALSE report integer'image(to_integer(unsigned(DataExpected_Odd(IncrementOdd)))) &" Worked" severity Note;
+			END IF;
+			
 			wait on StimClk;
 			wait on StimClk;
-			LoopCounter := LoopCounter + 1;
-			--assert FALSE report "While loop" & integer'image(LoopCounter) severity Note;
+			LoopCounter := 0;
+			
 		end loop;
 --		
 		
 		
-		IF (LoopCounter > Looplimit) THEN
+		IF Valid_count_Odd='1' THEN
 			assert FALSE report "Counting 0 1 3 5 7 9 has failled" severity Note;	
 		ELSE
 			assert FALSE report "Counting 0 1 3  5 7 9 is working" severity Note;
@@ -122,23 +153,90 @@ BEGIN
 		--CM = 0
 		StimCM <= '0';
 		
-		L2 : loop
-			exit L2 when (Stimb="1000");
-			exit L2 when (LoopCounter < LoopLimit);
+		L2 : FOR IncrementEven IN 0 TO 5 loop
+			
+			L21 : loop
+				exit L21 when (Stimb = DataExpected_Even(IncrementEven)); 
+				exit L21 when (LoopCounter > Looplimit);
+				wait on StimClk;
+				wait on StimClk;
+				LoopCounter := LoopCounter + 1;
+			end loop;
+			
+			IF (LoopCounter > Looplimit) THEN
+				assert FALSE report "Expected: " & integer'image(to_integer(unsigned(DataExpected_Even(IncrementEven)))) & " but became: " & integer'image(to_integer(unsigned((Stimb))))severity Note;
+				Valid_count_Even <='1';
+			ELSE
+				assert FALSE report integer'image(to_integer(unsigned(DataExpected_Even(IncrementEven)))) &" Worked" severity Note;
+			END IF;
+			
 			wait on StimClk;
 			wait on StimClk;
-			LoopCounter := LoopCounter + 1;
+			LoopCounter := 0;
+			
 		end loop;
+--		
 		
-		IF (LoopCounter > Looplimit) THEN
-			assert FALSE report "Counting 0 2 4 6 8 has failled" severity Note;	
+		
+		IF Valid_count_Even='1' THEN
+			assert FALSE report "Counting 0 2 4 6 8 0 has failled" severity Note;	
 		ELSE
-			assert FALSE report "Counting 0 2 4 6 8 is working" severity Note;
+			assert FALSE report "Counting 0 2 4 6 8 0 is working" severity Note;
 		END IF;
 		
+		wait on StimClk;
+		wait on StimClk;
 		
 		
-		assert FALSE report "All tests passed" severity Note;	
+		--3)
+		
+		--Reset Countloop
+		LoopCounter := 0;
+		--CM = 0
+		StimCM <= '0';
+		
+		L3 : FOR IncrementAll IN 0 TO 10 loop
+			
+			L31 : loop
+				exit L31 when (Stimb = DataExpected_All(IncrementAll)); 
+				exit L31 when (LoopCounter > Looplimit);
+				wait on StimClk;
+				wait on StimClk;
+				LoopCounter := LoopCounter + 1;
+			end loop;
+			
+			IF (LoopCounter > Looplimit) THEN
+				assert FALSE report "Expected: " & integer'image(to_integer(unsigned(DataExpected_All(IncrementAll)))) & " but became: " & integer'image(to_integer(unsigned((Stimb))))severity Note;
+				Valid_count_All <='1';
+			ELSE
+				assert FALSE report integer'image(to_integer(unsigned(DataExpected_All(IncrementAll)))) &" Worked" severity Note;
+			END IF;
+			
+			wait on StimClk;
+			wait on StimClk;
+			LoopCounter := 0;
+			
+			IF ((IncrementAll mod 2) =0) THEN
+				StimCM <='1';
+			ELSE
+				StimCM <='0';
+			END IF;
+			
+		end loop;
+--		
+		
+		
+		IF Valid_count_All='1' THEN
+			assert FALSE report "Counting 0 1 2 3 4 5 6 7 8 9 0 has failled" severity Note;	
+		ELSE
+			assert FALSE report "Counting 0 1 2 3 4 5 6 7 8 9 0 is working" severity Note;
+		END IF;
+		
+		wait on StimClk;
+		wait on StimClk;
+		
+		
+		assert FALSE report "All tests executed" severity Note;	
 		wait;
 		
 END PROCESS;
