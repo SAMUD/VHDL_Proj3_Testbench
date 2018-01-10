@@ -34,29 +34,23 @@ CONSTANT LoopLimit : INTEGER := 100;
 	
 --Internal Signals / Stimulate signals from the Int to Bcd Converter
 
-	SIGNAL StimInputInt : INTEGER  range 0 to 6000 ;			--Input signal containing the actual time information in Deci-Sec
-													
-	SIGNAL StimSevenSeg1	: std_logic_vector (6 downto 0) := "0000000";
-	SIGNAL StimSevenSeg2	: std_logic_vector (6 downto 0) := "0000000";	
-	SIGNAL StimSevenSeg3	: std_logic_vector (6 downto 0) := "0000000";	
-	SIGNAL StimSevenSeg4	: std_logic_vector (6 downto 0) := "0000000";
 	
 	
---Signals which contain the Numbers to test and the expected outputs
+	--Signals which contain the Numbers to test and the expected outputs
 	TYPE DataInput_ArrayMin IS ARRAY (10 downto 0) 	of INTEGER;
 	SIGNAL DataInputMin : DataInput_ArrayMin := (0, 5400, 4800, 4200, 3600, 3000, 2400, 1800, 1200, 600, 0);
 	
 	TYPE DataInput_ArraySecLeft IS ARRAY (6 downto 0) of INTEGER;
-	SIGNAL DataInputSecLeft : DataInput_ArraySecLeft := (0, 100, 200, 300, 400, 500, 0);
+	SIGNAL DataInputSecLeft : DataInput_ArraySecLeft := (0, 500, 400, 300, 200, 100, 0);
 
 	TYPE DataInput_ArraySecRight IS ARRAY (10 downto 0) of INTEGER;
-	SIGNAL DataInputSecRight : DataInput_ArraySecRight := (0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 0);
+	SIGNAL DataInputSecRight : DataInput_ArraySecRight := (0, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0);
 	
 	TYPE DataInput_ArrayDezisec IS ARRAY (10 downto 0) of INTEGER;
-	SIGNAL DataInputDezisec : DataInput_ArrayDezisec := (0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0);
+	SIGNAL DataInputDezisec : DataInput_ArrayDezisec := (0, 9, 8, 7, 6, 5, 4, 3, 2, 1, 0);
 	
 	
---Signals which contain the Numbers to test and the expected outputs
+	--Signals which contain the Numbers to test and the expected outputs
 	TYPE DataExpected_ArrayMin IS ARRAY (10 downto 0) 	of std_logic_vector(6 downto 0);
 	SIGNAL DataExpectedMin : DataExpected_ArrayMin := ("1000000","0011000","0000000","1111000","0000011","0010010","0011001","0110000","0100100","1111001","1000000");
 	
@@ -71,10 +65,17 @@ CONSTANT LoopLimit : INTEGER := 100;
 	
 	
 --Intermediate signals to transport signals inside this Entity
-	SIGNAL StimSolution : std_logic_vector (6 downto 0) := "0000000";
 	
 	SIGNAL StimClock:	std_logic :='0';
-
+	
+	
+	
+	SIGNAL StimInputInt : INTEGER  range 0 to 6000 ;			--Input signal containing the actual time information in Deci-Sec
+													
+	SIGNAL StimSevenSeg1	: std_logic_vector (6 downto 0) := "0000000";
+	SIGNAL StimSevenSeg2	: std_logic_vector (6 downto 0) := "0000000";	
+	SIGNAL StimSevenSeg3	: std_logic_vector (6 downto 0) := "0000000";	
+	SIGNAL StimSevenSeg4	: std_logic_vector (6 downto 0) := "0000000";
 	
 	
 --Component to Test
@@ -103,7 +104,7 @@ END COMPONENT;
 BEGIN
 		
 --Generate clock
-StimClock <= not StimClock after 10 ps;
+	StimClock <= not StimClock after 10 ps;
 		
 		
 -- Call Component							
