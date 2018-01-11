@@ -1,5 +1,5 @@
 ------------------------------------------------------
---  Testbench by Samuel Daurat, Xavier VOLTZENLOGEL [178190]      --
+--  Testbench by Samuel Daurat, Xavier VOLTZENLOGEL, Jeremy Buchert [178190]      --
 -- This module is a testbench and will be used to test the complete Timer module
 ------------------------------------------------------
 
@@ -30,7 +30,7 @@ ARCHITECTURE simulate OF Testbench_Decoder IS
 			
 	
 	TYPE DataExpected_Array10Sec IS ARRAY (6 downto 0) of	std_logic_vector (6 downto 0);
-	SIGNAL DataExpected10Sec : DataExpected_Array10Sec := ("1000000","0011000","0000000","1111000","0000011","0010010","1000000");
+	SIGNAL DataExpected10Sec : DataExpected_Array10Sec := ("1000000","0010010","0011001","0110000","0100100","1111001","1000000");
 		
 	TYPE DataExpected_ArraySec IS ARRAY (10 downto 0) of std_logic_vector (6 downto 0);
 	SIGNAL DataExpectedSec : DataExpected_ArraySec := ("1000000","0011000","0000000","1111000","0000011","0010010","0011001","0110000","0100100","1111001","1000000"); 
@@ -49,7 +49,7 @@ ARCHITECTURE simulate OF Testbench_Decoder IS
 	signal StimOutput4:			std_logic_vector (6 downto 0) := "0000000";
 	signal StimBuzzerOut:			std_logic :='0';
 	signal StimBuzzerOverride:     std_logic :='0';
-	signal StimCountBlockControl_o : std_logic_vector(5 downto 0) := "000000";
+	signal StimTestCountBlockControl_o : std_logic_vector(5 downto 0) := "000000";
 	signal StimCountValueMainOut : integer range 0 to 6000 := 0;
 	signal StimDebugLED : std_logic_vector(2 downto 0) := "000";
 	signal StimDebugLED_Control : 	std_logic_vector(5 downto 0):= "000000";
@@ -58,11 +58,11 @@ ARCHITECTURE simulate OF Testbench_Decoder IS
 component Main
 port (
 	reset				:	IN		std_logic;						--Mapped to SW0
-	clk					:	IN		std_logic;
+	clk				:	IN		std_logic;
 	
 	--User buttons
-	BtnMin				:	IN		std_logic;					--Mapped to Btn3
-	BtnSec				:	IN		std_logic;					--Mapped to Btn2
+	BtnMin			:	IN		std_logic;					--Mapped to Btn3
+	BtnSec			:	IN		std_logic;					--Mapped to Btn2
 	BtnStart			:	IN		std_logic;						--Mapped to Btn0
 	BtnClear			:	IN		std_logic;						--Mapped to Btn1
 	
@@ -78,13 +78,13 @@ port (
 	Output4				:	OUT	std_logic_vector (6 downto 0);
 	
 	--Debug outputs
-	CountValueMainOut	:	OUT 	integer range 0 to 6000;					--Showing the actual count value in binary on LEDs Red 17-
+	--CountValueMainOut	:	OUT 	integer range 0 to 6000;					--Showing the actual count value in binary on LEDs Red 17-
 	DebugLED			:	OUT 	std_logic_vector(2 downto 0);			--Showing state of state machine on LEDs Green 
 	DebugLED_Control	:	OUT 	std_logic_vector(5 downto 0);	--Showing the control status from state machine to Counter
 		
 	--Buzzer Output
-	BuzzerOut			:	OUT	std_logic;
-	TestCountBlockControl_o 	: OUT	std_logic_vector(5 downto 0)
+	BuzzerOut			:	OUT	std_logic
+	--TestCountBlockControl_o 	: OUT	std_logic_vector(5 downto 0)
 	);
 end component;
 
@@ -100,7 +100,7 @@ ConvertBcd_1: component Main
 				clk => StimClock,											
 				reset => StimReset,
 				BtnMin => StimBtnMin,
-				BtnSec => StimBtnClear,
+				BtnSec => StimBtnSec,
 				BtnStart => StimBtnStart,
 				BtnClear => StimBtnClear,
 				Output1 => StimOutput1,
@@ -109,13 +109,14 @@ ConvertBcd_1: component Main
 				Output4 => StimOutput4,
 				BuzzerOut => StimBuzzerOut,
 				BuzzerOverride => StimBuzzerOverride,
-				TestCountBlockControl_o => StimCountBlockControl_o,
-				CountValueMainOut	=> StimCountValueMainOut,
+				
+				--TestCountBlockControl_o => StimTestCountBlockControl_o,
+				
+				--CountValueMainOut	=> StimCountValueMainOut,
+				
 				DebugLED	=> StimDebugLED, 
 				DebugLED_Control => StimDebugLED_Control
 				
-				
-
 				--for now we won'tuse the debug outputs. But perhaps this can make thing easier during Testing with the Bench.
 		);
 		
@@ -124,10 +125,11 @@ stimulate: PROCESS
 	
 	variable ErrorCounter:	integer range 0 to 100 :=0;	--Counting the number of errors during testing
 	
-	VARIABLE IncrementMin : INTEGER range 0 to 9 := 0;   	--for loop Minutes 
-	VARIABLE Increment10Sec : INTEGER range 0 to 5 := 0;	--for loop 10 Seconds
-	VARIABLE IncrementSec : INTEGER range 0 to 9 := 0;		--for loop Seconds
-	VARIABLE IncrementSec60 : INTEGER range 0 to 59 := 0;	--for loop 60 Seconds
+	VARIABLE IncrementMin : INTEGER range 0 to 10 := 0;   	--for increment Minutes
+	VARIABLE IncrementMin10 : INTEGER range 0 to 10 :=0;		--for loop 10 Minutes
+	VARIABLE Increment10Sec : INTEGER range 0 to 6 := 0;	--for increment 10 Seconds
+	VARIABLE IncrementSec : INTEGER range 0 to 10 := 0;		--for increment Seconds
+	VARIABLE IncrementSec60 : INTEGER range 0 to 60 := 0;	--for loop 60 Seconds
 	
 BEGIN
 
@@ -152,7 +154,7 @@ end loop;
 	
 		assert FALSE report "Begin Test Incrementing Min Value" severity Note;
 		
-		Loop1: FOR IncrementMin IN 0 TO 9 LOOP
+		LOOP1 : FOR IncrementMin10 IN 0 TO 10 LOOP
 		
 				StimBtnMin <= '1';  --Press Min Button
 		
@@ -173,6 +175,12 @@ end loop;
 				
 				wait on StimClock; 	 --waiting for the next rising edge
 				wait on StimClock;
+				
+				IncrementMin := IncrementMin + 1;
+				
+				IF IncrementMin > 9 THEN
+						IncrementMin := 0;
+				END IF;
 		
 		END LOOP Loop1;
 
@@ -184,43 +192,36 @@ end loop;
 		assert FALSE report "Begin Test Incrementing Sec Value" severity Note;
 		
 		
-		Loop2: FOR IncrementSec60 IN 0 TO 59 LOOP
+		Loop2: FOR IncrementSec60 IN 0 TO 60 LOOP
 		
 				StimBtnSec <= '1';  --Press Sec Button
-		
+				
 				wait on StimClock; 	 --waiting for the next rising edge
 				wait on StimClock;				
 				
-					
-					Loop3 : FOR Increment10Sec IN 0 TO 5 LOOP
-					
-						Loop4 : FOR IncrementSec IN 0 TO 9 LOOP
-							
-							IF StimOutput3 = DataExpectedSec(IncrementSec) THEN
-							--its true. So its done
-								assert FALSE  report "Sec " & integer'image(IncrementSec) & ": passed" severity Note;
 				
-							ELSE
-							--not true. Report error
-								assert FALSE report "Sec " & integer'image(IncrementSec) & " : FAILED" severity Error;
-						
-							END IF;
 							
-						END LOOP Loop4;
-						
-						IF StimOutput2 = DataExpected10Sec(Increment10Sec) THEN
-						--its true. So its done
-							assert FALSE  report "10 Sec " & integer'image(Increment10Sec) & ": passed" severity Note;
+				IF StimOutput3 = DataExpectedSec(IncrementSec) AND StimOutput2 = DataExpected10Sec(Increment10Sec) THEN
+					--its true. So its done
+					assert FALSE  report integer'image(Increment10Sec) & integer'image(IncrementSec) & " Sec " & ": passed" severity Note;
 				
-						ELSE
-						--not true. Report error
-							assert FALSE report "10 Sec " & integer'image(Increment10Sec) & " : FAILED" severity Error;
+				ELSE
+					--not true. Report error
+					assert FALSE report integer'image(Increment10Sec) & integer'image(IncrementSec) & " Sec " & " : FAILED" severity Error;
 						
-						END IF;
-						
-					END LOOP Loop3;					
+				END IF;				
 				
 				StimBtnSec <= '0';  --Release Sec Button
+				
+				IncrementSec := IncrementSec + 1;
+				
+				If IncrementSec > 9 THEN
+					IncrementSec := 0;
+					Increment10Sec := Increment10Sec + 1;
+					IF Increment10Sec > 5 THEN
+						Increment10Sec := 0;
+					END IF;
+				END IF;
 				
 				wait on StimClock; 	 --waiting for the next rising edge
 				wait on StimClock;
@@ -232,8 +233,52 @@ end loop;
 	
 		--3) 
 		
+		assert FALSE report "Begin Test Reset" severity Note;
+	
+		assert FALSE report "Increment Sec" severity Note;
 		
-
+		StimBtnSec <= '1';  --Press Sec Button
+				
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimBtnSec <= '0';  --Release Sec Button
+		
+		assert FALSE report "Increment Min" severity Note;	
+		
+		StimBtnMin <= '1';  --Press Sec Button
+				
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimBtnMin <= '0';  --Release Sec Button
+		
+		assert FALSE report "Reset" severity Note;
+		
+		StimReset <= '1';  --Press Reset Button
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimReset <= '0';  --Release Reset Button
+		
+		IF StimOutput4 = "1000000" AND StimOutput3 = "1000000" AND StimOutput2 = "1000000" AND StimOutput1 = "1000000" THEN
+			--its true. So its done
+			assert FALSE  report "Reset : passed" severity Note;
+				
+		ELSE
+			--not true. Report error
+			assert FALSE report "Reset : FAILED" severity Error;
+						
+		END IF;				
+				
+		
 --Finished
 assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
 wait;
