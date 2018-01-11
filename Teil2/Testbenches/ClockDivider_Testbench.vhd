@@ -138,8 +138,12 @@ ClockDivider_Test: PROCESS
 		ELSE
 			assert FALSE report "Test clk_out_alt when reset = 0  has failed" severity NOTE;
 		END IF;
-		
+			
 		--3) Test clk_out and clk_out_alt when reset = 1  
+		
+		wait on Sim_clk_in;
+		wait on Sim_clk_in;
+			
 		Sim_reset_i <= '1';
 		
 		L7 : loop
@@ -149,7 +153,7 @@ ClockDivider_Test: PROCESS
  				wait on Sim_clk_in;
 				wait on Sim_clk_in;
 				CountLoop_up := CountLoop_up + 1;
-			end loop;
+			end loop;		
 		
 		IF (CountLoop_up > 15 AND Sim_clk_out_alt = '0' AND Sim_clk_out = '0') THEN
 			assert FALSE report "Test clk_out_alt and clk_out when reset = 1 is ok" severity NOTE;

@@ -28,7 +28,6 @@ SIGNAL Sim_Clock : std_logic :='0';
 SIGNAL Sim_Enable : std_logic :='0';
 SIGNAL Sim_BuzzerOut : std_logic :='0';
 
-
 --Component to Test
 component Buzzer
 port (
@@ -43,7 +42,7 @@ end component;
 BEGIN
 
 --Generate clock of 50 MHz
-Sim_Clock <= not Sim_Clock after 10 ps; -- real 10 ns
+Sim_Clock <= not Sim_Clock after 1 ps; -- real 10 ns
 
 -- Component
 Buzzer_1: component Buzzer PORT MAP(
@@ -55,6 +54,12 @@ Buzzer_1: component Buzzer PORT MAP(
 		
 --Stimulate-process
 Buzzer_Test: PROCESS	
+
+VARIABLE CountLoop_up : INTEGER := 0;
+VARIABLE CountLoop_up_1 : INTEGER := 0;
+VARIABLE CountLoop_up_2 : INTEGER := 0;
+VARIABLE CountLoop_up_3 : INTEGER := 0;
+VARIABLE CountLoop_error : std_logic := '0';
 	
 BEGIN
 	
@@ -74,9 +79,104 @@ BEGIN
 		assert FALSE report "Test Buzzer when Enable = 0 has failed" severity NOTE;
 	END IF;
 	
-	--2) Test when Enable = 0
+	--2) Test when Enable = 1
 	Sim_Enable <= '1';
 	
+	while CountLoop_up < 1 loop
+		CountLoop_up := 0;
+		L1 : loop
+				exit L1 when (Sim_BuzzerOut = '1');
+				exit L1 when (CountLoop_up > 60);
+				wait on Sim_Clock;
+				wait on Sim_Clock;
+				CountLoop_up := CountLoop_up + 1;
+			end loop;
+			
+		CountLoop_up := 0;
+		L2 : loop
+				exit L2 when (Sim_BuzzerOut = '0');
+				exit L2 when (CountLoop_up > 10);
+				wait on Sim_Clock;
+				wait on Sim_Clock;
+				CountLoop_up := CountLoop_up + 1;
+			end loop;
+			
+		IF CountLoop_up = 1 THEN
+			CountLoop_up_1 := CountLoop_up;
+		ELSIF (CountLoop_up = 0 OR CountLoop_up > 10) THEN
+			CountLoop_error := '1';
+		END IF;	
+		
+		exit when CountLoop_error = '1';
+	end loop;
+	
+	CountLoop_up := 0;
+	while CountLoop_up < 2 loop
+		CountLoop_up := 0;
+		L3 : loop
+				exit L3 when (Sim_BuzzerOut = '1');
+				exit L3 when (CountLoop_up > 60);
+				wait on Sim_Clock;
+				wait on Sim_Clock;
+				CountLoop_up := CountLoop_up + 1;
+			end loop;
+			
+		CountLoop_up := 0;
+		L4 : loop
+				exit L4 when (Sim_BuzzerOut = '0');
+				exit L4 when (CountLoop_up > 10);
+				wait on Sim_Clock;
+				wait on Sim_Clock;
+				CountLoop_up := CountLoop_up + 1;
+			end loop;
+			
+		IF CountLoop_up = 2 THEN
+			CountLoop_up_2 := CountLoop_up;
+		ELSIF (CountLoop_up = 0 OR CountLoop_up > 10) THEN
+			CountLoop_error := '1';
+		END IF;	
+		
+		exit when CountLoop_error = '1';
+		
+	end loop;	
+	
+	CountLoop_up := 0;
+	while CountLoop_up < 3 loop
+		CountLoop_up := 0;
+		L5 : loop
+				exit L5 when (Sim_BuzzerOut = '1');
+				exit L5 when (CountLoop_up > 60);
+				wait on Sim_Clock;
+				wait on Sim_Clock;
+				CountLoop_up := CountLoop_up + 1;
+			end loop;
+			
+		CountLoop_up := 0;
+		L6 : loop
+				exit L6 when (Sim_BuzzerOut = '0'); 
+				exit L6 when (CountLoop_up > 10);
+				wait on Sim_Clock;
+				wait on Sim_Clock;
+				CountLoop_up := CountLoop_up + 1;
+			end loop;
+			
+		IF CountLoop_up = 3 THEN
+			CountLoop_up_3 := CountLoop_up;
+		ELSIF (CountLoop_up = 0 OR CountLoop_up > 10) THEN
+			CountLoop_error := '1';
+		END IF;	
+		
+		exit when CountLoop_error = '1';
+		
+	end loop;	
+	
+	
+	IF (CountLoop_up_1 = 1 AND CountLoop_up_2 = 2 AND CountLoop_up_3 = 3 AND CountLoop_error = '0') THEN
+		assert FALSE report "Test Buzzer when Enable = 1 is ok" severity NOTE;
+	ELSE
+		assert FALSE report "Test Buzzer when Enable = 1 has failed" severity NOTE;
+	END IF;	
+		
 	assert FALSE report "All tests passed" severity Note;	
 	wait;
 		
