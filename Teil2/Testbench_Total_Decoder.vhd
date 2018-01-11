@@ -131,6 +131,8 @@ stimulate: PROCESS
 	VARIABLE IncrementSec : INTEGER range 0 to 10 := 0;		--for increment Seconds
 	VARIABLE IncrementSec60 : INTEGER range 0 to 60 := 0;	--for loop 60 Seconds
 	
+	VARIABLE IncrementClock : INTEGER range 0 to 100 := 0; -- for 100 Clock Period
+	
 BEGIN
 
 --The DUT in this case is programmed synchronous.
@@ -152,6 +154,8 @@ end loop;
 	
 	--1)
 	
+		ErrorCounter := 0;
+	
 		assert FALSE report "Begin Test Incrementing Min Value" severity Note;
 		
 		LOOP1 : FOR IncrementMin10 IN 0 TO 10 LOOP
@@ -168,7 +172,7 @@ end loop;
 				ELSE
 					--not true. Report error
 					assert FALSE report "Min " & integer'image(IncrementMin) & " : FAILED" severity Error;
-			
+					ErrorCounter := ErrorCounter + 1;
 				END IF;
 				
 				StimBtnMin <= '0';  --Release Min Button
@@ -208,7 +212,7 @@ end loop;
 				ELSE
 					--not true. Report error
 					assert FALSE report integer'image(Increment10Sec) & integer'image(IncrementSec) & " Sec " & " : FAILED" severity Error;
-						
+					ErrorCounter := ErrorCounter + 1;	
 				END IF;				
 				
 				StimBtnSec <= '0';  --Release Sec Button
@@ -275,9 +279,63 @@ end loop;
 		ELSE
 			--not true. Report error
 			assert FALSE report "Reset : FAILED" severity Error;
-						
+			ErrorCounter := ErrorCounter + 1;			
 		END IF;				
+			
+		
+		--4)
+	
+		assert FALSE report "Begin Test Start Stop" severity Note;
+		
+		assert FALSE report "Increment Min" severity Note;
+		
+		StimBtnMin <= '1';  --Press Sec Button
 				
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimBtnMin <= '0';  --Release Sec Button
+		
+		assert FALSE report "Start" severity Note;
+		
+		StimBtnStart <= '1';		--Press Start Button
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimBtnStart <= '0'; --Release Start Button
+		
+		Loop3: FOR IncrementClock IN 0 TO 1000 LOOP
+								
+				wait on StimClock; 	 --waiting for the next rising edge
+				wait on StimClock;
+		
+		END LOOP Loop3;
+		
+		StimBtnStart <= '1';	--Press Start Button
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimBtnStart <= '0';	--Release Start Button
+		
+		Loop4: FOR IncrementClock IN 0 TO 10 LOOP
+								
+				wait on StimClock; 	 --waiting for the next rising edge
+				wait on StimClock;
+		
+		END LOOP Loop4;
+		
+		
+		IF StimOutput4 = "1000000" AND StimOutput3 = "0010010" AND StimOutput2 = "1000000" AND StimOutput1 = "1000000" THEN
+			--its true. So its done
+			assert FALSE  report "Start Stop function : passed" severity Note;
+				
+		ELSE
+			--not true. Report error
+			assert FALSE report "Start Stop function : FAILED" severity Error;
+			ErrorCounter := ErrorCounter + 1;			
+		END IF;
 		
 --Finished
 assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
