@@ -5,6 +5,7 @@
 -- 		 TestBench Counter and ConvertIntBcd			   --
 -----------------------------------------------------------
 
+-- Must be test in Gate Level Simulation
 
 -- Library Declaration -------
 LIBRARY IEEE;
@@ -142,7 +143,7 @@ BEGIN
 PROCESS
 
 	VARIABLE LoopCounter : INTEGER := 0;
-	VARIABLE Increment : INTEGER range 0 to 10 := 0;
+	VARIABLE Increment : INTEGER range 0 to 9 := 0;
 	
 	
 	
@@ -170,7 +171,7 @@ BEGIN
 		assert FALSE report "Test all possibilities of the minute SevenSeg" severity Note;
 		
 		
-		Loop1: FOR Increment IN 0 TO 10 LOOP
+		Loop1: FOR Increment IN 0 TO 9 LOOP
 		
 			--Sending the number
 			StimInputInt <= DataInputMin(Increment); 
@@ -201,7 +202,7 @@ BEGIN
 		assert FALSE report "Test all possibilities of the SevenSeg for the Second Left" severity Note;
 		
 		
-		Loop2: FOR Increment IN 0 TO 6 LOOP
+		Loop2: FOR Increment IN 0 TO 5 LOOP
 		
 			--Sending the number
 			StimInputInt <= DataInputSecLeft(Increment); 
@@ -232,7 +233,7 @@ BEGIN
 		assert FALSE report "Test all possibilities of the SevenSeg for the Second Right" severity Note;
 		
 		
-		Loop3: FOR Increment IN 0 TO 10 LOOP
+		Loop3: FOR Increment IN 0 TO 9 LOOP
 		
 			--Sending the number
 			StimInputInt <= DataInputSecRight(Increment); 
@@ -263,7 +264,7 @@ BEGIN
 		assert FALSE report "Test all possibilities of the SevenSeg for the Deziseconde" severity Note;
 		
 		
-		Loop4: FOR Increment IN 0 TO 10 LOOP
+		Loop4: FOR Increment IN 0 TO 9 LOOP
 		
 			--Sending the number
 			StimInputInt <= DataInputDezisec(Increment); 

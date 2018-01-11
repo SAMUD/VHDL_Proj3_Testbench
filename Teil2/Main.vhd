@@ -53,7 +53,10 @@ PORT(
 	CountValueMainOut:OUT 	integer range 0 to 6000 := 0;					--Showing the actual count value in binary on LEDs Red 17-
 	DebugLED			:	OUT 	std_logic_vector(2 downto 0) := "000";		--Showing state of state machine on LEDs Green 
 	DebugLED_Control:	OUT 	std_logic_vector(5 downto 0):= "000000";	--Showing the control status from state machine to Counter
-		
+	
+	--
+	TestCountBlockControl_o 	: OUT	std_logic_vector(5 downto 0);
+	
 	--Buzzer Output
 	BuzzerOut		:	OUT	std_logic
 	
@@ -277,5 +280,12 @@ Buzzer_1	:component Buzzer
 		Enable => CountBlockControl(0) OR BuzzerOverride,
 		BuzzerOut => BuzzerOut
 	);
+	
+	
+--Process for debuging
+SIMU : PROCESS (clk)
+BEGIN
+	TestCountBlockControl_o <= CountBlockControl;
+END PROCESS SIMU;
 	
 END behave;

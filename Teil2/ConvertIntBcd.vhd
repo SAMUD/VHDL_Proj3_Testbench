@@ -55,6 +55,7 @@ ARCHITECTURE behave OF ConvertIntBcd IS
 ------------------------------------------------------
 BEGIN
 
+
 -- sorting and extracting the times from the big int
 	sort_proc : PROCESS (InputInt)
 	BEGIN

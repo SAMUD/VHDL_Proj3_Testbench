@@ -35,8 +35,8 @@ use ieee.numeric_std.all;
 ENTITY ClockDivider IS
 
 GENERIC(
-	Divider_in		:	IN  integer :=6--2499999				--Divider for dividing the clock. Default Value generates a 1/10th clock cycle from 50Mhz	
-);
+	Divider_in		:	IN  integer :=50 --2499999				--Divider for dividing the clock. Default Value generates a 1/10th clock cycle from 50Mhz	
+);											
 
 PORT(															
 	clk_in			:	IN	 std_logic;							--Clock input
@@ -67,7 +67,6 @@ divide_proc : PROCESS (clk_in, reset_i)
 			Counter <= 0;
 			temp <= '0';
 		ELSIF (rising_edge(clk_in)) THEN							--We have a rising edge on clock
-			
 			IF (Counter=Divider_in) THEN
 				--We are at max value. Set back to 0
 				Counter <= 0;

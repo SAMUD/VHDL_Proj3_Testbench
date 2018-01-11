@@ -27,7 +27,7 @@ END Project3_TestBench;
 ARCHITECTURE TestBench_Clock of Project3_TestBench IS
 
 --Constant Signal
-CONSTANT Divider : INTEGER := 40;
+CONSTANT LoopLimit : INTEGER := 40;
 
 --internal Signals /stimulate signals
 
@@ -108,7 +108,7 @@ BEGIN
 		
 		L1 : loop 
 			exit L1 when (StimclockFlag ='1'); 
-			exit L1 when (CountLoop > Divider); 
+			exit L1 when (CountLoop > LoopLimit); 
 			wait on StimClock;
 			wait on StimClock;
 			CountLoop := CountLoop + 1;
@@ -117,7 +117,7 @@ BEGIN
 --		
 		
 		
-		IF (CountLoop > Divider) THEN --TODO: show in text message after how much time we had the flag
+		IF (CountLoop > LoopLimit) THEN --TODO: show in text message after how much time we had the flag
 			assert FALSE report "Flag has FAILED" severity Error;	
 		ELSE
 			assert FALSE report "Flag is working" severity Note;
@@ -135,7 +135,7 @@ BEGIN
 		
 		L2 : loop
 			exit L2 when (StimClockFlag='0');
-			exit L2 when (CountLoop < (Divider*2));
+			exit L2 when (CountLoop > (LoopLimit);
 			wait on StimClock;
 			wait on StimClock;
 			CountLoop := CountLoop + 1;
