@@ -96,7 +96,7 @@ BEGIN
 				WHEN st_200 =>
 						IF CountBlockTelemet_i = '1'  THEN
 							mode <= st_291;
-						ELSIF BtnStartf_i = '1' THEN
+						ELSIF BtnStartF_i = '1' THEN
 							mode <= st_290;
 						END IF;
 						
