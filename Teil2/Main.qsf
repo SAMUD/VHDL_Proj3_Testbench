@@ -129,4 +129,11 @@ set_global_assignment -name VHDL_FILE Counter.vhd
 set_global_assignment -name VHDL_FILE Testbenches/Falling_Edge_Testbench.vhd
 set_global_assignment -name VHDL_FILE Testbenches/Counter_Testbench.vhd
 set_global_assignment -name VHDL_FILE Testbenches/ConvertIntBcd_Testbench.vhd
+<<<<<<< HEAD
+=======
+set_global_assignment -name VHDL_FILE Testbenches/Clockdivider_Testbench.vhd
+set_global_assignment -name PARTITION_NETLIST_TYPE SOURCE -section_id Top
+set_global_assignment -name PARTITION_FITTER_PRESERVATION_LEVEL PLACEMENT_AND_ROUTING -section_id Top
+set_global_assignment -name PARTITION_COLOR 16764057 -section_id Top
+>>>>>>> f5a08ce2c73b93732ae13e14cf875c632917ac78
 set_instance_assignment -name PARTITION_HIERARCHY root_partition -to | -section_id Top
