@@ -126,7 +126,7 @@ stimulate: PROCESS
 	variable ErrorCounter	:	integer range 0 to 100 :=0;	--Counting the number of errors during testing
 	
 	VARIABLE temp 			: INTEGER range 0 to 10000 := 0;  
-	VARIABLE IncremensSec 	: INTEGER range 0 to 255 := 0;  
+	VARIABLE IncrementSec 	: INTEGER range 0 to 255 := 0;  
 	VARIABLE IncrementSec10	: INTEGER range 0 to 255 := 0;  
 	VARIABLE tempFOR 		: INTEGER range 0 to 255 := 0;   	
 	
@@ -352,7 +352,7 @@ BEGIN
 		wait on StimClock;   --falling edge
 	end loop;
 
-	if StimBuzzerOut then
+	if StimBuzzerOut = '1' then
 		assert FALSE report "We are at 0. Buzzer is enabled" severity NOTE;
 	else
 		assert FALSE report "We are at 0. Buzzer is NOT enabled" severity NOTE;
