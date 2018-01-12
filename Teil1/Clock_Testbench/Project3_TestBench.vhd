@@ -56,7 +56,7 @@ BEGIN
 
 -- Clock Generator 50Mhz
 
-		StimClock <= not StimClock after 1 ps; --real 10000  
+		StimClock <= not StimClock after 1 ps; --reality 10000ps  
 		
 		
 -- Call Component
@@ -76,20 +76,10 @@ PROCESS
 	VARIABLE CountLoop : INTEGER := 0;
 
 BEGIN		
-		
---		assert FALSE report "Waiting Rising Edge Clock" severity Note;
---		--Waiting for a rising edge on clock
---		wait on StimClock;
---		while (StimClock/='0') loop
---			wait on StimClock;
---		end loop;
---		
---		assert FALSE report "Rising Edge Clock Found" severity Note;
-
 
 
 		
-		--1) testing if the clock divider works. To do this we will count the number of ms until the flag gets TRUE. If the number of ns is the same as expected this test is Sucessfull
+		--1) testing if the clock divider works. 
 		--2) testing if the flags keeps 0 if we set the reset to TRUE
 		
 		StimReset <= '1'; --doing reset
@@ -105,11 +95,11 @@ BEGIN
 		--Reset Countloop
 		CountLoop := 0;		
 		
-		
+		-- loop for the flag detection
 		L1 : loop 
 			exit L1 when (StimclockFlag ='1'); 
 			exit L1 when (CountLoop > LoopLimit); 
-			wait on StimClock;
+			wait on StimClock;  --waiting for the next rising edge
 			wait on StimClock;
 			CountLoop := CountLoop + 1;
 			assert FALSE report "While loop" & integer'image(CountLoop) severity Note;
@@ -117,13 +107,13 @@ BEGIN
 --		
 		
 		
-		IF (CountLoop > LoopLimit) THEN --TODO: show in text message after how much time we had the flag
+		IF (CountLoop > LoopLimit) THEN 
 			assert FALSE report "Flag has FAILED" severity Error;	
 		ELSE
 			assert FALSE report "Flag is working" severity Note;
 		END IF;
 		
-		wait on StimClock;
+		wait on StimClock;  --waiting for the next rising edge
 		wait on StimClock;
 		
 		--2)
@@ -133,15 +123,16 @@ BEGIN
 		
 		StimReset <= '1'; --doing reset
 		
+		--loop for the reset detection
 		L2 : loop
 			exit L2 when (StimClockFlag='0');
 			exit L2 when (CountLoop > (LoopLimit);
-			wait on StimClock;
+			wait on StimClock;	--waiting for the next rising edge
 			wait on StimClock;
 			CountLoop := CountLoop + 1;
 		end loop;
 		
-		IF (StimClockFlag='0') THEN --TODO: sho in text message after how much time we had the flag
+		IF (StimClockFlag='0') THEN 
 			assert FALSE report "Reset is ok" severity Note;	
 		ELSE
 			assert FALSE report "Reset has FAILED" severity Error;
