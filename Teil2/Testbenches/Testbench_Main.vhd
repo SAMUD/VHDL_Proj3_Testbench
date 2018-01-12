@@ -304,7 +304,6 @@ BEGIN
 		ErrorCounter := ErrorCounter + 1;					
 	end if ;
 
-    
 --Finished
 assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
 wait;
