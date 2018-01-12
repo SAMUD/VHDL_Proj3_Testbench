@@ -18,7 +18,13 @@ USE ieee.numeric_std.all;
 ------------------------------
 
 ENTITY ConvertIntBcd_Testbench IS
-
+	Port(
+			InputInt		:		IN		integer range 0 to 6000 ;		--Input signal containing the actual time information in Deci-Sec												
+			SevenSeg1	:		OUT	std_logic_vector (6 downto 0);	-- decoded signals to send to the 7seg
+			SevenSeg2	:		OUT	std_logic_vector (6 downto 0);	
+			SevenSeg3	:		OUT	std_logic_vector (6 downto 0);	
+			SevenSeg4	:		OUT	std_logic_vector (6 downto 0)
+	);
 END ConvertIntBcd_Testbench;
 
 

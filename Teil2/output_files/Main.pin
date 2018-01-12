@@ -192,10 +192,10 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AD10      :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD11      :        :                   :         : 3         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD12      :        :                   :         : 3         :                
 VCCIO3                       : AD13      : power  :                   : 2.5V    : 3         :                
-TestCountBlockControl_o[3]   : AD14      : output : 2.5 V             :         : 3         : N              
-TestCountBlockControl_o[5]   : AD15      : output : 2.5 V             :         : 4         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AD14      :        :                   :         : 3         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AD15      :        :                   :         : 4         :                
 VCCIO4                       : AD16      : power  :                   : 2.5V    : 4         :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : AD17      :        :                   :         : 4         :                
+TestCountBlockControl_o[4]   : AD17      : output : 2.5 V             :         : 4         : N              
 Output2[0]                   : AD18      : output : 2.5 V             :         : 4         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AD19      :        :                   :         : 4         :                
 VCCIO4                       : AD20      : power  :                   : 2.5V    : 4         :                
@@ -222,8 +222,8 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AE12      :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE13      :        :                   :         : 3         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE14      :        :                   :         : 3         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE15      :        :                   :         : 4         :                
-TestCountBlockControl_o[1]   : AE16      : output : 2.5 V             :         : 4         : N              
-TestCountBlockControl_o[4]   : AE17      : output : 2.5 V             :         : 4         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AE16      :        :                   :         : 4         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AE17      :        :                   :         : 4         :                
 Output3[6]                   : AE18      : output : 2.5 V             :         : 4         : Y              
 Output3[4]                   : AE19      : output : 2.5 V             :         : 4         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AE20      :        :                   :         : 4         :                
@@ -251,14 +251,14 @@ RESERVED_INPUT_WITH_WEAK_PULLUP : AF13      :        :                   :      
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF14      :        :                   :         : 3         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF15      :        :                   :         : 4         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF16      :        :                   :         : 4         :                
-TestCountBlockControl_o[2]   : AF17      : output : 2.5 V             :         : 4         : N              
+RESERVED_INPUT_WITH_WEAK_PULLUP : AF17      :        :                   :         : 4         :                
 Output2[5]                   : AF18      : output : 2.5 V             :         : 4         : Y              
 Output3[5]                   : AF19      : output : 2.5 V             :         : 4         : Y              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF20      :        :                   :         : 4         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF21      :        :                   :         : 4         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF22      :        :                   :         : 4         :                
 Output4[5]                   : AF23      : output : 2.5 V             :         : 4         : Y              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AF24      :        :                   :         : 4         :                
+TestCountBlockControl_o[2]   : AF24      : output : 2.5 V             :         : 4         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF25      :        :                   :         : 4         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF26      :        :                   :         : 4         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : AF27      :        :                   :         : 5         :                
@@ -279,8 +279,8 @@ GND                          : AG13      : gnd    :                   :         
 GND+                         : AG14      :        :                   :         : 3         :                
 GND+                         : AG15      :        :                   :         : 4         :                
 GND                          : AG16      : gnd    :                   :         :           :                
-TestCountBlockControl_o[0]   : AG17      : output : 2.5 V             :         : 4         : N              
-RESERVED_INPUT_WITH_WEAK_PULLUP : AG18      :        :                   :         : 4         :                
+RESERVED_INPUT_WITH_WEAK_PULLUP : AG17      :        :                   :         : 4         :                
+TestCountBlockControl_o[1]   : AG18      : output : 2.5 V             :         : 4         : N              
 Output2[4]                   : AG19      : output : 2.5 V             :         : 4         : Y              
 GND                          : AG20      : gnd    :                   :         :           :                
 Output3[2]                   : AG21      : output : 2.5 V             :         : 4         : Y              
@@ -673,7 +673,7 @@ VCCINT                       : P17       : power  :                   : 1.2V    
 GND                          : P18       : gnd    :                   :         :           :                
 VCCINT                       : P19       : power  :                   : 1.2V    :           :                
 GND                          : P20       : gnd    :                   :         :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : P21       :        :                   :         : 5         :                
+TestCountBlockControl_o[5]   : P21       : output : 2.5 V             :         : 5         : N              
 MSEL3                        : P22       :        :                   :         : 6         :                
 MSEL1                        : P23       :        :                   :         : 6         :                
 CONF_DONE                    : P24       :        :                   :         : 6         :                
@@ -701,7 +701,7 @@ GND                          : R17       : gnd    :                   :         
 VCCINT                       : R18       : power  :                   : 1.2V    :           :                
 GND                          : R19       : gnd    :                   :         :           :                
 VCCINT                       : R20       : power  :                   : 1.2V    :           :                
-RESERVED_INPUT_WITH_WEAK_PULLUP : R21       :        :                   :         : 5         :                
+TestCountBlockControl_o[3]   : R21       : output : 2.5 V             :         : 5         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : R22       :        :                   :         : 5         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : R23       :        :                   :         : 5         :                
 BtnMin                       : R24       : input  : 2.5 V             :         : 5         : Y              
@@ -758,7 +758,7 @@ VCCINT                       : U18       : power  :                   : 1.2V    
 GND                          : U19       : gnd    :                   :         :           :                
 VCCINT                       : U20       : power  :                   : 1.2V    :           :                
 Output4[1]                   : U21       : output : 2.5 V             :         : 5         : Y              
-RESERVED_INPUT_WITH_WEAK_PULLUP : U22       :        :                   :         : 5         :                
+TestCountBlockControl_o[0]   : U22       : output : 2.5 V             :         : 5         : N              
 RESERVED_INPUT_WITH_WEAK_PULLUP : U23       :        :                   :         : 5         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U24       :        :                   :         : 5         :                
 RESERVED_INPUT_WITH_WEAK_PULLUP : U25       :        :                   :         : 5         :                
