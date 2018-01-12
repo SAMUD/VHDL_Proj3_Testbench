@@ -23,12 +23,10 @@ ARCHITECTURE simulate OF Testbench_Main2 IS
 
 --internal Signals /stimulate signals
 	
-	--Signals which contain the Numbers to test and the expected outputs													
-													
+	--Signals which contain the Numbers to test and the expected outputs																									
 	TYPE DataExpected_ArrayMin IS ARRAY (10 downto 0) 	of	std_logic_vector (6 downto 0);
 	SIGNAL DataExpectedMin : DataExpected_ArrayMin := ("1000000","0011000","0000000","1111000","0000011","0010010","0011001","0110000","0100100","1111001","1000000");
 			
-	
 	TYPE DataExpected_Array10Sec IS ARRAY (6 downto 0) of	std_logic_vector (6 downto 0);
 	SIGNAL DataExpected10Sec : DataExpected_Array10Sec := ("1000000","0010010","0011001","0110000","0100100","1111001","1000000");
 		
@@ -109,15 +107,10 @@ ConvertBcd_1: component Main
 				Output4 => StimOutput4,
 				BuzzerOut => StimBuzzerOut,
 				BuzzerOverride => StimBuzzerOverride,
-				
 				--TestCountBlockControl_o => StimTestCountBlockControl_o,
-				
 				--CountValueMainOut	=> StimCountValueMainOut,
-				
 				DebugLED	=> StimDebugLED, 
 				DebugLED_Control => StimDebugLED_Control
-				
-				--for now we won'tuse the debug outputs. But perhaps this can make thing easier during Testing with the Bench.
 		);
 		
 --Stimulate-process
@@ -147,24 +140,20 @@ BEGIN
 	temp:=0;
 	tempFOR:=0;
 
-	--Starting main testing unit
-
-	--1) Test Increment Minute Button
-	--2) Test Increment Sec Button
-	--3) Test Reset Button
-	--4) Test Start/Stop
-	--5) Test Decrementation
+--1) Test Increment Minute Button
+--2) Test Increment Sec Button
+--3) Test Reset Button
+--4) Test Start/Stop
+--5) Test Decrementation
 
 
-	--1) Test increment Minute
+--1) Test increment Minute
 	assert FALSE report "Begin Test Incrementing Min Value" severity Note;
-
 	wait on StimClock; 	 --falling edge
 
 	LOOP1 : FOR tempFOR IN 0 TO 10 LOOP
 
 		StimBtnMin <= '1';  --Press Min Button
-
 		wait on StimClock; --rising edge
 		wait on StimClock; --falling edge				
 		
@@ -179,29 +168,23 @@ BEGIN
 		END IF;
 		
 		StimBtnMin <= '0';  --Release Min Button
-		temp := temp + 1;
-		
+        temp := temp + 1;
+        IF temp > 9 THEN
+				temp := 0;
+        END IF;   
 		wait on StimClock; 	--waiting for the next rising edge
 		wait on StimClock;	--falling edge
-		
-		IF temp > 9 THEN
-				temp := 0;
-		END IF;
-
 	END LOOP LOOP1;
 
 	assert FALSE report "Finishing Test Incrementing Min Value" severity Note;
 
-
-	--2)
+--2) Test Increment Sec Button
 
 	assert FALSE report "Begin Test Incrementing Sec Value" severity Note;
-
 
 	Loop2: FOR tempFOR IN 0 TO 60 LOOP
 
 			StimBtnSec <= '1';  --Press Sec Button
-			
 			wait on StimClock; 	 --waiting for the next rising edge
 			wait on StimClock;	--falling edge			
 						
@@ -216,9 +199,7 @@ BEGIN
 			END IF;				
 			
 			StimBtnSec <= '0';  --Release Sec Button
-			
 			IncrementSec := IncrementSec + 1;
-			
 			If IncrementSec > 9 THEN
 				IncrementSec := 0;
 				IncrementSec10 := IncrementSec10 + 1;
@@ -235,38 +216,24 @@ BEGIN
 	assert FALSE report "Finishing Test Incrementing Sec Value" severity Note;
 
 
-	--3) 
+--3) Test Reset Button
 
 	assert FALSE report "Begin Test Reset" severity Note;
 
-	assert FALSE report "Increment Sec" severity Note;
-
-	StimBtnSec <= '1';  --Press Sec Button
-			
+	StimBtnSec <= '1';  --Press Sec Button		
 	wait on StimClock; 	 --waiting for the next rising edge
 	wait on StimClock;	 --falling edge
-
 	StimBtnSec <= '0';  --Release Sec Button
-
-	assert FALSE report "Increment Min" severity Note;	
-
-	StimBtnMin <= '1';  --Press Sec Button
-			
+	
+	StimBtnMin <= '1';  --Press Sec Button		
 	wait on StimClock; 	 --waiting for the next rising edge
 	wait on StimClock;	 --falling edge
-
 	StimBtnMin <= '0';  --Release Sec Button
 
-	assert FALSE report "Reset" severity Note;
-
+	assert FALSE report "Reset now" severity Note;
 	StimReset <= '1';  	--Press Reset Button
-
 	wait on StimClock; 	 --waiting for the next rising edge
 	wait on StimClock;	 --falling edge
-
-	wait on StimClock; 	 --waiting for the next rising edge
-	wait on StimClock;	 --falling edge
-
 	StimReset <= '0';  --Release Reset Button
 
 	IF StimOutput4 = "1000000" AND StimOutput3 = "1000000" AND StimOutput2 = "1000000" AND StimOutput1 = "1000000" THEN
@@ -279,27 +246,20 @@ BEGIN
 		ErrorCounter := ErrorCounter + 1;			
 	END IF;				
 		
-
-	--4)
+--4) Test Start/Stop
 
 	assert FALSE report "Begin Test Start Stop" severity Note;
-
-	assert FALSE report "Increment Min" severity Note;
-
-	StimBtnMin <= '1';  --Press Sec Button
-			
+    
+    StimBtnMin <= '1';  --Press Sec Button		
 	wait on StimClock; 	 --waiting for the next rising edge
 	wait on StimClock;	 --falling edge
-
 	StimBtnMin <= '0';  --Release Sec Button
 
-	assert FALSE report "Start" severity Note;
+	assert FALSE report "Start now" severity Note;
 
 	StimBtnStart <= '1'; --Press Start Button
-
 	wait on StimClock; 	 --waiting for the next rising edge
 	wait on StimClock;   --falling edge
-
 	StimBtnStart <= '0'; --Release Start Button
 
 	Loop3: FOR IncrementClock IN 0 TO 1000 LOOP
@@ -309,42 +269,27 @@ BEGIN
 
 	END LOOP Loop3;
 
-	StimBtnStart <= '1';	--Press Start Button
-
+	StimBtnStart <= '1';	--Press Start Button --> Pause mode
 	wait on StimClock; 	 --waiting for the next rising edge
 	wait on StimClock;	 --falling edge
-
 	StimBtnStart <= '0';	--Release Start Button
-
-	Loop4: FOR IncrementClock IN 0 TO 10 LOOP
-							
-			wait on StimClock; 	 --waiting for the next rising edge
-			wait on StimClock;	 --falling edge
-
-	END LOOP Loop4;
-
 
 	IF StimOutput4 = "1000000" AND StimOutput3 = "0010010" AND StimOutput2 = "1000000" AND StimOutput1 = "1000000" THEN
 		--its true. So its done
-		assert FALSE  report "Start Stop function : passed" severity Note;
-			
+		assert FALSE  report "Start Stop function : passed" severity Note;		
 	ELSE
 		--not true. Report error
 		assert FALSE report "Start Stop function : FAILED" severity Error;
 		ErrorCounter := ErrorCounter + 1;			
 	END IF;
 			
-	
-
 --5) doing final decrementation test
 
 	assert FALSE report "Starting decrementation test" severity NOTE;
 
 	StimBtnStart <= '1'; --Press Start Button
-
 	wait on StimClock; 	 --waiting for the next rising edge
 	wait on StimClock;   --falling edge
-
 	StimBtnStart <= '0'; --Release Start Button
 		
 	while StimOutput4 /= "1000000" AND StimOutput3 /= "1000000" AND StimOutput2 /= "1000000" AND StimOutput1 /= "1000000" loop
@@ -359,6 +304,7 @@ BEGIN
 		ErrorCounter := ErrorCounter + 1;					
 	end if ;
 
+    
 --Finished
 assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
 wait;
