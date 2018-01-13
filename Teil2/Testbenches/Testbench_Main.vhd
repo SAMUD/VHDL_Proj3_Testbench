@@ -1,5 +1,5 @@
 ------------------------------------------------------
---  Testbench by Samuel Daurat, Xavier VOLTZENLOGEL, Jeremy Buchert [178190]      --
+--  Testbench by Samuel Daurat, Xavier VOLTZENLOGEL, Jeremy Buchert, Arthur DISCHLI      --
 -- This module is a testbench and will be used to test the complete Timer module
 ------------------------------------------------------
 
@@ -13,16 +13,17 @@ use ieee.numeric_std.all;
 --	   ENTITY	                           			 --
 ------------------------------------------------------
 
-ENTITY Testbench_Decoder IS
-END Testbench_Decoder;
+ENTITY Testbench_Main IS
+END Testbench_Main;
 
 ------------------------------------------------------
 --        ARCHITECTURE	                  			 --
 ------------------------------------------------------
-ARCHITECTURE simulate OF Testbench_Decoder IS
+ARCHITECTURE simulate OF Testbench_Main IS
 
 --internal Signals /stimulate signals
-	
+	--Constant signals
+	CONSTANT LoopLimit : INTEGER := 10000;
 	--Signals which contain the Numbers to test and the expected outputs													
 													
 	TYPE DataExpected_ArrayMin IS ARRAY (10 downto 0) 	of	std_logic_vector (6 downto 0);
@@ -133,6 +134,7 @@ stimulate: PROCESS
 	
 	VARIABLE IncrementClock : INTEGER range 0 to 100 := 0; -- for 100 Clock Period
 	
+	VARIABLE LoopCounter : INTEGER := 0;		--To prevent infinite loop 
 BEGIN
 
 --The DUT in this case is programmed synchronous.
@@ -289,14 +291,26 @@ end loop;
 		
 		assert FALSE report "Increment Min" severity Note;
 		
-		StimBtnMin <= '1';  --Press Sec Button
+		StimBtnMin <= '1';  --Press Min Button
 				
 		wait on StimClock; 	 --waiting for the next rising edge
 		wait on StimClock;
 		
-		StimBtnMin <= '0';  --Release Sec Button
+		StimBtnMin <= '0';  --Release Min Button
 		
 		assert FALSE report "Start" severity Note;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
 		
 		StimBtnStart <= '1';		--Press Start Button
 		
@@ -327,7 +341,7 @@ end loop;
 		END LOOP Loop4;
 		
 		
-		IF StimOutput4 = "1000000" AND StimOutput3 = "0010010" AND StimOutput2 = "1000000" AND StimOutput1 = "1000000" THEN
+		IF StimOutput4 = "0011001" AND StimOutput3 = "0010010" AND StimOutput2 = "0010010" AND StimOutput1 = "1000000" THEN
 			--its true. So its done
 			assert FALSE  report "Start Stop function : passed" severity Note;
 				
@@ -336,27 +350,78 @@ end loop;
 			assert FALSE report "Start Stop function : FAILED" severity Error;
 			ErrorCounter := ErrorCounter + 1;			
 		END IF;
-
---5) doing final decrementation test
-
-assert FALSE report "Starting decrementation test" severity NOTE;
-
-StimBtnStart <= '1'; --Press Start Button
-wait on StimClock; 	 --waiting for the next rising edge
-wait on StimClock;   --falling edge
-StimBtnStart <= '0'; --Release Start Button
+		
+		--5) doing final decrementation test
 	
-while StimOutput4 /= "1000000" AND StimOutput3 /= "1000000" AND StimOutput2 /= "1000000" AND StimOutput1 /= "1000000" loop
-	wait on StimClock; 	 --waiting for the next rising edge
-	wait on StimClock;   --falling edge
-end loop;
+		StimReset <= '1';  --Press Reset Button
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimReset <= '0';  --Release Reset Button
+	
+		assert FALSE report "Starting Buzzer test" severity NOTE;
+		
+		StimBtnSec <= '1';  --Press Sec Button
+				
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimBtnSec <= '0';  --Release Sec Button
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;
+		
+		StimBtnStart <= '1'; --Press Start Button
+		wait on StimClock; 	 --waiting for the next rising edge
+		wait on StimClock;   --falling edge
+		StimBtnStart <= '0'; --Release Start Button
+			
+			
+		Loop5 : loop
+			exit Loop5 when (StimOutput4 = "1000000" AND StimOutput3 = "1000000" AND StimOutput2 = "1000000" AND StimOutput1 = "1000000"); 
+			exit Loop5 when (LoopCounter > LoopLimit);
+			wait on StimClock;
+			wait on StimClock;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		
+		if LoopCounter > LoopLimit then
+			assert FALSE report "We are not at 0." severity Error;
+			ErrorCounter := ErrorCounter + 1;
+		else
+			Loop6 : loop
+				exit Loop6 when (StimBuzzerOut = '1'); 
+				exit Loop6 when (LoopCounter > LoopLimit);
+				wait on StimClock;
+				wait on StimClock;
+				LoopCounter := LoopCounter + 1;
+			end loop;
+			
+			if LoopCounter > LoopLimit then
+				assert FALSE report "We are at 0. Buzzer is NOT enabled" severity Error;
+				ErrorCounter := ErrorCounter + 1;
+			else
+				assert FALSE report "We are at 0. Buzzer is enabled" severity NOTE;			
+			end if ;			
+		end if ;
+		
 
-if StimBuzzerOut = '1' then
-	assert FALSE report "We are at 0. Buzzer is enabled" severity NOTE;
-else
-	assert FALSE report "We are at 0. Buzzer is NOT enabled" severity NOTE;
-	ErrorCounter := ErrorCounter + 1;					
-end if ;
 		
 --Finished
 assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
