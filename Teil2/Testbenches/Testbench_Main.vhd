@@ -336,7 +336,7 @@ end loop;
 			assert FALSE report "Start Stop function : FAILED" severity Error;
 			ErrorCounter := ErrorCounter + 1;			
 		END IF;
-		
+
 --5) doing final decrementation test
 
 assert FALSE report "Starting decrementation test" severity NOTE;
@@ -357,41 +357,10 @@ else
 	assert FALSE report "We are at 0. Buzzer is NOT enabled" severity NOTE;
 	ErrorCounter := ErrorCounter + 1;					
 end if ;
-
---Finished
-assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
-wait;
-
-
-end process;
-
-END simulate;
-			
---5) doing final decrementation test
-
-	assert FALSE report "Starting decrementation test" severity NOTE;
-
-	StimBtnStart <= '1'; --Press Start Button
-	wait on StimClock; 	 --waiting for the next rising edge
-	wait on StimClock;   --falling edge
-	StimBtnStart <= '0'; --Release Start Button
 		
-	while StimOutput4 /= "1000000" AND StimOutput3 /= "1000000" AND StimOutput2 /= "1000000" AND StimOutput1 /= "1000000" loop
-		wait on StimClock; 	 --waiting for the next rising edge
-		wait on StimClock;   --falling edge
-	end loop;
-
-	if StimBuzzerOut = '1' then
-		assert FALSE report "We are at 0. Buzzer is enabled" severity NOTE;
-	else
-		assert FALSE report "We are at 0. Buzzer is NOT enabled" severity NOTE;
-		ErrorCounter := ErrorCounter + 1;					
-	end if ;
-
 --Finished
 assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
 wait;
-
 	
 end process;
 	
