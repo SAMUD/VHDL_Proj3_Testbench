@@ -66,6 +66,7 @@ divide_proc : PROCESS (clk_in, reset_i)
 		IF (reset_i ='1') THEN										--Reset is active
 			Counter <= 0;
 			temp <= '0';
+			clk_out_alt <= '0';
 		ELSIF (rising_edge(clk_in)) THEN							--We have a rising edge on clock
 			IF (Counter=Divider_in) THEN
 				--We are at max value. Set back to 0
