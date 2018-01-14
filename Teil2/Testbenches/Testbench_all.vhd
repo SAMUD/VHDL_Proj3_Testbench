@@ -176,7 +176,7 @@ BEGIN
 --Generate clock of 50 MHz
 Sim_clk <= not Sim_clk after 1 ps; --50Mhz normally duty-Cycle of 10ns
 -- Clock Dezi Generator 
-StimClk_deci_i <= not StimClk_deci_i after 100 ps; 	
+StimClk_deci_i <= not StimClk_deci_i after 10 ps; 	
 
 -- Component Clock Divider
 ClockDivider_1: component ClockDivider PORT MAP(
