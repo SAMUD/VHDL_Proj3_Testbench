@@ -30,6 +30,8 @@ SIGNAL Sim_ClockDivider_reset_i 		: std_logic :='0';
 SIGNAL Sim_ClockDivider_clk_out 		: std_logic :='0';
 SIGNAL Sim_ClockDivider_clk_out_alt 	: std_logic :='0';
 
+-- Simulation Signals for testing Buzzer
+
 --Component to Test
 component ClockDivider
 GENERIC(
@@ -73,7 +75,7 @@ ClockDivider_Test: PROCESS
 		while (Sim_clk /= '0') loop
 			wait on Sim_clk;
 		end loop;
-
+	
 -------------------------------------------------
 --Testing Clockdivider
 -------------------------------------------------
@@ -118,7 +120,7 @@ ClockDivider_Test: PROCESS
 			end loop;		
 			
 		IF (LoopCounter_up = Sim_ClockDivider_DividerFactor AND LoopCounter = Sim_ClockDivider_DividerFactor) THEN
-			assert FALSE report "ClockDivider: Divider is working." severity NOTE;
+			assert FALSE report "ClockDivider: Divider is working." severity FAILURE;
 		ELSE
 			assert FALSE report "ClockDivider: Divider has failed. Expected Dividingfactor: "
 								& integer'image(Sim_ClockDivider_DividerFactor)
@@ -195,6 +197,11 @@ ClockDivider_Test: PROCESS
 			assert FALSE report "ClockDivider: Reset has FAILED" severity NOTE;
 			ErrorCounter := ErrorCounter +1;			
 		END IF;
+
+-------------------------------------------------
+--Testing Buzzer
+-------------------------------------------------
+
 		
 		
 		assert FALSE report "DONE! with " & integer'image(ErrorCounter) & " Errors." severity NOTE;
