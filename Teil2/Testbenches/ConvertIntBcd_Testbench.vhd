@@ -18,13 +18,13 @@ USE ieee.numeric_std.all;
 ------------------------------
 
 ENTITY ConvertIntBcd_Testbench IS
-	Port(
-			InputInt		:		IN		integer range 0 to 6000 ;		--Input signal containing the actual time information in Deci-Sec												
-			SevenSeg1	:		OUT	std_logic_vector (6 downto 0) :=  (others => '0');	-- decoded signals to send to the 7seg
-			SevenSeg2	:		OUT	std_logic_vector (6 downto 0) :=  (others => '0');	
-			SevenSeg3	:		OUT	std_logic_vector (6 downto 0) :=  (others => '0');	
-			SevenSeg4	:		OUT	std_logic_vector (6 downto 0) :=  (others => '0')
-	);
+--	Port(
+--			InputInt		:		IN		integer range 0 to 6000 ;		--Input signal containing the actual time information in Deci-Sec												
+--			SevenSeg1	:		OUT	std_logic_vector (6 downto 0) :=  (others => '0');	-- decoded signals to send to the 7seg
+--			SevenSeg2	:		OUT	std_logic_vector (6 downto 0) :=  (others => '0');	
+--			SevenSeg3	:		OUT	std_logic_vector (6 downto 0) :=  (others => '0');	
+--			SevenSeg4	:		OUT	std_logic_vector (6 downto 0) :=  (others => '0')
+--	);
 END ConvertIntBcd_Testbench;
 
 
@@ -75,8 +75,7 @@ CONSTANT LoopLimit : INTEGER := 100;
 	
 	SIGNAL StimClock:	std_logic :='0';
 	
-	
-	
+
 	SIGNAL StimInputInt : INTEGER  range 0 to 6000 ;			--Input signal containing the actual time information in Deci-Sec
 													
 	SIGNAL StimSevenSeg1	: std_logic_vector (6 downto 0) := "0000000";
@@ -88,7 +87,7 @@ CONSTANT LoopLimit : INTEGER := 100;
 --Component to Test
 
 	COMPONENT ConvertIntBcd
-		PORT(															
+		PORT(
 			InputInt		:		IN		integer range 0 to 6000 ;		--Input signal containing the actual time information in Deci-Sec												
 			SevenSeg1	:		OUT	std_logic_vector (6 downto 0);	-- decoded signals to send to the 7seg
 			SevenSeg2	:		OUT	std_logic_vector (6 downto 0);	
