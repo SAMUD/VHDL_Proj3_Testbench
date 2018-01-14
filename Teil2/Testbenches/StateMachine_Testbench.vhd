@@ -92,15 +92,16 @@ BEGIN
 		--1) testing reset / Edit counting value / clear / start / Pause Because Start / Edit counting value
 		--2) testing Start / Pause Because End Counting / Buzzing / Stop Buzzer Because Start / Edit counting Value
 		--3) testing Start / Pause Because End Counting / Buzzing / Stop Buzzer Because End Buzzing Time /Edit counting value
-		
-		--1)
+
+---------------------------------------		
+--1)
 		assert FALSE report "Step 1"severity Note;
 --Reset
 		
 		StimReset_i <= '1'; --Executing reset
 		L11 : loop
-			exit L11 when (StimCountBlockControl_o="100000"); 
-			exit L11 when (LoopCounter > LoopLimit);
+			exit L11 when (StimCountBlockControl_o="100000");  --Waiting the right value of output
+			exit L11 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -116,8 +117,8 @@ BEGIN
 --Edit counting value
 		
 		L12 : loop
-			exit L12 when (StimCountBlockControl_o="001000"); 
-			exit L12 when (LoopCounter > LoopLimit);
+			exit L12 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L12 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -134,8 +135,8 @@ BEGIN
 		StimBtnClearF_i<='1'; --Executing clear
 
 		L131 : loop
-			exit L131 when (StimCountBlockControl_o="100000"); 
-			exit L131 when (LoopCounter > LoopLimit);
+			exit L131 when (StimCountBlockControl_o="100000"); --Waiting the right value of output
+			exit L131 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -149,8 +150,8 @@ BEGIN
 		LoopCounter:=0;
 		
 		L132 : loop
-			exit L132 when (StimCountBlockControl_o="001000"); 
-			exit L132 when (LoopCounter > LoopLimit);
+			exit L132 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L132 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -167,8 +168,8 @@ BEGIN
 		StimBtnStartF_i<='1'; --Executing start
 		
 		L141 : loop
-			exit L141 when (StimCountBlockControl_o="000100"); 
-			exit L141 when (LoopCounter > LoopLimit);
+			exit L141 when (StimCountBlockControl_o="000100"); --Waiting the right value of output
+			exit L141 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -181,8 +182,8 @@ BEGIN
 		LoopCounter:=0;		
 		
 		L142 : loop
-			exit L142 when (StimCountBlockControl_o="010000"); 
-			exit L142 when (LoopCounter > LoopLimit);
+			exit L142 when (StimCountBlockControl_o="010000"); --Waiting the right value of output
+			exit L142 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -205,8 +206,8 @@ BEGIN
 		StimBtnStartF_i<='1'; --Executing a pause
 		
 		L15 : loop
-			exit L15 when (StimCountBlockControl_o="000000"); 
-			exit L15 when (LoopCounter > LoopLimit);
+			exit L15 when (StimCountBlockControl_o="000000"); --Waiting the right value of output
+			exit L15 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -223,8 +224,8 @@ BEGIN
 		StimBtnStartF_i<='0'; --Unpressing btn start to go to edit counting value	
 		
 		L16 : loop
-			exit L16 when (StimCountBlockControl_o="001000"); 
-			exit L16 when (LoopCounter > LoopLimit);
+			exit L16 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L16 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -237,8 +238,9 @@ BEGIN
 		LoopCounter:=0;
 		
 		assert FALSE report "End Step 1"severity Note;
-		
-		--2)
+	
+---------------------------------------	
+--2)
 		
 		assert FALSE report "Step 2"severity Note;
 		
@@ -247,8 +249,8 @@ BEGIN
 		StimBtnStartF_i<='1'; --Executing start
 		
 		L211 : loop
-			exit L211 when (StimCountBlockControl_o="000100"); 
-			exit L211 when (LoopCounter > LoopLimit);
+			exit L211 when (StimCountBlockControl_o="000100"); --Waiting the right value of output
+			exit L211 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -261,8 +263,8 @@ BEGIN
 		LoopCounter:=0;		
 		
 		L212 : loop
-			exit L212 when (StimCountBlockControl_o="010000"); 
-			exit L212 when (LoopCounter > LoopLimit);
+			exit L212 when (StimCountBlockControl_o="010000"); --Waiting the right value of output
+			exit L212 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -285,8 +287,8 @@ BEGIN
 		StimCountBlockTelemet_i<='1'; --Executing a pause
 		
 		L22 : loop
-			exit L22 when (StimCountBlockControl_o="000000"); 
-			exit L22 when (LoopCounter > LoopLimit);
+			exit L22 when (StimCountBlockControl_o="000000"); --Waiting the right value of output
+			exit L22 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -302,8 +304,8 @@ BEGIN
 --Buzzing
 
 		L23 : loop
-			exit L23 when (StimCountBlockControl_o="000001"); 
-			exit L23 when (LoopCounter > LoopLimit);
+			exit L23 when (StimCountBlockControl_o="000001"); --Waiting the right value of output
+			exit L23 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -320,8 +322,8 @@ BEGIN
 		StimBtnStartF_i<='1'; --Executing stop buzzer
 		
 		L24 : loop
-			exit L24 when (StimCountBlockControl_o="000010"); 
-			exit L24 when (LoopCounter > LoopLimit);
+			exit L24 when (StimCountBlockControl_o="000010"); --Waiting the right value of output
+			exit L24 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -336,8 +338,8 @@ BEGIN
 --Edit counting Value
 		
 		L25 : loop
-			exit L25 when (StimCountBlockControl_o="001000"); 
-			exit L25 when (LoopCounter > LoopLimit);
+			exit L25 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L25 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -356,8 +358,9 @@ BEGIN
 		LoopCounter:=0;		
 		
 		assert FALSE report "End Step 2"severity Note;
-		
-		--3)
+
+---------------------------------------		
+--3)
 		
 		assert FALSE report "Step 3"severity Note;
 		
@@ -366,8 +369,8 @@ BEGIN
 		StimBtnStartF_i<='1'; --Executing start
 		
 		L311 : loop
-			exit L311 when (StimCountBlockControl_o="000100"); 
-			exit L311 when (LoopCounter > LoopLimit);
+			exit L311 when (StimCountBlockControl_o="000100"); --Waiting the right value of output
+			exit L311 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -380,8 +383,8 @@ BEGIN
 		LoopCounter:=0;		
 		
 		L312 : loop
-			exit L312 when (StimCountBlockControl_o="010000"); 
-			exit L312 when (LoopCounter > LoopLimit);
+			exit L312 when (StimCountBlockControl_o="010000"); --Waiting the right value of output
+			exit L312 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -404,8 +407,8 @@ BEGIN
 		StimCountBlockTelemet_i<='1'; --Executing a pause
 		
 		L32 : loop
-			exit L32 when (StimCountBlockControl_o="000000"); 
-			exit L32 when (LoopCounter > LoopLimit);
+			exit L32 when (StimCountBlockControl_o="000000"); --Waiting the right value of output
+			exit L32 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -421,8 +424,8 @@ BEGIN
 --Buzzing
 
 		L33 : loop
-			exit L33 when (StimCountBlockControl_o="000001"); 
-			exit L33 when (LoopCounter > LoopLimit);
+			exit L33 when (StimCountBlockControl_o="000001"); --Waiting the right value of output
+			exit L33 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -437,8 +440,8 @@ BEGIN
 --Stop Buzzer Because End Buzzing Time
 		
 		L34 : loop
-			exit L34 when (StimCountBlockControl_o="000010"); 
-			exit L34 when (LoopCounter > LoopLimitBuzzer);
+			exit L34 when (StimCountBlockControl_o="000010"); --Waiting the right value of output
+			exit L34 when (LoopCounter > LoopLimitBuzzer);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -452,8 +455,8 @@ BEGIN
 --Edit counting Value
 		
 		L35 : loop
-			exit L35 when (StimCountBlockControl_o="001000"); 
-			exit L35 when (LoopCounter > LoopLimit);
+			exit L35 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L35 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
 			wait on StimClk_i;
 			wait on StimClk_i;
 			LoopCounter := LoopCounter + 1;
@@ -472,6 +475,7 @@ BEGIN
 		LoopCounter:=0;		
 		
 		assert FALSE report "End Step 3"severity Note;	
+---------------------------------------
 		
 		wait on StimClk_i;
 		wait on StimClk_i;
