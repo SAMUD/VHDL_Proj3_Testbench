@@ -84,6 +84,23 @@ SIGNAL DataExpected_Counter_Min : DataExpected_Counter_ArrayMin := (0, 5400, 480
 TYPE DataExpected_ArraySec IS ARRAY (60 downto 0) 	of INTEGER;
 SIGNAL DataExpectedSec : DataExpected_ArraySec := (0, 590, 580, 570, 560, 550, 540, 530, 520, 510, 500, 490, 480, 470, 460, 450, 440, 430, 420, 410, 400, 390, 380, 370, 360, 350, 340, 330, 320, 310, 300, 290, 280, 270, 260, 250, 240, 230, 220, 210, 200, 190, 180, 170, 160, 150, 140, 130, 120, 110, 100, 90, 80, 70, 60, 50, 40, 30, 20, 10, 0);
 
+-------------------------------------------------
+--Simulation Signals for testing FallingEdge
+SIGNAL StimButton_i : std_logic := '0';
+SIGNAL StimFalling_o : std_logic :='0';
+
+-------------------------------------------------
+--Simulation Signals for testing StateMachine
+CONSTANT LoopLimitBuzzer : INTEGER := 6500;
+SIGNAL StimReset_i : std_logic :='0';
+SIGNAL StimBtnStartF_i : std_logic := '0';
+SIGNAL StimBtnClearF_i : std_logic := '0';
+SIGNAL StimCountBlockControl_o : std_logic_vector (5 downto 0) := (others => '0');
+SIGNAL StimCountBlockTelemet_i : std_logic := '0';
+SIGNAL ErrorStartState : std_logic := '0';
+SIGNAL ErrorStopbuzzer : std_logic := '0';
+
+
 --Component to Test
 component ClockDivider
 GENERIC(
@@ -140,6 +157,19 @@ COMPONENT Counter
 			);
 END COMPONENT;
 
+COMPONENT FallingEdge
+	PORT(		
+			Clk_i, Button_i		 :	IN std_logic;
+			Falling_o : OUT std_logic);
+
+END COMPONENT;
+
+COMPONENT StateMachine
+		PORT(		
+				Reset_i, Clk_i, Clk_Deci_i, BtnStartF_i, BtnClearF_i, CountBlockTelemet_i	:	IN std_logic;
+				CountBlockControl_o : OUT std_logic_vector (5 downto 0));
+END COMPONENT;
+
 ---------------------------------------------
 BEGIN
 
@@ -190,7 +220,24 @@ Counter_1: COMPONENT Counter
 				BtnSecF_i => StimBtnSecF_i,
 				BtnMin_i => StimBtnMin_i,
 				BtnSec_i => StimBtnSec_i 
-				);	
+				);
+
+FE: component FallingEdge
+PORT MAP(
+				Clk_i	=> Sim_clk,
+				Button_i => StimButton_i,
+				Falling_o => StimFalling_o);
+
+ZustandMachine: component StateMachine
+PORT MAP(
+				Reset_i => StimReset_i,
+				Clk_i	=> Sim_clk,
+				Clk_Deci_i	=> StimClk_Deci_i,
+				BtnStartF_i => StimBtnStartF_i,
+				BtnClearF_i => StimBtnClearF_i,
+				CountBlockTelemet_i => StimCountBlockTelemet_i,
+				CountBlockControl_o => StimCountBlockControl_o);
+						
 		
 --Stimulate-process
 ClockDivider_Test: PROCESS
@@ -208,6 +255,8 @@ ClockDivider_Test: PROCESS
 		while (Sim_clk /= '0') loop
 			wait on Sim_clk;
 		end loop;
+
+
 	
 -------------------------------------------------
 --Testing Clockdivider
@@ -681,7 +730,458 @@ ClockDivider_Test: PROCESS
 			assert FALSE report "Counter: Error inside" severity FAILURE;				
 		end if ;
 
+-------------------------------------------------
+--Testing FallingEdge
+-------------------------------------------------	
+	--Reset Loop Counter
+	LoopCounter:=0;
+	--Button_i = 1
+	StimButton_i <= '1';		
+
+	wait on Sim_clk;
+	wait on Sim_clk;
+
+	L50 : loop
+		StimButton_i <= '0';
+		exit L50 when (StimFalling_o ='1'); 
+		exit L50 when (LoopCounter > Looplimit); 
+		wait on Sim_clk;
+		wait on Sim_clk;
+		LoopCounter := LoopCounter + 1;
+		--assert FALSE report "While loop" & integer'image(LoopCounter) severity Note;
+	end loop L50;
 			
+	IF (LoopCounter > Looplimit) THEN
+		assert FALSE report "Falling edge: has failled" severity FAILURE;	
+	ELSE
+		assert FALSE report "Falling edge: is working" severity Note;
+	END IF;
+
+-------------------------------------------------
+--Testing StateMachine
+-------------------------------------------------	
+		--1) testing reset / Edit counting value / clear / start / Pause Because Start / Edit counting value
+		--2) testing Start / Pause Because End Counting / Buzzing / Stop Buzzer Because Start / Edit counting Value
+		--3) testing Start / Pause Because End Counting / Buzzing / Stop Buzzer Because End Buzzing Time /Edit counting value
+	
+		--1)
+		assert FALSE report "StateMachine: Step 1"severity Note;
+		--Reset
+		
+		StimReset_i <= '1'; --Executing reset
+		L11 : loop
+			exit L11 when (StimCountBlockControl_o="100000");  --Waiting the right value of output
+			exit L11 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			assert FALSE report "StateMachine: Error State reset not worked"severity Note;
+			ErrorCounter := ErrorCounter+1;
+		ELSE
+			assert FALSE report "StateMachine: State Reset Worked" severity Note;
+		END IF; 
+		StimReset_i <= '0';
+		LoopCounter:=0;
+		
+		--Edit counting value
+		
+		L12 : loop
+			exit L12 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L12 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;
+			assert FALSE report "StateMachine: Error State Edit counting value not worked"severity Note;
+		ELSE
+			assert FALSE report "StateMachine: State Edit counting value Worked" severity Note;
+		END IF; 		
+		LoopCounter:=0;
+		
+		--Clear
+		
+		StimBtnClearF_i<='1'; --Executing clear
+
+		L131 : loop
+			exit L131 when (StimCountBlockControl_o="100000"); --Waiting the right value of output
+			exit L131 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;
+			assert FALSE report "StateMachine: Error State Clear not worked"severity Note;
+		ELSE
+			assert FALSE report "StateMachine: State Clear Worked" severity Note;
+		END IF; 		
+		StimBtnClearF_i<='0';
+		LoopCounter:=0;
+		
+		L132 : loop
+			exit L132 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L132 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;
+			assert FALSE report "StateMachine: Error State Edit counting value after clear not worked"severity Note;
+		ELSE
+			assert FALSE report "StateMachine: State Edit counting value after clear Worked" severity Note;
+		END IF; 		
+		LoopCounter:=0;
+		
+		--Start
+
+		StimBtnStartF_i<='1'; --Executing start
+		
+		L141 : loop
+			exit L141 when (StimCountBlockControl_o="000100"); --Waiting the right value of output
+			exit L141 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;
+			assert FALSE report "StateMachine: Error State Load last Saved Value not worked"severity Note;
+			ErrorStartState<='1';
+		END IF;		
+		StimBtnStartF_i<='0';
+		LoopCounter:=0;		
+		
+		L142 : loop
+			exit L142 when (StimCountBlockControl_o="010000"); --Waiting the right value of output
+			exit L142 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;
+			assert FALSE report "StateMachine: Error State Counting has started / enable not worked"severity Note;
+			ErrorStartState<='1';
+		END IF;
+		IF ErrorStartState='1' THEN
+			assert FALSE report "StateMachine: Error State Start not worked"severity Note;
+			ErrorStartState<='0';
+			ErrorCounter := ErrorCounter+1;			
+		ELSE
+			assert FALSE report "StateMachine: State Start worked"severity Note;
+			ErrorStartState<='0';
+		END IF; 		
+		LoopCounter:=0;
+		
+		--Pause Because Start	
+		
+		StimBtnStartF_i<='1'; --Executing a pause
+		
+		L15 : loop
+			exit L15 when (StimCountBlockControl_o="000000"); --Waiting the right value of output
+			exit L15 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			assert FALSE report "StateMachine: Error State Pause not worked"severity Note;
+			ErrorCounter := ErrorCounter+1;			
+		ELSE
+			assert FALSE report "StateMachine: State Pause worked"severity Note;
+		END IF;		
+		LoopCounter:=0;
+
+		--Edit counting value
+
+		StimBtnStartF_i<='0'; --Unpressing btn start to go to edit counting value	
+		
+		L16 : loop
+			exit L16 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L16 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Edit counting value after pause because start not worked"severity Note;
+		ELSE
+			assert FALSE report "StateMachine: State Edit counting value after pause because start worked"severity Note;
+		END IF;		
+		LoopCounter:=0;
+		
+		assert FALSE report "StateMachine: End Step 1"severity Note;
+	
+
+		--2)
+		
+		assert FALSE report "StateMachine: Step 2"severity Note;
+		
+		--Start		
+		
+		StimBtnStartF_i<='1'; --Executing start
+		
+		L211 : loop
+			exit L211 when (StimCountBlockControl_o="000100"); --Waiting the right value of output
+			exit L211 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Load last Saved Value not worked"severity Note;
+			ErrorStartState<='1';
+		END IF;		
+		StimBtnStartF_i<='0';
+		LoopCounter:=0;		
+		
+		L212 : loop
+			exit L212 when (StimCountBlockControl_o="010000"); --Waiting the right value of output
+			exit L212 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Counting has started / enable not worked"severity Note;
+			ErrorStartState<='1';
+		END IF;
+		IF ErrorStartState='1' THEN
+			assert FALSE report "StateMachine: Error State Start not worked"severity Note;
+			ErrorStartState<='0';
+			ErrorCounter := ErrorCounter+1;			
+			
+		ELSE
+			assert FALSE report "StateMachine: State Start worked"severity Note;
+			ErrorStartState<='0';
+		END IF;		
+		LoopCounter:=0;		
+		
+		--Pause Because End counting	
+		
+		StimCountBlockTelemet_i<='1'; --Executing a pause
+		
+		L60 : loop
+			exit L60 when (StimCountBlockControl_o="000000"); --Waiting the right value of output
+			exit L60 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			assert FALSE report "StateMachine: Error State Pause not worked"severity Note;
+			ErrorCounter := ErrorCounter+1;						
+		ELSE
+			assert FALSE report "StateMachine: State Pause worked"severity Note;
+		END IF;		
+		LoopCounter:=0;		
+		StimCountBlockTelemet_i<='0';
+		
+		--Buzzing
+
+		L23 : loop
+			exit L23 when (StimCountBlockControl_o="000001"); --Waiting the right value of output
+			exit L23 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Buzzing not worked"severity Note;
+		ELSE
+			assert FALSE report "StateMachine: State Buzzing worked"severity Note;
+		END IF;		
+		LoopCounter:=0;
+
+		--Stop Buzzer Because Start
+		
+		StimBtnStartF_i<='1'; --Executing stop buzzer
+		
+		L24 : loop
+			exit L24 when (StimCountBlockControl_o="000010"); --Waiting the right value of output
+			exit L24 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Save current Counter Value not worked"severity Note;
+			ErrorStopbuzzer<='1';
+		END IF;		
+		StimBtnStartF_i<='0';
+		LoopCounter:=0;		
+
+		--Edit counting Value
+		
+		L25 : loop
+			exit L25 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L25 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Edit counting Value not worked"severity Note;
+			ErrorStopbuzzer<='1';
+		END IF;
+		IF ErrorStopbuzzer='1' THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State stop buzzer not worked"severity Note;
+			ErrorStopbuzzer<='0';
+		ELSE
+			assert FALSE report "StateMachine: State stop buzzer worked"severity Note;
+			ErrorStopbuzzer<='0';
+		END IF;		
+		LoopCounter:=0;		
+		
+		assert FALSE report "StateMachine: End Step 2"severity Note;
+
+		--3)
+		
+		assert FALSE report "StateMachine: Step 3"severity Note;
+		
+		--Start		
+		
+		StimBtnStartF_i<='1'; --Executing start
+		
+		L311 : loop
+			exit L311 when (StimCountBlockControl_o="000100"); --Waiting the right value of output
+			exit L311 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Load last Saved Value not worked"severity Note;
+			ErrorStartState<='1';
+		END IF;		
+		StimBtnStartF_i<='0';
+		LoopCounter:=0;		
+		
+		L312 : loop
+			exit L312 when (StimCountBlockControl_o="010000"); --Waiting the right value of output
+			exit L312 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Counting has started / enable not worked"severity Note;
+			ErrorStartState<='1';
+		END IF;
+		IF ErrorStartState='1' THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Start not worked"severity Note;
+			ErrorStartState<='0';
+		ELSE
+			assert FALSE report "StateMachine: State Start worked"severity Note;
+			ErrorStartState<='0';
+		END IF;		
+		LoopCounter:=0;		
+		
+		--Pause Because End counting	
+		
+		StimCountBlockTelemet_i<='1'; --Executing a pause
+		
+		L32 : loop
+			exit L32 when (StimCountBlockControl_o="000000"); --Waiting the right value of output
+			exit L32 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Pause not worked"severity Note;
+		ELSE
+			assert FALSE report "StateMachine: State Pause worked"severity Note;
+		END IF;		
+		LoopCounter:=0;		
+		StimCountBlockTelemet_i<='0';
+		
+		--Buzzing
+
+		L33 : loop
+			exit L33 when (StimCountBlockControl_o="000001"); --Waiting the right value of output
+			exit L33 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Buzzing not worked"severity Note;
+		ELSE
+			assert FALSE report "StateMachine: State Buzzing worked"severity Note;
+		END IF;		
+		LoopCounter:=0;
+
+		--Stop Buzzer Because End Buzzing Time
+		
+		L34 : loop
+			exit L34 when (StimCountBlockControl_o="000010"); --Waiting the right value of output
+			exit L34 when (LoopCounter > LoopLimitBuzzer);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimitBuzzer) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Save current Counter Value not worked"severity Note;
+			ErrorStopbuzzer<='1';
+		END IF;
+		LoopCounter:=0;		
+
+		--Edit counting Value
+		
+		L35 : loop
+			exit L35 when (StimCountBlockControl_o="001000"); --Waiting the right value of output
+			exit L35 when (LoopCounter > LoopLimit);		-- to prevent infinit loop
+			wait on Sim_clk;
+			wait on Sim_clk;
+			LoopCounter := LoopCounter + 1;
+		end loop;
+		IF (LoopCounter > LoopLimit) THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Edit counting Value not worked"severity Note;
+			ErrorStopbuzzer<='1';
+		END IF;
+		IF ErrorStopbuzzer='1' THEN
+			ErrorCounter := ErrorCounter+1;			
+			assert FALSE report "StateMachine: Error State Stop Buzzer Because End Buzzing Time not worked"severity Note;
+			ErrorStopbuzzer<='0';
+		ELSE		
+			assert FALSE report "StateMachine: State Stop Buzzer Because End Buzzing Time worked"severity Note;
+			ErrorStopbuzzer<='0';
+		END IF;		
+		LoopCounter:=0;		
+		
+		assert FALSE report "StateMachine: End Step 3"severity Note;
+		
+		if ErrorCounter /= 0 then
+			assert FALSE report "Counter: Error inside" severity FAILURE;				
+		end if ;
+
+-------------------------------------------------
+--Testing Main
+-------------------------------------------------
+
+-------------------------------------------------
+--Testing end
+-------------------------------------------------
 		
 assert FALSE report "DONE with 0 Errors!" severity NOTE;
 		wait;
