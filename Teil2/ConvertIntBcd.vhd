@@ -39,10 +39,10 @@ END ConvertIntBcd;
 ARCHITECTURE behave OF ConvertIntBcd IS
 																				--signals between Counter and Decoder. Contains the actual counting value
 																				--MSB 3 2 1 0 LSB
-	SHARED VARIABLE Minutes	:	std_logic_vector (3 downto 0);	--Minutes
-	SHARED VARIABLE SecTen	:	std_logic_vector (3 downto 0);	--Seconds*10
-	SHARED VARIABLE Sec		:	std_logic_vector (3 downto 0); 	--Seconds
-	SHARED VARIABLE SecDeci	:	std_logic_vector (3 downto 0); 	--DeciSeconds
+	SIGNAL Minutes	:	std_logic_vector (3 downto 0);	--Minutes
+	SIGNAL SecTen	:	std_logic_vector (3 downto 0);	--Seconds*10
+	SIGNAL Sec		:	std_logic_vector (3 downto 0); 	--Seconds
+	SIGNAL SecDeci	:	std_logic_vector (3 downto 0); 	--DeciSeconds
 	
 	--call Decoder.vhd
 	component Decoder
@@ -60,10 +60,10 @@ BEGIN
 	sort_proc : PROCESS (InputInt)
 	BEGIN
 	
-		SecDeci := std_logic_vector( to_unsigned( InputInt mod 10, 				SecDeci'length) 	);
-		Sec 	  := std_logic_vector( to_unsigned( (InputInt mod 100)/10, 		SecDeci'length)   );
-		SecTen  := std_logic_vector( to_unsigned( (InputInt mod 600)/100, 	SecDeci'length)   );
-		Minutes := std_logic_vector( to_unsigned( ((InputInt/10)-((InputInt/10) mod 60))/60, 	SecDeci'length)   );
+		SecDeci <= std_logic_vector( to_unsigned( InputInt mod 10, 				SecDeci'length) 	);
+		Sec 	  <= std_logic_vector( to_unsigned( (InputInt mod 100)/10, 		SecDeci'length)   );
+		SecTen  <= std_logic_vector( to_unsigned( (InputInt mod 600)/100, 	SecDeci'length)   );
+		Minutes <= std_logic_vector( to_unsigned( ((InputInt/10)-((InputInt/10) mod 60))/60, 	SecDeci'length)   );
 		--Information: Those modulos and Divisions are perhaps not the best thing todo on an FPGA. But for now
 		--we have still plenty of free memory/logic and it's much easier to understand the code like this than having
 		--a big bunch of IF statements (first version had this.)
