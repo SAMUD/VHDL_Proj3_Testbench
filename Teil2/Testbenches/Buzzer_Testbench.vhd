@@ -55,11 +55,11 @@ Buzzer_1: component Buzzer PORT MAP(
 --Stimulate-process
 Buzzer_Test: PROCESS	
 
-VARIABLE CountLoop_up : INTEGER := 0;
-VARIABLE CountLoop_up_1 : INTEGER := 0;
-VARIABLE CountLoop_up_2 : INTEGER := 0;
-VARIABLE CountLoop_up_3 : INTEGER := 0;
-VARIABLE CountLoop_error : std_logic := '0';
+VARIABLE CountLoop_up : INTEGER := 0;				-- Counter of PWM length
+VARIABLE CountLoop_up_1 : INTEGER := 0;			-- Counter save of PWM length
+VARIABLE CountLoop_up_2 : INTEGER := 0;			-- Counter save of PWM length
+VARIABLE CountLoop_up_3 : INTEGER := 0;			-- Counter save of PWM length
+VARIABLE CountLoop_error : std_logic := '0';		-- flag to detect an error in the PWM
 	
 BEGIN
 	
@@ -82,8 +82,11 @@ BEGIN
 	--2) Test when Enable = 1
 	Sim_Enable <= '1';
 	
+	-- test for PWM of 1 Period
 	while CountLoop_up < 1 loop
 		CountLoop_up := 0;
+		
+		-- Waiting for rising edge on BuzzerOut
 		L1 : loop
 				exit L1 when (Sim_BuzzerOut = '1');
 				exit L1 when (CountLoop_up > 60);
@@ -91,7 +94,8 @@ BEGIN
 				wait on Sim_Clock;
 				CountLoop_up := CountLoop_up + 1;
 			end loop;
-			
+		
+		-- Waiting for falling edge on BuzzerOut
 		CountLoop_up := 0;
 		L2 : loop
 				exit L2 when (Sim_BuzzerOut = '0');
@@ -100,7 +104,8 @@ BEGIN
 				wait on Sim_Clock;
 				CountLoop_up := CountLoop_up + 1;
 			end loop;
-			
+		
+		-- test if PWM of 1 Period is ok 
 		IF CountLoop_up = 1 THEN
 			CountLoop_up_1 := CountLoop_up;
 		ELSIF (CountLoop_up = 0 OR CountLoop_up > 10) THEN
@@ -110,9 +115,12 @@ BEGIN
 		exit when CountLoop_error = '1';
 	end loop;
 	
+	-- test for PWM of 2 Periods
 	CountLoop_up := 0;
 	while CountLoop_up < 2 loop
 		CountLoop_up := 0;
+		
+		-- Waiting for rising edge on BuzzerOut
 		L3 : loop
 				exit L3 when (Sim_BuzzerOut = '1');
 				exit L3 when (CountLoop_up > 60);
@@ -120,7 +128,8 @@ BEGIN
 				wait on Sim_Clock;
 				CountLoop_up := CountLoop_up + 1;
 			end loop;
-			
+		
+		-- Waiting for falling edge on BuzzerOut
 		CountLoop_up := 0;
 		L4 : loop
 				exit L4 when (Sim_BuzzerOut = '0');
@@ -129,7 +138,8 @@ BEGIN
 				wait on Sim_Clock;
 				CountLoop_up := CountLoop_up + 1;
 			end loop;
-			
+		
+		-- test if PWM of 2 Periods is ok	
 		IF CountLoop_up = 2 THEN
 			CountLoop_up_2 := CountLoop_up;
 		ELSIF (CountLoop_up = 0 OR CountLoop_up > 10) THEN
@@ -140,9 +150,12 @@ BEGIN
 		
 	end loop;	
 	
+	-- test for PWM of 3 Periods
 	CountLoop_up := 0;
 	while CountLoop_up < 3 loop
 		CountLoop_up := 0;
+		
+		-- Waiting for rising edge on BuzzerOut
 		L5 : loop
 				exit L5 when (Sim_BuzzerOut = '1');
 				exit L5 when (CountLoop_up > 60);
@@ -151,6 +164,7 @@ BEGIN
 				CountLoop_up := CountLoop_up + 1;
 			end loop;
 			
+		-- Waiting for falling edge on BuzzerOut	
 		CountLoop_up := 0;
 		L6 : loop
 				exit L6 when (Sim_BuzzerOut = '0'); 
@@ -159,7 +173,8 @@ BEGIN
 				wait on Sim_Clock;
 				CountLoop_up := CountLoop_up + 1;
 			end loop;
-			
+		
+		-- test if PWM of 3 Periods is ok	
 		IF CountLoop_up = 3 THEN
 			CountLoop_up_3 := CountLoop_up;
 		ELSIF (CountLoop_up = 0 OR CountLoop_up > 10) THEN

@@ -41,8 +41,8 @@ END Buzzer;
 ------------------------------------------------------
 ARCHITECTURE behave OF Buzzer IS
 
-	CONSTANT Period  : INTEGER := 10 ;						--We will have 1000 possible PWM-Steps.
-	CONSTANT Divide100Sec  		: INTEGER := 40; 			--CONSTANT for Clock Divider to have 4sec.
+	CONSTANT Period  : INTEGER := 50 ;						--We will have 1000 possible PWM-Steps.
+	CONSTANT Divide100Sec  		: INTEGER := 400; 			--CONSTANT for Clock Divider to have 4sec.
 	--Note: increased speed by 1000. original value is 400000
 --	Information: the first ideo was to increase the second counted value from 0 to 1000 in 4sec.
 --	The problem is, that in the range from 500 to 1000 the Buzzer-Volume does almost not change.
