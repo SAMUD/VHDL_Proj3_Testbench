@@ -10,14 +10,14 @@ use ieee.numeric_std.all;
 
 
 ------------------------------------------------------
---	   ENTITY	                           			 --
+--ENTITY
 ------------------------------------------------------
 
 ENTITY Testbench_all IS
 END Testbench_all;
 
 ------------------------------------------------------
---        ARCHITECTURE	                  			--
+--ARCHITECTURE
 ------------------------------------------------------
 ARCHITECTURE simulate OF Testbench_all IS
 
@@ -247,17 +247,12 @@ ClockDivider_Test: PROCESS
 	VARIABLE temp : INTEGER  := 0;
 	VARIABLE ErrorCounter : INTEGER :=0;
 	
-	
 	BEGIN
-
 		--finding a rising edge
 		wait on Sim_clk;
 		while (Sim_clk /= '0') loop
 			wait on Sim_clk;
 		end loop;
-
-
-	
 -------------------------------------------------
 --Testing Clockdivider
 -------------------------------------------------
@@ -1175,9 +1170,7 @@ ClockDivider_Test: PROCESS
 			assert FALSE report "Counter: Error inside" severity FAILURE;				
 		end if ;
 
--------------------------------------------------
---Testing Main
--------------------------------------------------
+
 
 -------------------------------------------------
 --Testing end
