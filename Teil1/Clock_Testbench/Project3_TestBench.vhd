@@ -126,7 +126,7 @@ BEGIN
 		--loop for the reset detection
 		L2 : loop
 			exit L2 when (StimClockFlag='0');
-			exit L2 when (CountLoop > (LoopLimit);
+			exit L2 when (CountLoop > (LoopLimit));
 			wait on StimClock;	--waiting for the next rising edge
 			wait on StimClock;
 			CountLoop := CountLoop + 1;

@@ -1,5 +1,5 @@
 Flow report for Project3_TestBench
-Mon Jan 08 18:19:11 2018
+Sun Jan 14 17:01:50 2018
 Quartus Prime Version 17.0.0 Build 595 04/25/2017 SJ Lite Edition
 
 
@@ -41,22 +41,22 @@ agreement for further details.
 +----------------------------------------------------------------------------------+
 ; Flow Summary                                                                     ;
 +------------------------------------+---------------------------------------------+
-; Flow Status                        ; Successful - Mon Jan 08 18:19:11 2018       ;
+; Flow Status                        ; Successful - Sun Jan 14 17:01:50 2018       ;
 ; Quartus Prime Version              ; 17.0.0 Build 595 04/25/2017 SJ Lite Edition ;
 ; Revision Name                      ; Project3_TestBench                          ;
 ; Top-level Entity Name              ; Clock                                       ;
 ; Family                             ; Cyclone IV E                                ;
 ; Device                             ; EP4CE115F29C7                               ;
 ; Timing Models                      ; Final                                       ;
-; Total logic elements               ; 43                                          ;
-;     Total combinational functions  ; 43                                          ;
-;     Dedicated logic registers      ; 33                                          ;
+; Total logic elements               ; 44 / 114,480 ( < 1 % )                      ;
+;     Total combinational functions  ; 43 / 114,480 ( < 1 % )                      ;
+;     Dedicated logic registers      ; 33 / 114,480 ( < 1 % )                      ;
 ; Total registers                    ; 33                                          ;
-; Total pins                         ; 3                                           ;
+; Total pins                         ; 3 / 529 ( < 1 % )                           ;
 ; Total virtual pins                 ; 0                                           ;
-; Total memory bits                  ; 0                                           ;
-; Embedded Multiplier 9-bit elements ; 0                                           ;
-; Total PLLs                         ; 0                                           ;
+; Total memory bits                  ; 0 / 3,981,312 ( 0 % )                       ;
+; Embedded Multiplier 9-bit elements ; 0 / 532 ( 0 % )                             ;
+; Total PLLs                         ; 0 / 4 ( 0 % )                               ;
 +------------------------------------+---------------------------------------------+
 
 
@@ -65,7 +65,7 @@ agreement for further details.
 +-------------------+---------------------+
 ; Option            ; Setting             ;
 +-------------------+---------------------+
-; Start date & time ; 01/08/2018 18:18:27 ;
+; Start date & time ; 01/14/2018 17:00:38 ;
 ; Main task         ; Compilation         ;
 ; Revision Name     ; Project3_TestBench  ;
 +-------------------+---------------------+
@@ -76,7 +76,7 @@ agreement for further details.
 +-------------------------------------+----------------------------------------+--------------------+-------------+----------------+
 ; Assignment Name                     ; Value                                  ; Default Value      ; Entity Name ; Section Id     ;
 +-------------------------------------+----------------------------------------+--------------------+-------------+----------------+
-; COMPILER_SIGNATURE_ID               ; 106564209342422.151543190714956        ; --                 ; --          ; --             ;
+; COMPILER_SIGNATURE_ID               ; 106564209342422.151594563800292        ; --                 ; --          ; --             ;
 ; EDA_OUTPUT_DATA_FORMAT              ; Vhdl                                   ; --                 ; --          ; eda_simulation ;
 ; EDA_SIMULATION_TOOL                 ; ModelSim-Altera (VHDL)                 ; <None>             ; --          ; --             ;
 ; EDA_TIME_SCALE                      ; 1 ps                                   ; --                 ; --          ; eda_simulation ;
@@ -93,29 +93,41 @@ agreement for further details.
 +-------------------------------------+----------------------------------------+--------------------+-------------+----------------+
 
 
-+--------------------------------------------------------------------------------------------------------------------------+
-; Flow Elapsed Time                                                                                                        ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Module Name          ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
-; Analysis & Synthesis ; 00:00:46     ; 1.0                     ; 707 MB              ; 00:01:55                           ;
-; Total                ; 00:00:46     ; --                      ; --                  ; 00:01:55                           ;
-+----------------------+--------------+-------------------------+---------------------+------------------------------------+
++-------------------------------------------------------------------------------------------------------------------------------+
+; Flow Elapsed Time                                                                                                             ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Module Name               ; Elapsed Time ; Average Processors Used ; Peak Virtual Memory ; Total CPU Time (on all processors) ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
+; Analysis & Synthesis      ; 00:00:33     ; 1.0                     ; 717 MB              ; 00:01:25                           ;
+; Fitter                    ; 00:00:23     ; 1.0                     ; 1524 MB             ; 00:00:38                           ;
+; Assembler                 ; 00:00:06     ; 1.0                     ; 592 MB              ; 00:00:06                           ;
+; TimeQuest Timing Analyzer ; 00:00:04     ; 1.0                     ; 736 MB              ; 00:00:04                           ;
+; EDA Netlist Writer        ; 00:00:02     ; 1.0                     ; 558 MB              ; 00:00:02                           ;
+; Total                     ; 00:01:08     ; --                      ; --                  ; 00:02:15                           ;
++---------------------------+--------------+-------------------------+---------------------+------------------------------------+
 
 
-+------------------------------------------------------------------------------------+
-; Flow OS Summary                                                                    ;
-+----------------------+------------------+------------+------------+----------------+
-; Module Name          ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
-+----------------------+------------------+------------+------------+----------------+
-; Analysis & Synthesis ; DESKTOP-M542KAK  ; Windows 10 ; 10.0       ; x86_64         ;
-+----------------------+------------------+------------+------------+----------------+
++-----------------------------------------------------------------------------------------+
+; Flow OS Summary                                                                         ;
++---------------------------+------------------+------------+------------+----------------+
+; Module Name               ; Machine Hostname ; OS Name    ; OS Version ; Processor type ;
++---------------------------+------------------+------------+------------+----------------+
+; Analysis & Synthesis      ; DESKTOP-M542KAK  ; Windows 10 ; 10.0       ; x86_64         ;
+; Fitter                    ; DESKTOP-M542KAK  ; Windows 10 ; 10.0       ; x86_64         ;
+; Assembler                 ; DESKTOP-M542KAK  ; Windows 10 ; 10.0       ; x86_64         ;
+; TimeQuest Timing Analyzer ; DESKTOP-M542KAK  ; Windows 10 ; 10.0       ; x86_64         ;
+; EDA Netlist Writer        ; DESKTOP-M542KAK  ; Windows 10 ; 10.0       ; x86_64         ;
++---------------------------+------------------+------------+------------+----------------+
 
 
 ------------
 ; Flow Log ;
 ------------
 quartus_map --read_settings_files=on --write_settings_files=off Project3_TestBench -c Project3_TestBench
+quartus_fit --read_settings_files=off --write_settings_files=off Project3_TestBench -c Project3_TestBench
+quartus_asm --read_settings_files=off --write_settings_files=off Project3_TestBench -c Project3_TestBench
+quartus_sta Project3_TestBench -c Project3_TestBench
+quartus_eda --read_settings_files=off --write_settings_files=off Project3_TestBench -c Project3_TestBench
 
 
 
